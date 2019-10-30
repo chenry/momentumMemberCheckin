@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Contact } from './contact';
-import { Http, Response } from '@angular/http';
+import { HttpClient, Response } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +9,7 @@ export class ContactService {
   
   private contactsUrl = '/api/contacts';
 
-  constructor(private http: Http) { }
+  constructor(private http: HttpClient) { }
 
   // get("/api/contacts")
   getContacts(): Promise<void | Contact[]> {

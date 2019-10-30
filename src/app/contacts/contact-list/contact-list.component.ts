@@ -11,7 +11,7 @@ import { ContactService } from '../contact.service';
 })
 export class ContactListComponent implements OnInit {
 
-  contacts: Contacts[];
+  contacts: Contact[];
   selectedContact: Contact;
 
   constructor(private contactService: ContactService) { }
