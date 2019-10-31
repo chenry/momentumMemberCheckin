@@ -17,19 +17,6 @@ export class ContactListComponent implements OnInit {
   constructor(private contactService: ContactService) { }
 
   ngOnInit() {
-    this.contactService
-      .getContacts()
-      .then((contacts: Contact[]) => {
-        this.contacts = contacts.map((contact) => {
-          if (!contact.phone) {
-            contact.phone = {
-              mobile: '',
-              work: ''
-            }
-          }
-          return contact;
-        });
-      });
   }
 
   private getIndexOfContact = (contactId: String) => {
