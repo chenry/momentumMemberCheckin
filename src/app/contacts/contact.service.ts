@@ -11,6 +11,10 @@ export class ContactService {
 
   constructor(private http: HttpClient) { }
 
+  createContact(contact: Contact) {
+    
+  }
+
   // get("/api/contacts")
   private handleError(error: any) {
     let errMsg = (error.message) ? error.message :

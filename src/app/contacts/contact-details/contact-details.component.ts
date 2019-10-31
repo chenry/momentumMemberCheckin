@@ -21,6 +21,9 @@ export class ContactDetailsComponent {
   constructor(private contactService: ContactService) { }
 
   createContact(contact: Contact) {
+    this.contactService.createContact(contact).then((newContact: Contact) => {
+      this.createHandler(newContact);
+    });
   }
 
   updateContact(contact: Contact): void {
