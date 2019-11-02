@@ -14,6 +14,9 @@ var mongodb = require("mongodb");
 // Services
 var timelineService = require("./timeline/timelineService")
 var configurationService = require("./configuration/configurationService")
+var lookupService = require('./member/lookupService')
+var loginService = require('./member/loginService')
+var verificationService = require('./member/verificationService')
 // ====================
 
 var ObjectID = mongodb.ObjectID;
@@ -59,9 +62,6 @@ function handleError(res, reason, message, code) {
   res.status(code || 500).json({"error": message});
 }
 
-
-/*  "/api/member/:constituentId/timeline"
- */
 app.get("/api/member/:constituentId/timeline", function(req, res) {
   timelineService.findTimeline(req.params.constituentId, db)
     .then(jsonPayload => {
@@ -98,8 +98,6 @@ app.get("/api/member/:constituentId/timeline/tasks/open", function(req, res) {
     });
 });
 
-
-
 app.post("/api/member/:constituentId/timeline/6MonthSurveyTask", function(req, res) {
   var task = req.body;
   console.log(`Task: ${task}`)
@@ -115,33 +113,47 @@ app.post("/api/member/:constituentId/timeline/6MonthSurveyTask", function(req, r
 
 
 
-/*  "/api/contacts"
- *    GET: finds all contacts
- *    POST: creates a new contact
- */
-
-app.get('/api/account/lookup', function(req, res) {
-  let id = req.query.id;
-  fetch('https://api.bloomerang.co/v1/Constituent/?q=' + id + '&ApiKey=' + process.env.BLOOMERANG_KEY)
-    .then(response => response.json())
-    .then(data => {
-      if (data.Total > 1) {
-        res.status(400);
-      }
-      else {
-        res.status(200).json(data.Results[0]);
-      }
-    });
+app.get('/api/member/lookup/:accountNumber', function(req, res) {
+  lookupService.findAccount(req.params.accountNumber, db)
+    .then(payload => {
+      res.status(200).json(payload)
+    })
+    .catch(error => {
+      console.error("Problems occurred: " + error)
+    })
 });
 
-app.get("/api/account/verify", function(req, res) {
-  let id = req.query.id;
-  fetch('https://api.bloomerang.co/v1/Constituent/?q=' + id + '&ApiKey=' + process.env.BLOOMERANG_KEY)
-    .then(response => response.json())
-    .then(data => {
-      let result = data.Total > 0;
-      res.status(200).json({ success: result });
-    });
+/*  "/api/member/verify"
+    GET: Use to retrieve member data
+    Result: true if the account is valid within Bloomerang, otherwise false
+ */
+app.get("/api/member/verify/:accountNumber", function(req, res) {
+  verificationService.verifyAccount(req.params.accountNumber, db)
+    .then(payload => {
+      res.status(200).json(payload);
+    })
+    .catch(error => {
+      console.error("Problems occurred: " + error)
+    })
+});
+
+/*  "/api/member/login"
+    POST: Used to login and/or register to the website (if they have not already registered)
+    Result: 401 response if they were not logged in successfully, otherwise a 200 response if they were registered or logged in successfully.
+*/
+app.post("/api/member/login", function(req, res) {
+  loginService.login(req.body.accountNumber, req.body.imageId, db)
+    .then(success => {
+      if (!success) {
+        res.status(401).end();
+      }
+      else {
+        res.status(200).end();
+      }
+    })
+    .catch(error => {
+      console.error("Problems occurred: " + error)
+    })
 });
 
 app.get("/api/contacts", function(req, res) {
