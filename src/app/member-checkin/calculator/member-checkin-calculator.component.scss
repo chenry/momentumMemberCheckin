@@ -1,0 +1,30 @@
+.calculator__heading {
+  margin: 0 auto;
+  padding: 25px 0;
+  text-align: center;
+}
+
+.checkin__calculator {
+  display: grid;
+  grid-template-columns: 33% 33% 33%;
+  grid-template-rows: 100px 100px 100px 100px;
+  margin: 0 auto;
+  max-width: 400px;
+}
+
+.checkin__calculator__idholder {
+  margin: 0 auto;
+  text-align: center;
+  padding: 25px 0;
+} 
+
+.checkin__calculator__item {
+  margin: 0 auto;
+  padding: 0;
+}
+
+.checkin__calculator__item--last {
+  grid-column: 2;
+  grid-row: 4;
+  margin: 0 auto;
+}
