@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MemberService } from '@services/member.service';
 import { Observable } from 'rxjs';
 import { Member } from '@models/member';
@@ -10,13 +10,14 @@ import { map } from 'rxjs/operators';
   templateUrl: './member-checkin-calculator.component.html',
   styleUrls: ['./member-checkin-calculator.component.scss']
 })
-export class MemberCheckinCalculatorComponent implements OnInit {
+export class MemberCheckinCalculatorComponent implements OnInit, OnDestroy {
 
   userId = '';
   numbers = [];
   isVerified$: Observable<boolean> =  this.memberService.verifyMember(this.userId).pipe(
     isVerified => isVerified
   );
+  subscriptions = [];
 
   constructor(public memberService: MemberService, public router: Router) {
   }
@@ -45,23 +46,24 @@ export class MemberCheckinCalculatorComponent implements OnInit {
      * failing isn't working
      * we need to set it up to return to home if member doesn't exist */
 
-    // if (this.userId.length === 4) {
-    //   console.log('why')
-    //   this.memberService.verifyMember(this.userId)
-    //     .pipe(
-    //       map(isVerified => {
-    //         console.log({isVerified})
-    //         if (isVerified) {
-    //           console.log('why is verified')
-    //           this.router.navigateByUrl('member-checkin/pictures');
-    //         } else {
-    //           console.log('why is not verified')
-    //           this.router.navigateByUrl('/');
-    //         }
-    //         return;
-    //       })
-    //     );
-    // }
+    if (this.userId.length === 4) {
+      console.log('why')
+      this.subscriptions.push(this.memberService.verifyMember(this.userId)
+        .pipe(
+          map(isVerified => {
+            console.log({isVerified})
+            if (isVerified) {
+              this.router.navigateByUrl('member-checkin/pictures');
+            } else {
+              this.router.navigateByUrl('/');
+            }
+            return;
+          })
+        ).subscribe(x => x));
+    }
+  }
 
+  public ngOnDestroy(): void {
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 }
