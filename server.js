@@ -78,6 +78,7 @@ app.get("/api/timeline/:accountNumber", function(req, res) {
 
 /*  "/api/member/lookup"
     GET: Use to retrieve member data
+    Result: The constituent json object model from Bloomerang
  */
 
 app.get('/api/member/lookup/:accountNumber', function(req, res) {
@@ -90,14 +91,18 @@ app.get('/api/member/lookup/:accountNumber', function(req, res) {
     })
 });
 
-app.get("/api/account/verify", function(req, res) {
-  let id = req.query.id;
-  fetch('https://api.bloomerang.co/v1/Constituent/?q=' + id + '&ApiKey=' + process.env.BLOOMERANG_KEY)
-    .then(response => response.json())
-    .then(data => {
-      let result = data.Total > 0;
-      res.status(200).json({ success: result });
-    });
+/*  "/api/member/verify"
+    GET: Use to retrieve member data
+    Result: true if the account is valid within Bloomerang, otherwise false
+ */
+app.get("/api/member/verify/:accountNumber", function(req, res) {
+  verificationService.verifyAccount(req.params.accountNumber, db)
+    .then(payload => {
+      res.status(200).json(payload);
+    })
+    .catch(error => {
+      console.error("Problems occurred: " + error)
+    })
 });
 
 app.get("/api/contacts", function(req, res) {
