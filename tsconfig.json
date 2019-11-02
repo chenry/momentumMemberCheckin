@@ -20,6 +20,7 @@
     ],
     "paths":{
       "@home/*": ["src/app/home/*"],
+      "@admin/*": ["src/app/admin/*"],
       "@memberCheckin/*": ["src/app/member-checkin/*"],
       "@surveySelection/*": ["src/app/survey-selection/*"],
       "@models/*": ["src/models/*"],

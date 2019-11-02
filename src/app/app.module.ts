@@ -12,9 +12,10 @@ import { MemberCheckinComponent } from './member-checkin/member-checkin.componen
 import { SurveySelectionComponent } from '@surveySelection/survey-selection.component';
 import { MemberCheckinPicturesComponent } from '@memberCheckin/pictures/member-checkin-pictures.component';
 import { MemberCheckinCalculatorComponent } from '@memberCheckin/calculator/member-checkin-calculator.component';
-import { MemberCheckinAdminLoginComponent } from '@memberCheckin/admin-login/admin-login.component';
+import { AdminLoginComponent } from '@admin/login/login.component';
 
 import { MemberService } from '@services/member.service';
+import { AdminComponent } from './admin/admin/admin.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { MemberService } from '@services/member.service';
     SurveySelectionComponent,
     MemberCheckinCalculatorComponent,
     MemberCheckinPicturesComponent,
-    MemberCheckinAdminLoginComponent
+    AdminLoginComponent,
+    AdminComponent
   ],
   imports: [
     BrowserModule,

@@ -63,11 +63,14 @@ export class MemberService {
     );
   }
 
-  public findSurveyURLs(accountNumber: string):Observable<string> {
+  public findSurveyURLs(accountNumber: string): Observable<string> {
     return this.http.get<boolean>(`${this.restUrl}/api/surveyURLs?accountNumber=${accountNumber}`)
-    pipe(
+    .pipe(
       map(result => result),
-      catchError((err) => observableOf(false))
+      catchError((err) => {
+        console.error(err);
+        return observableOf(null);
+      })
     );
   }
 }

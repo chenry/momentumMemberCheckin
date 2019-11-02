@@ -5,7 +5,8 @@ import { MemberCheckinComponent } from '@memberCheckin/member-checkin.component'
 import { SurveySelectionComponent } from '@surveySelection/survey-selection.component';
 import { MemberCheckinPicturesComponent } from '@memberCheckin/pictures/member-checkin-pictures.component';
 import { MemberCheckinCalculatorComponent } from '@memberCheckin/calculator/member-checkin-calculator.component';
-import { MemberCheckinAdminLoginComponent } from '@memberCheckin/admin-login/admin-login.component';
+import { AdminLoginComponent } from '@admin/login/login.component';
+import { AdminComponent } from './admin/admin/admin.component';
 
 const routes: Routes = [
   {
@@ -29,8 +30,12 @@ const routes: Routes = [
     component: SurveySelectionComponent
   },
   {
-    path: 'member-checkin/admin-login',
-    component: MemberCheckinAdminLoginComponent
+    path: 'admin',
+    component: AdminComponent
+  },
+  {
+    path: 'admin/login',
+    component: AdminLoginComponent
   }
 
 ];
