@@ -1,10 +1,14 @@
 var registrationsRepository = require("./registrationsRepository")
 
 exports.login = async function(accountNumber, imageId, db) {
-    let registration = await registrationsRepository.findRegistration(accountNumber, imageId, db);
+    let registration = await registrationsRepository.findRegistration(accountNumber, db);
     if (registration != null) {
-        return true;        
+        return registration.imageId == imageId;
     }
 
-    return false;
+    // The user has not already been registered, assume they are registering and persistent during login.
+    registration = { "accountNumber": accountNumber, "imageId": imageId };
+    await registrationsRepository.insertRegistration(registration, db);
+
+    return true;
 }
