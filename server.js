@@ -217,6 +217,7 @@ app.get("/api/surveyUrls", async function(req, res) {
   else {
     res.status(400);
   }
+});
 
 app.post("/api/contacts", function(req, res) {
   var newContact = req.body;
