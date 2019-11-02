@@ -105,6 +105,10 @@ app.get("/api/member/verify/:accountNumber", function(req, res) {
     })
 });
 
+/*  "/api/member/login"
+    POST: Used to login and/or register to the website (if they have not already registered)
+    Result: 401 response if they were not logged in successfully, otherwise a 200 response if they were registered or logged in successfully.
+*/
 app.post("/api/member/login", function(req, res) {
   loginService.login(req.body.accountNumber, req.body.imageId, db)
     .then(success => {
