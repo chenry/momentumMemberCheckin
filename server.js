@@ -99,8 +99,11 @@ app.get("/api/member/:accountNumber/timeline/tasks/open", function(req, res) {
     });
 });
 
-app.post("/api/member/:constituentId/timeline/6MonthSurveyTask", function(req, res) {
-  var task = req.body;
+app.get("/api/member/:accountNumber/timeline/6MonthSurveyTask", function(req, res) {
+
+  var task = {
+    accountNumber: req.accountNumber
+  }
   console.log(`Task: ${task}`)
 
   timelineService.createSixMonthSurveyTimelineTask(task, db)
