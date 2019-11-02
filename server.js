@@ -9,6 +9,8 @@ var express = require("express");
 const fetch = require('node-fetch');
 var bodyParser = require("body-parser");
 var mongodb = require("mongodb");
+var timelineRepository = require("./timelineRepository")
+
 var ObjectID = mongodb.ObjectID;
 
 
@@ -52,6 +54,13 @@ function handleError(res, reason, message, code) {
   console.log("ERROR: " + reason);
   res.status(code || 500).json({"error": message});
 }
+
+
+/*  "/api/timeline"
+ *    GET: finds all contacts
+ *    POST: creates a new contact
+ */
+app.get("/api/timeline", timelineRepository.list)
 
 /*  "/api/contacts"
  *    GET: finds all contacts
