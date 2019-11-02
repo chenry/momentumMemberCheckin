@@ -86,11 +86,11 @@ app.get("/api/member/:constituentId/timeline/tasks", function(req, res) {
     });
 });
 
-app.post("/api/member/:constituentId/timeline/tasks", function(req, res) {
+app.post("/api/member/:constituentId/timeline/6MonthSurveyTask", function(req, res) {
   var task = req.body;
   console.log(`Task: ${task}`)
 
-  timelineService.createTimelineTask(task, db)
+  timelineService.createSixMonthSurveyTimelineTask(task, db)
     .then(jsonPayload => {
       res.status(200).json(jsonPayload)
     })
