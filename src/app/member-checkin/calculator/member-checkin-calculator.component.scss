@@ -1,0 +1,44 @@
+$item-padding: 5px 0;
+
+.calculator__heading {
+  margin: 0 auto;
+  padding: $item-padding;
+  text-align: center;
+}
+
+.checkin__calculator {
+  display: grid;
+  grid-template-columns: 33.3% 33.3% 33.3%;
+  margin: 0 auto;
+  max-width: 500px;
+}
+
+.checkin__calculator__idholder {
+  text-align: center;
+  padding: $item-padding;
+} 
+
+.checkin__calculator__display {
+  font-size: 2rem;
+}
+
+.checkin__calculator__item {
+  margin: 0 auto;
+  padding: 10px;
+}
+
+.checkin__calculator__item--last {
+  grid-column: 2;
+  grid-row: 4;
+  margin: 0 auto;
+}
+
+.mat-fab {
+  height: auto;
+  width: auto;
+}
+
+.mat-fab.mat-primary {
+  padding: 50px;
+}
+
