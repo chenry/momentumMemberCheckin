@@ -14,7 +14,8 @@ var mongodb = require("mongodb");
 // Services
 var timelineService = require("./timeline/timelineService")
 var configurationService = require("./configuration/configurationService")
-var lookupService = require('./member/lookupService.js')
+var lookupService = require('./member/lookupService')
+var loginService = require('./member/loginService')
 var verificationService = require('./member/verificationService')
 // ====================
 
@@ -61,7 +62,6 @@ function handleError(res, reason, message, code) {
   res.status(code || 500).json({"error": message});
 }
 
-
 /*  "/api/timeline"
  *    GET: finds all contacts
  *    POST: creates a new contact
@@ -99,6 +99,21 @@ app.get("/api/member/verify/:accountNumber", function(req, res) {
   verificationService.verifyAccount(req.params.accountNumber, db)
     .then(payload => {
       res.status(200).json(payload);
+    })
+    .catch(error => {
+      console.error("Problems occurred: " + error)
+    })
+});
+
+app.post("/api/member/login", function(req, res) {
+  loginService.login(req.body.accountNumber, req.body.imageId, db)
+    .then(success => {
+      if (!success) {
+        res.status(401).end();
+      }
+      else {
+        res.status(200).end();
+      }
     })
     .catch(error => {
       console.error("Problems occurred: " + error)
