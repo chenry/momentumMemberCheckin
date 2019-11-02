@@ -1,0 +1,19 @@
+POST https://api.bloomerang.co/v1/Keys
+{
+   Username: "lisaweekendforgood",
+   Password: "#C0de4G00d"
+}
+
+{
+   "PublicKey": "pub_db66519d-f3c2-11e6-bb7f-024e165d44b3",
+   "PrivateKey": "db665194-f3c2-11e6-bb7f-024e165d44b3"
+}
+
+Test One= #3399
+Test Two= #3400
+Test Three= #3401
+Test Four= #3402
+Test Five= #3403
+
+export BLOOMERANG_KEY=db665194-f3c2-11e6-bb7f-024e165d44b3
+export MONGODB_URI=mongodb://weekendForGood2019:extendedgrace2019@ds141208.mlab.com:41208/heroku_d31dd0b0
