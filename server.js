@@ -1,4 +1,12 @@
+// ***************************************************************************
+// * Required environment variables
+// * -------------------------------------------------------------------------
+// * MONGODB_URI - This should contain the full uri to the MongoDB
+// * BLOOMERANG_KEY - This should contain the private key of the bloomerang api.
+// ***************************************************************************
+
 var express = require("express");
+const fetch = require('node-fetch');
 var bodyParser = require("body-parser");
 var mongodb = require("mongodb");
 var ObjectID = mongodb.ObjectID;
@@ -50,14 +58,44 @@ function handleError(res, reason, message, code) {
  *    POST: creates a new contact
  */
 
+app.get('/api/account/lookup', function(req, res) {
+  let id = req.query.id;
+  fetch('https://api.bloomerang.co/v1/Constituent/?q=' + id + '&ApiKey=' + process.env.BLOOMERANG_KEY)
+    .then(response => response.json())
+    .then(data => {
+      if (data.Total > 1) {
+        res.status(400);
+      }
+      else {
+        res.status(200).json(data.Results[0]);
+      }
+    });
+});
+
+app.get("/api/account/verify", function(req, res) {
+  let id = req.query.id;
+  fetch('https://api.bloomerang.co/v1/Constituent/?q=' + id + '&ApiKey=' + process.env.BLOOMERANG_KEY)
+    .then(response => response.json())
+    .then(data => {
+      let result = data.Total > 0;
+      res.status(200).json({ success: result });
+    });
+});
+
 app.get("/api/contacts", function(req, res) {
-  db.collection(CONTACTS_COLLECTION).find({}).toArray(function(err, docs) {
-    if (err) {
-      handleError(res, err.message, "Failed to get contacts.");
-    } else {
-      res.status(200).json(docs);
-    }
-  });
+  fetch('https://api.bloomerang.co/v1/Constituent/?q=3407&ApiKey=' + process.env.BLOOMERANG_KEY)
+    .then(response => response.json())
+    .then(data => {
+      res.status(200).json(data);
+    })
+
+  // db.collection(CONTACTS_COLLECTION).find({}).toArray(function(err, docs) {
+  //   if (err) {
+  //     handleError(res, err.message, "Failed to get contacts.");
+  //   } else {
+  //     res.status(200).json(docs);
+  //   }
+  // });
 });
 
 app.get("/api/images", function(req, res) {
