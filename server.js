@@ -60,12 +60,10 @@ function handleError(res, reason, message, code) {
 }
 
 
-/*  "/api/timeline"
- *    GET: finds all contacts
- *    POST: creates a new contact
+/*  "/api/member/:constituentId/timeline"
  */
-app.get("/api/timeline/:accountNumber", function(req, res) {
-  timelineService.findTimeline(req.params.accountNumber, db)
+app.get("/api/member/:constituentId/timeline", function(req, res) {
+  timelineService.findTimeline(req.params.constituentId, db)
     .then(jsonPayload => {
       res.status(200).json(jsonPayload)
     })
@@ -73,6 +71,35 @@ app.get("/api/timeline/:accountNumber", function(req, res) {
       console.error("Problems occurred: " + error);
     });
 });
+
+/*  "/api/member/:constituentId/tasks"
+ *  GET:
+ *  POST:
+ */
+app.get("/api/member/:constituentId/timeline/tasks", function(req, res) {
+  timelineService.findTimelineTasks(req.params.constituentId, db)
+    .then(jsonPayload => {
+      res.status(200).json(jsonPayload)
+    })
+    .catch(error => {
+      console.error("Problems occurred: " + error);
+    });
+});
+
+app.post("/api/member/:constituentId/timeline/tasks", function(req, res) {
+  var task = req.body;
+  console.log(`Task: ${task}`)
+
+  timelineService.createTimelineTask(task, db)
+    .then(jsonPayload => {
+      res.status(200).json(jsonPayload)
+    })
+    .catch(error => {
+      console.error("Problems occurred: " + error);
+    });
+});
+
+
 
 /*  "/api/contacts"
  *    GET: finds all contacts
