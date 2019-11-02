@@ -1,0 +1,23 @@
+// /*  This file includes overrides for Angular Material. */
+@import '~@angular/material/theming';
+// @import '../variables.scss';
+
+// TODO Set up color palettes
+// /* Colors */
+// $app-light-primary:mat-palette($violet);
+// $app-light-accent: mat-palette($light-blue);
+// $app-light-warn: mat-palette($red);
+
+// $app-dark-primary: mat-palette($purple);
+// $app-dark-accent: mat-palette($yellow);
+// $app-dark-warn: mat-palette($red);
+
+// // Create the theme object (a Sass map containing all of the palettes).
+// $app-light-theme: mat-light-theme($app-light-primary, $app-light-accent, $app-light-warn);
+// $app-dark-theme: mat-dark-theme($app-dark-primary, $app-dark-accent, $app-dark-warn);
+
+// $theme: $app-light-theme;
+
+$button-typography: mat-typography-config(
+  $button: mat-typography-level(4rem, 4rem, normal)
+);

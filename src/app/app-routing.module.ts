@@ -12,7 +12,7 @@ const routes: Routes = [
     component: HomeComponent
   },
   {
-    path: '',
+    path: 'member-checkin',
     component: MemberCheckinComponent
   },
   {
