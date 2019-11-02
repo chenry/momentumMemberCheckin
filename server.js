@@ -205,6 +205,16 @@ app.get("/api/config", async function(req, res) {
   }
 });
 
+app.post('/api/config', function (req, res) {  
+  configurationService.changeConfigurationValueByKey(req.body.key, req.body.value, db)
+    .then(_ => {
+      res.status(200).end();
+    })
+    .catch(error => {
+      handleError(res, error, "Failed to update configuration.", 500);
+    });
+});
+
 app.get("/api/surveyUrls", async function(req, res) {
   const accountNumber = req.query["accountNumber"];
   if (accountNumber) {
