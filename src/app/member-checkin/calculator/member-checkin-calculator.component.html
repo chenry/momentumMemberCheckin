@@ -12,7 +12,10 @@
               mat-fab
               color="primary"
               value="number">{{ number }}</button>
+  </div>
+</div>
 
-    </div>
-    <button (click)="deleteNumber()">Ugly button</button>
+<div class="calculator__controls">
+  <button (click)="deleteNumber()" mat-raised-button color="accent">Backspace</button>
+  <button (click)="submitNumber()" mat-raised-button color="accent">Submit</button>
 </div>

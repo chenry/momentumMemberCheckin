@@ -26,11 +26,15 @@ export class MemberCheckinCalculatorComponent implements OnInit {
   }
 
   public deleteNumber() {
-    // TODO
+    if (this.userId.length >= 1) {
+      this.userId = this.userId.slice(0, -1);
+    }
   }
 
   public submitNumber(userId: string) {
     // TODO Call memberService.isPersonValidMember (or whatever we called it)
     // this.router.navigateByUrl(['member-checkin', 'pictures']);
+    console.log(`submit number clicked`);
+    
   }
 }
