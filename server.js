@@ -1,6 +1,9 @@
-// Required environment variables:
-// MONGODB_URI - This should contain the full uri to the MongoDB
-// BLOOMERANG_KEY - This should contain the private key of the bloomerang api.
+// ***************************************************************************
+// * Required environment variables
+// * -------------------------------------------------------------------------
+// * MONGODB_URI - This should contain the full uri to the MongoDB
+// * BLOOMERANG_KEY - This should contain the private key of the bloomerang api.
+// ***************************************************************************
 
 var express = require("express");
 const fetch = require('node-fetch');
