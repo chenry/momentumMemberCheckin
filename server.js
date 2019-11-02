@@ -9,7 +9,7 @@ var express = require("express");
 const fetch = require('node-fetch');
 var bodyParser = require("body-parser");
 var mongodb = require("mongodb");
-var timelineRepository = require("./timelineRepository")
+var timelineService = require("./timeline/timelineService")
 
 var ObjectID = mongodb.ObjectID;
 
@@ -61,7 +61,7 @@ function handleError(res, reason, message, code) {
  *    POST: creates a new contact
  */
 app.get("/api/timeline/:accountNumber", function(req, res) {
-  timelineRepository.findTimeline(req.params.accountNumber)
+  timelineService.findTimeline(req.params.accountNumber)
     .then(jsonPayload => {
       res.status(200).json(jsonPayload)
     })
