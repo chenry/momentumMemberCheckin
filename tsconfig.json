@@ -17,7 +17,12 @@
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+    "paths":{
+      "@home/*": ["src/app/home/*"],
+      "@memberCheckin/*": ["src/app/member-checkin/*"],
+      "@surveySelection/*": ["src/app/survey-selection/*"],
+    }
   },
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,
