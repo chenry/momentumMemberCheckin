@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { MemberService } from '@services/member.service';
+import { Observable } from 'rxjs';
+import { Member } from '@models/member';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-member-checkin-calculator',
@@ -9,7 +13,8 @@ export class MemberCheckinCalculatorComponent implements OnInit {
 
   userId = '';
   numbers = [];
-  constructor() {
+  
+  constructor(public memberService: MemberService, public router: Router) {
   }
 
   ngOnInit() {
@@ -31,10 +36,22 @@ export class MemberCheckinCalculatorComponent implements OnInit {
     }
   }
 
-  public submitNumber(userId: string) {
-    // TODO Call memberService.isPersonValidMember (or whatever we called it)
-    // this.router.navigateByUrl(['member-checkin', 'pictures']);
-    console.log(`submit number clicked`);
+  public submitNumber(userId: string) { 
+    /** 
+     * failing isn't working
+     * we need to set it up to return to home if member doesn't exist */ 
+
+    if (this.userId.length === 4) {
+      this.memberService.verifyMember(this.userId)
+        .pipe(isVerified => {
+          console.log(isVerified);
+          if (isVerified) {
+            return this.router.navigateByUrl('member-checkin/pictures');
+          } else {
+            return this.router.navigateByUrl('/');
+          }
+        });
+    }
     
   }
 }
