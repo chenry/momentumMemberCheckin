@@ -164,14 +164,13 @@ app.post("/api/member/login", function(req, res) {
 */
 
 app.get("/api/member/registration-check/:accountNumber", function(req, res) {
-  res.status(200).json(true);
-  // registrationVerificationService.hasUserAlreadyRegistered(req.params.accountNumber, db)
-  //   .then(success => {
-  //     res.status(200).json(success);
-  //   })
-  //   .catch(error => {
-  //     console.error("Problems occurred: " + error)
-  //   });
+  registrationVerificationService.hasMemberAlreadyRegistered(parseInt(req.params.accountNumber), db)
+    .then(success => {
+      res.status(200).json(success);
+    })
+    .catch(error => {
+      console.error("Problems occurred: " + error)
+    });
 });
 
 app.get("/api/contacts", function(req, res) {
@@ -204,6 +203,20 @@ app.get("/api/config", async function(req, res) {
   let docs = await configurationService.findBloomerangBaseApiUrl(db);
   res.status(200).json(docs);
 });
+
+app.get("/api/surveyUrls", async function(req, res) {
+  const accountNumber = req.query["accountNumber"];
+  if (accountNumber) {
+    const urls = await configurationService.findAllUrls(db);
+    const result = [
+      urls["surveyCheckinAnd6MonthUrl"].replace("{constituentId}",accountNumber),
+      urls["surveyCheckinOnlyUrl"].replace("{constituentId}",accountNumber)
+    ];
+    res.status(200).json(result);
+  }
+  else {
+    res.status(400);
+  }
 
 app.post("/api/contacts", function(req, res) {
   var newContact = req.body;
