@@ -49,11 +49,12 @@ function handleError(res, reason, message, code) {
  */
 
 app.get("/api/contacts", function(req, res) {
-  fetch('https://api.bloomerang.co/v1/Constituent/?q=Jeff&ApiKey=' + process.env.BLOOMERANG_KEY)
-    .then((response) => { 
-      return response; 
-    });
-    
+  fetch('https://api.bloomerang.co/v1/Constituent/8170497?ApiKey=' + process.env.BLOOMERANG_KEY)
+    .then(response => response.json())
+    .then(data => {
+      res.status(200).json(data);
+    })
+
   // db.collection(CONTACTS_COLLECTION).find({}).toArray(function(err, docs) {
   //   if (err) {
   //     handleError(res, err.message, "Failed to get contacts.");
