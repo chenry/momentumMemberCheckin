@@ -1,6 +1,8 @@
+$item-padding: 5px 0;
+
 .calculator__heading {
   margin: 0 auto;
-  padding: 25px 0;
+  padding: $item-padding;
   text-align: center;
 }
 
@@ -12,14 +14,13 @@
 }
 
 .checkin__calculator__idholder {
-  margin: 0 auto;
   text-align: center;
-  padding: 25px 0;
+  padding: $item-padding;
 } 
 
 .checkin__calculator__item {
   margin: 0 auto;
-  padding: 15px;
+  padding: 10px;
 }
 
 .checkin__calculator__item--last {
