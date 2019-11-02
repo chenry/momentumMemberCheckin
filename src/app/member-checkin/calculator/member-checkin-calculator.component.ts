@@ -41,16 +41,10 @@ export class MemberCheckinCalculatorComponent implements OnInit, OnDestroy {
   }
 
   public submitNumber() {
-    /**
-     * failing isn't working
-     * we need to set it up to return to home if member doesn't exist */
-
     if (this.userId.length === 4) {
-      console.log('why')
       this.subscriptions.push(this.memberService.verifyMember(this.userId)
         .pipe(
           map(isVerified => {
-            console.log({isVerified})
             if (isVerified) {
               this.router.navigateByUrl('member-checkin/pictures');
             } else {
