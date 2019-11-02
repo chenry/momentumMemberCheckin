@@ -55,6 +55,20 @@ function handleError(res, reason, message, code) {
  *    POST: creates a new contact
  */
 
+app.get('/api/account/lookup', function(req, res) {
+  let id = req.query.id;
+  fetch('https://api.bloomerang.co/v1/Constituent/?q=' + id + '&ApiKey=' + process.env.BLOOMERANG_KEY)
+    .then(response => response.json())
+    .then(data => {
+      if (data.Total > 1) {
+        res.status(400);
+      }
+      else {
+        res.status(200).json(data.Results[0]);
+      }
+    });
+});
+
 app.get("/api/account/verify", function(req, res) {
   let id = req.query.id;
   fetch('https://api.bloomerang.co/v1/Constituent/?q=' + id + '&ApiKey=' + process.env.BLOOMERANG_KEY)
