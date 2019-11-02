@@ -1,5 +1,5 @@
-var registrationsRepository = require("./registrationsRepository")
-var verificationService = require('./verificationService')
+const registrationsRepository = require("./registrationsRepository")
+const verificationService = require('./verificationService')
 
 exports.login = async function(accountNumber, imageId, db) {
     let found = await verificationService.verifyAccount(accountNumber, db);
