@@ -12,6 +12,7 @@ import { MemberCheckinComponent } from './member-checkin/member-checkin.componen
 import { SurveySelectionComponent } from '@surveySelection/survey-selection.component';
 import { MemberCheckinPicturesComponent } from '@memberCheckin/pictures/member-checkin-pictures.component';
 import { MemberCheckinCalculatorComponent } from '@memberCheckin/calculator/member-checkin-calculator.component';
+import { MemberCheckinAdminLoginComponent } from '@memberCheckin/admin-login/admin-login.component';
 
 import { MemberService } from '@services/member.service';
 
@@ -22,7 +23,8 @@ import { MemberService } from '@services/member.service';
     MemberCheckinComponent,
     SurveySelectionComponent,
     MemberCheckinCalculatorComponent,
-    MemberCheckinPicturesComponent
+    MemberCheckinPicturesComponent,
+    MemberCheckinAdminLoginComponent
   ],
   imports: [
     BrowserModule,
