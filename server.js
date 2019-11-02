@@ -6,6 +6,7 @@ var ObjectID = mongodb.ObjectID;
 
 var CONTACTS_COLLECTION = "contacts";
 var IMAGES_COLLECTION = "images";
+var CONFIG_COLLECTION = "config";
 
 var app = express();
 app.use(bodyParser.json());
@@ -61,6 +62,16 @@ app.get("/api/contacts", function(req, res) {
 
 app.get("/api/images", function(req, res) {
   db.collection(IMAGES_COLLECTION).find({}).toArray(function(err, docs) {
+    if (err) {
+      handleError(res, err.message, "Failed to get images.");
+    } else {
+      res.status(200).json(docs);
+    }
+  });
+});
+
+app.get("/api/config", function(req, res) {
+  db.collection(CONFIG_COLLECTION).find({}).toArray(function(err, docs) {
     if (err) {
       handleError(res, err.message, "Failed to get images.");
     } else {
