@@ -1,4 +1,5 @@
 var express = require("express");
+const fetch = require('node-fetch');
 var bodyParser = require("body-parser");
 var mongodb = require("mongodb");
 var ObjectID = mongodb.ObjectID;
@@ -48,13 +49,18 @@ function handleError(res, reason, message, code) {
  */
 
 app.get("/api/contacts", function(req, res) {
-  db.collection(CONTACTS_COLLECTION).find({}).toArray(function(err, docs) {
-    if (err) {
-      handleError(res, err.message, "Failed to get contacts.");
-    } else {
-      res.status(200).json(docs);
-    }
-  });
+  fetch('https://api.bloomerang.co/v1/Constituent/?q=Jeff&ApiKey=' + process.env.BLOOMERANG_KEY)
+    .then((response) => { 
+      return response; 
+    });
+    
+  // db.collection(CONTACTS_COLLECTION).find({}).toArray(function(err, docs) {
+  //   if (err) {
+  //     handleError(res, err.message, "Failed to get contacts.");
+  //   } else {
+  //     res.status(200).json(docs);
+  //   }
+  // });
 });
 
 app.post("/api/contacts", function(req, res) {

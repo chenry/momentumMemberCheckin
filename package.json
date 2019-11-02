@@ -13,8 +13,10 @@
   "private": true,
   "dependencies": {
     "@angular/animations": "~8.2.12",
+    "@angular/cli": "^8.3.16",
     "@angular/common": "~8.2.12",
     "@angular/compiler": "~8.2.12",
+    "@angular/compiler-cli": "^8.2.13",
     "@angular/core": "~8.2.12",
     "@angular/forms": "~8.2.12",
     "@angular/platform-browser": "~8.2.12",
@@ -23,11 +25,10 @@
     "body-parser": "^1.19.0",
     "express": "^4.17.1",
     "mongodb": "^3.3.3",
+    "node-fetch": "^2.6.0",
     "rxjs": "~6.4.0",
     "tslib": "^1.10.0",
-    "zone.js": "~0.9.1",
-    "@angular/cli": "^8.3.16",
-    "@angular/compiler-cli": "^8.2.13"
+    "zone.js": "~0.9.1"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.803.15",
