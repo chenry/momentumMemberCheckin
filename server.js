@@ -1,9 +1,10 @@
-// ***************************************************************************
+// ********************************************************************************************
 // * Required environment variables
-// * -------------------------------------------------------------------------
-// * MONGODB_URI - This should contain the full uri to the MongoDB
-// * BLOOMERANG_KEY - This should contain the private key of the bloomerang api.
-// ***************************************************************************
+// * ------------------------------------------------------------------------------------------
+// * MONGODB_URI - Contains the full uri to the MongoDB
+// * BLOOMERANG_KEY - Contains the private key of the bloomerang api.
+// * MOMENTUM_ADMIN_PASSWORD - Contains the password used to access the administrative areas.
+// ********************************************************************************************
 
 var express = require("express");
 const fetch = require('node-fetch');
@@ -18,6 +19,7 @@ var lookupService = require('./member/lookupService')
 var loginService = require('./member/loginService')
 var verificationService = require('./member/verificationService')
 var registrationVerificationService = require('./member/registrationVerificationService')
+var adminLoginService = require('./admin/loginService')
 // ====================
 
 var ObjectID = mongodb.ObjectID;
@@ -62,6 +64,20 @@ function handleError(res, reason, message, code) {
   console.log("ERROR: " + reason);
   res.status(code || 500).json({"error": message});
 }
+
+app.post('/api/admin/login', function(req, res) {
+  try {
+    if (adminLoginService.login(req.body.password)) {
+      res.status(200).end();
+    }
+    else {
+      res.status(401).end();
+    }  
+  }
+  catch (err) {
+    handleError(null, err, 'Failed to login.', 401);
+  }
+});
 
 app.get("/api/member/:constituentId/timeline", function(req, res) {
   timelineService.findTimeline(req.params.constituentId, db)
@@ -203,6 +219,16 @@ app.get("/api/config", async function(req, res) {
   else {
     handleError(res, "could not find bloomerang base api url", "Failed to get config", 400);
   }
+});
+
+app.post('/api/config', function (req, res) {  
+  configurationService.changeConfigurationValueByKey(req.body.key, req.body.value, db)
+    .then(_ => {
+      res.status(200).end();
+    })
+    .catch(error => {
+      handleError(res, error, "Failed to update configuration.", 500);
+    });
 });
 
 app.get("/api/surveyUrls", async function(req, res) {

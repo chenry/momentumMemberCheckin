@@ -1,5 +1,6 @@
 const registrationsRepository = require("./registrationsRepository")
 const verificationService = require('./verificationService')
+const checkInService = require('./checkInService')
 
 exports.login = async function(accountNumber, imageId, db) {
     let found = await verificationService.verifyAccount(accountNumber, db);
@@ -8,15 +9,24 @@ exports.login = async function(accountNumber, imageId, db) {
         return false;
     }
 
+    let result = false;
+
     let registration = await registrationsRepository.findRegistration(accountNumber, db);
     if (registration != null) {
         // The registration already exists, ensure it matches the image id that was used.
-        return registration.imageId == imageId;
+        result = registration.imageId == imageId;
+    }
+    else {
+        // The user has not already been registered, assume they are registering and persistent during login.
+        registration = { "accountNumber": accountNumber, "imageId": imageId };
+        await registrationsRepository.insertRegistration(registration, db);
+
+        result = true;
     }
 
-    // The user has not already been registered, assume they are registering and persistent during login.
-    registration = { "accountNumber": accountNumber, "imageId": imageId };
-    await registrationsRepository.insertRegistration(registration, db);
+    if (result) {
+        await checkInService.createCheckInEvent(accountNumber, db);
+    }
 
-    return true;
+    return result;
 }
