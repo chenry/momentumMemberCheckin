@@ -164,14 +164,13 @@ app.post("/api/member/login", function(req, res) {
 */
 
 app.get("/api/member/registration-check/:accountNumber", function(req, res) {
-  res.status(200).json(true);
-  // registrationVerificationService.hasUserAlreadyRegistered(req.params.accountNumber, db)
-  //   .then(success => {
-  //     res.status(200).json(success);
-  //   })
-  //   .catch(error => {
-  //     console.error("Problems occurred: " + error)
-  //   });
+  registrationVerificationService.hasMemberAlreadyRegistered(parseInt(req.params.accountNumber), db)
+    .then(success => {
+      res.status(200).json(success);
+    })
+    .catch(error => {
+      console.error("Problems occurred: " + error)
+    });
 });
 
 app.get("/api/contacts", function(req, res) {
