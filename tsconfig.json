@@ -22,6 +22,7 @@
       "@home/*": ["src/app/home/*"],
       "@memberCheckin/*": ["src/app/member-checkin/*"],
       "@surveySelection/*": ["src/app/survey-selection/*"],
+      "@models/*": ["src/models/*"]
     }
   },
   "angularCompilerOptions": {
