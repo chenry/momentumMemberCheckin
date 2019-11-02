@@ -34,7 +34,9 @@ exports.createSixMonthSurveyTimelineTask = async function(task, db) {
   let nextDueDate = new Date(now.setMonth(now.getMonth() + 6))
   let newTask = create6MonthTask(constituent.constituentId, nextDueDate);
   let bloomerangBaseApiUrl = await configurationService.findBloomerangBaseApiUrl(db);
-  return timelineRepository.createTimelineTask(newTask, bloomerangBaseApiUrl);
+  let jsonResponse = timelineRepository.createTimelineTask(newTask, bloomerangBaseApiUrl);
+
+  return jsonResponse;
 }
 
 function create6MonthTask(accountId, dueDate) {

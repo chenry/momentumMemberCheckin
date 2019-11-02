@@ -102,16 +102,15 @@ app.get("/api/member/:accountNumber/timeline/tasks/open", function(req, res) {
 app.get("/api/member/:accountNumber/timeline/6MonthSurveyTask", function(req, res) {
 
   var task = {
-    accountNumber: req.accountNumber
+    accountNumber: req.params.accountNumber
   }
-  console.log(`Task: ${task}`)
 
   timelineService.createSixMonthSurveyTimelineTask(task, db)
     .then(jsonPayload => {
       res.status(200).json(jsonPayload)
     })
     .catch(error => {
-      console.error("Problems occurred: " + error);
+      handleError(res, err.message, "Failed to create 6month task");
     });
 });
 
