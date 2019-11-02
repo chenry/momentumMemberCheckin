@@ -191,11 +191,11 @@ app.get("/api/config", async function(req, res) {
 app.get("/api/surveyUrls", async function(req, res) {
   const accountNumber = req.query["accountNumber"];
   if (accountNumber) {
+    function repl(stg,index,arr) {
+      return stg.replace("{accountNumber}",accountNumber);
+    }
     const urls = await configurationService.findAllUrls(db);
-    const result = [
-      urls["surveyCheckinAnd6MonthUrl"].replace("{accountNumber}",accountNumber),
-      urls["surveyCheckinOnlyUrl"].replace("{accountNumber}",accountNumber)
-    ];
+    const result = Object.values(urls).slice(2).map(repl);
     res.status(200).json(result);
   }
   else {
