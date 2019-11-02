@@ -88,20 +88,21 @@ app.get("/api/member/:constituentId/timeline/tasks", function(req, res) {
     });
 });
 
-app.get("/api/member/:constituentId/timeline/tasks/open", function(req, res) {
-
-  timelineService.findTimelineOpenTasks(req.params.constituentId, db)
+app.get("/api/member/:accountNumber/timeline/tasks/open", function(req, res) {
+  timelineService.findTimelineOpenTasks(parseInt(req.params.accountNumber), db)
     .then(jsonPayload => {
       res.status(200).json(jsonPayload)
     })
     .catch(error => {
-      handleError(res, error, "Failed to open constituent timeline tasks.", 401);
+      handleError(res, error, "Failed to open constituent timeline tasks.", 500);
     });
 });
 
-app.post("/api/member/:constituentId/timeline/6MonthSurveyTask", function(req, res) {
-  var task = req.body;
-  console.log(`Task: ${task}`)
+app.get("/api/member/:accountNumber/timeline/6MonthSurveyTask", function(req, res) {
+
+  var task = {
+    accountNumber: req.params.accountNumber
+  }
 
   timelineService.createSixMonthSurveyTimelineTask(task, db)
     .then(jsonPayload => {
@@ -121,6 +122,16 @@ app.get('/api/member/lookup/:accountNumber', function(req, res) {
     })
     .catch(error => {
       handleError(res, error, "Failed to lookup accountNumber.", 401);
+    })
+});
+
+app.get('/api/member/lookup/:accountNumber/constituentId', function(req, res) {
+  lookupService.findConstituentIdByAccountNumber(req.params.accountNumber, db)
+    .then(payload => {
+      res.status(200).json(payload)
+    })
+    .catch(error => {
+      console.error("Problems occurred: " + error)
     })
 });
 
