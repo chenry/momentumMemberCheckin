@@ -17,6 +17,10 @@ exports.findTimelineTasks = async function(constituentId, db) {
     .then(timeline => timelineParser.findTasks(timeline));
 }
 
+exports.findAllTimelineTasks = async function(accountNumber, db) {
+
+}
+
 exports.findTimelineOpenTasks = async function(accountNumber, db) {
   // find timeline
   let constituent = await lookupService.findConstituentIdByAccountNumber(accountNumber, db);
@@ -27,8 +31,17 @@ exports.findTimelineOpenTasks = async function(accountNumber, db) {
   return timelineParser.createOpenTasksResponse(openTasks);
 }
 
-exports.createSixMonthSurveyTimelineTask = async function(accountNumber, db) {
+exports.sixMonthSurveyTimelineTaskCompleted = async function(accountNumber, db) {
   let constituent = await lookupService.findConstituentIdByAccountNumber(accountNumber, db);
+
+  // ====================================================================
+  // Steps
+  // * delete all future 6month tasks
+  // * Complete all past 6month tasks
+  //    - give the a completed date
+  // * Create new 6month task if none exist in the future
+  //    - dueDate = (registrationDate + 6month) until it is in the future
+  // ====================================================================
 
   let now = new Date()
   let nextDueDate = new Date(now.setMonth(now.getMonth() + 6))

@@ -21,6 +21,22 @@ exports.findOpenTasks = function(timeline) {
   return openTasks;
 }
 
+exports.findAllSixMonthTasks = function(timeline) {
+  let allTasks = timeline["Tasks"]
+  let sixMonthTasks = []
+  for (let currTask of allTasks) {
+
+    if (constants.SIX_MONTH_TASK_SUBJECT != currTask.Subject) {
+      continue;
+    }
+    sixMonthTasks.push(currTask);
+  }
+
+  return sixMonthTasks;
+}
+
+
+
 exports.findInteractions = function(timeline) {
   return timeline["Interactions"]
 }
