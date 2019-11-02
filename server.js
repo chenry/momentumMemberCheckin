@@ -98,19 +98,25 @@ app.get("/api/member/:accountNumber/timeline/tasks/open", function(req, res) {
     });
 });
 
-app.get("/api/member/:accountNumber/timeline/6MonthSurveyTask", function(req, res) {
+app.post("/api/member/:accountNumber/timeline/6MonthSurveyTask", function(req, res) {
 
-  var task = {
-    accountNumber: req.params.accountNumber
+  try {
+    if (req.body && req.body.accountNumber) {
+      console.log(`Account Number Received: ${req.body.accountNumber}`);
+    } else {
+      throw new Error("Account Number missing")
+    }
+
+    timelineService.createSixMonthSurveyTimelineTask(req.body.accountNumber, db)
+      .then(jsonPayload => {
+        res.status(200).json(jsonPayload)
+      })
+      .catch(error => {
+        handleError(res, err.message, "Failed to create 6month task");
+      });
+  } catch (err) {
+    handleError(res, err.message, "Account Number is required.");
   }
-
-  timelineService.createSixMonthSurveyTimelineTask(task, db)
-    .then(jsonPayload => {
-      res.status(200).json(jsonPayload)
-    })
-    .catch(error => {
-      handleError(res, error, "Failed to create six month survey timeline.", 401);
-    });
 });
 
 
