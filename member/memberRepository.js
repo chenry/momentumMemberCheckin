@@ -6,13 +6,10 @@ exports.findAccount = async function(accountNumber, bloomerangBaseApiUrl) {
       Authorization: `Basic ${process.env.BLOOMERANG_KEY}`
     }  
   
-    try {
-      const url = `${bloomerangBaseApiUrl}Constituent/?q=${accountNumber}`;
+    const url = `${bloomerangBaseApiUrl}Constituent/?q=${accountNumber}`;
       
-      const response = await fetch(url, { method: 'GET', headers: headers });
-      jsonResponse = response.json();
-    } catch (err) {
-      console.error(err);
-    }
+    const response = await fetch(url, { method: 'GET', headers: headers });
+    jsonResponse = response.json();
+
     return jsonResponse;
 }
