@@ -89,8 +89,7 @@ app.get("/api/member/:constituentId/timeline/tasks", function(req, res) {
 });
 
 app.get("/api/member/:accountNumber/timeline/tasks/open", function(req, res) {
-
-  timelineService.findTimelineOpenTasks(req.params.accountNumber, db)
+  timelineService.findTimelineOpenTasks(parseInt(req.params.accountNumber), db)
     .then(jsonPayload => {
       res.status(200).json(jsonPayload)
     })

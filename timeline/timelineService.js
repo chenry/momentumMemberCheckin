@@ -1,5 +1,6 @@
 var timelineRepository = require("./timelineRepository")
 var configurationService = require("../configuration/configurationService")
+let lookupService = require('../member/lookupService')
 var timelineParser = require("./timelineParser")
 var constants = require("../constants")
 
@@ -16,10 +17,12 @@ exports.findTimelineTasks = async function(constituentId, db) {
     .then(timeline => timelineParser.findTasks(timeline));
 }
 
-exports.findTimelineOpenTasks = async function(constituentId, db) {
+exports.findTimelineOpenTasks = async function(accountNumber, db) {
   // find timeline
+  let constituent = await lookupService.findConstituentIdByAccountNumber(accountNumber, db);
+
   return await configurationService.findBloomerangBaseApiUrl(db)
-    .then(bloomerangBaseApiUrl => timelineRepository.findTimeline(constituentId, bloomerangBaseApiUrl))
+    .then(bloomerangBaseApiUrl => timelineRepository.findTimeline(constituent.constituentId, bloomerangBaseApiUrl))
     .then(timeline => timelineParser.findOpenTasks(timeline))
     .then(openTasks => timelineParser.createOpenTasksResponse(openTasks));
 }
