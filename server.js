@@ -20,6 +20,7 @@ var loginService = require('./member/loginService')
 var verificationService = require('./member/verificationService')
 var registrationVerificationService = require('./member/registrationVerificationService')
 var adminLoginService = require('./admin/loginService')
+var adminResetRegistrationService = require('./admin/resetRegistrationService')
 // ====================
 
 var ObjectID = mongodb.ObjectID;
@@ -64,6 +65,21 @@ function handleError(res, reason, message, code) {
   console.log("ERROR: " + reason);
   res.status(code || 500).json({"error": message});
 }
+
+app.post('/api/admin/resetUserRegistration', function(req, res) {
+  adminResetRegistrationService.resetRegistration(req.body.accountNumber, db)
+  .then(result => {
+    if (result) {
+      res.status(200).end();
+    }
+    else {
+      res.status(404).end();
+    }
+  })
+  .catch(error => {
+    handleError(res, error, "Failed to reset the user registration.");
+  });
+});
 
 app.post('/api/admin/login', function(req, res) {
   try {
