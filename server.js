@@ -77,6 +77,7 @@ app.get("/api/member/:constituentId/timeline", function(req, res) {
  *  POST:
  */
 app.get("/api/member/:constituentId/timeline/tasks", function(req, res) {
+
   timelineService.findTimelineTasks(req.params.constituentId, db)
     .then(jsonPayload => {
       res.status(200).json(jsonPayload)
@@ -85,6 +86,19 @@ app.get("/api/member/:constituentId/timeline/tasks", function(req, res) {
       console.error("Problems occurred: " + error);
     });
 });
+
+app.get("/api/member/:constituentId/timeline/tasks/open", function(req, res) {
+
+  timelineService.findTimelineOpenTasks(req.params.constituentId, db)
+    .then(jsonPayload => {
+      res.status(200).json(jsonPayload)
+    })
+    .catch(error => {
+      console.error("Problems occurred: " + error);
+    });
+});
+
+
 
 app.post("/api/member/:constituentId/timeline/6MonthSurveyTask", function(req, res) {
   var task = req.body;
