@@ -69,7 +69,7 @@ app.get("/api/member/:constituentId/timeline", function(req, res) {
       res.status(200).json(jsonPayload)
     })
     .catch(error => {
-      console.error("Problems occurred: " + error);
+      handleError(res, error, "Failed to open get timeline.", 401);
     });
 });
 
@@ -84,38 +84,50 @@ app.get("/api/member/:constituentId/timeline/tasks", function(req, res) {
       res.status(200).json(jsonPayload)
     })
     .catch(error => {
-      console.error("Problems occurred: " + error);
+      handleError(res, error, "Failed to open get timeline tasks.", 401);
     });
 });
 
-app.get("/api/member/:constituentId/timeline/tasks/open", function(req, res) {
-
-  timelineService.findTimelineOpenTasks(req.params.constituentId, db)
+app.get("/api/member/:accountNumber/timeline/tasks/open", function(req, res) {
+  timelineService.findTimelineOpenTasks(parseInt(req.params.accountNumber), db)
     .then(jsonPayload => {
       res.status(200).json(jsonPayload)
     })
     .catch(error => {
-      console.error("Problems occurred: " + error);
+      handleError(res, error, "Failed to open constituent timeline tasks.", 500);
     });
 });
 
-app.post("/api/member/:constituentId/timeline/6MonthSurveyTask", function(req, res) {
-  var task = req.body;
-  console.log(`Task: ${task}`)
+app.post("/api/member/:accountNumber/timeline/6MonthSurveyTask", async function(req, res) {
 
-  timelineService.createSixMonthSurveyTimelineTask(task, db)
-    .then(jsonPayload => {
-      res.status(200).json(jsonPayload)
-    })
-    .catch(error => {
-      console.error("Problems occurred: " + error);
-    });
+  try {
+    if (req.body && req.body.accountNumber) {
+      console.log(`Account Number Received: ${req.body.accountNumber}`);
+    } else {
+      throw new Error("Account Number missing")
+    }
+
+    let jsonPayload = await timelineService.createSixMonthSurveyTimelineTask(req.body.accountNumber, db);
+    res.status(200).json(jsonPayload)
+  } catch (err) {
+    handleError(res, err.message, "Account Number is required.");
+  }
 });
 
 
 
 app.get('/api/member/lookup/:accountNumber', function(req, res) {
   lookupService.findAccount(req.params.accountNumber, db)
+    .then(payload => {
+      res.status(200).json(payload)
+    })
+    .catch(error => {
+      handleError(res, error, "Failed to lookup accountNumber.", 401);
+    })
+});
+
+app.get('/api/member/lookup/:accountNumber/constituentId', function(req, res) {
+  lookupService.findConstituentIdByAccountNumber(req.params.accountNumber, db)
     .then(payload => {
       res.status(200).json(payload)
     })
@@ -134,7 +146,7 @@ app.get("/api/member/verify/:accountNumber", function(req, res) {
       res.status(200).json(payload);
     })
     .catch(error => {
-      console.error("Problems occurred: " + error)
+      handleError(res, error, "Failed to verify accountNumber.", 401);
     })
 });
 
@@ -146,14 +158,14 @@ app.post("/api/member/login", function(req, res) {
   loginService.login(req.body.accountNumber, req.body.imageId, db)
     .then(success => {
       if (!success) {
-        res.status(401).end();
+        handleError(res, error, "Failed to login.", 401);
       }
       else {
         res.status(200).end();
       }
     })
     .catch(error => {
-      console.error("Problems occurred: " + error)
+      handleError(res, error, "Failed to login.", 401);
     })
 });
 
@@ -169,54 +181,51 @@ app.get("/api/member/registration-check/:accountNumber", function(req, res) {
       res.status(200).json(success);
     })
     .catch(error => {
-      console.error("Problems occurred: " + error)
+      handleError(res, error, "Failed to check registration.",400);
     });
-});
-
-app.get("/api/contacts", function(req, res) {
-  fetch('https://api.bloomerang.co/v1/Constituent/?q=3407&ApiKey=' + process.env.BLOOMERANG_KEY)
-    .then(response => response.json())
-    .then(data => {
-      res.status(200).json(data);
-    })
-
-  // db.collection(CONTACTS_COLLECTION).find({}).toArray(function(err, docs) {
-  //   if (err) {
-  //     handleError(res, err.message, "Failed to get contacts.");
-  //   } else {
-  //     res.status(200).json(docs);
-  //   }
-  // });
 });
 
 app.get("/api/images", function(req, res) {
   db.collection(IMAGES_COLLECTION).find({}).toArray(function(err, docs) {
-    if (err) {
-      handleError(res, err.message, "Failed to get images.");
-    } else {
+    if (!err) {
       res.status(200).json(docs);
+    } else {
+      handleError(res, err.message, "Failed to get images.",400);
     }
   });
 });
 
 app.get("/api/config", async function(req, res) {
   let docs = await configurationService.findBloomerangBaseApiUrl(db);
-  res.status(200).json(docs);
+  if (docs) {
+    res.status(200).json(docs);
+  }
+  else {
+    handleError(res, "could not find bloomerang base api url", "Failed to get config", 400);
+  }
 });
 
 app.get("/api/surveyUrls", async function(req, res) {
   const accountNumber = req.query["accountNumber"];
   if (accountNumber) {
+    function repl(stg,index,arr) {
+      return stg.replace("{accountNumber}",accountNumber);
+    }
     const urls = await configurationService.findAllUrls(db);
-    const result = [
-      urls["surveyCheckinAnd6MonthUrl"].replace("{constituentId}",accountNumber),
-      urls["surveyCheckinOnlyUrl"].replace("{constituentId}",accountNumber)
-    ];
+    const intermediate = Object.values(urls).slice(2).map(repl);
+    const result = {
+      "sixMonthEnabled" : intermediate[0],
+      "checkInOnly" : intermediate[1]
+    };
     res.status(200).json(result);
   }
   else {
-    res.status(400);
+    handleError(res,
+      "Invalid account number",
+      "Must provide valid account number.",
+      400);
   }
+});
 
 app.post("/api/contacts", function(req, res) {
   var newContact = req.body;
@@ -226,10 +235,10 @@ app.post("/api/contacts", function(req, res) {
     handleError(res, "Invalid user input", "Must provide a name.", 400);
   } else {
     db.collection(CONTACTS_COLLECTION).insertOne(newContact, function(err, doc) {
-      if (err) {
-        handleError(res, err.message, "Failed to create new contact.");
-      } else {
+      if (!err) {
         res.status(201).json(doc.ops[0]);
+      } else {
+        handleError(res, err.message, "Failed to create new contact.");
       }
     });
   }
@@ -243,10 +252,10 @@ app.post("/api/contacts", function(req, res) {
 
 app.get("/api/contacts/:id", function(req, res) {
   db.collection(CONTACTS_COLLECTION).findOne({ _id: new ObjectID(req.params.id) }, function(err, doc) {
-    if (err) {
-      handleError(res, err.message, "Failed to get contact");
-    } else {
+    if (!err) {
       res.status(200).json(doc);
+    } else {
+      handleError(res, err.message, "Failed to get contact");
     }
   });
 });
@@ -256,21 +265,21 @@ app.put("/api/contacts/:id", function(req, res) {
   delete updateDoc._id;
 
   db.collection(CONTACTS_COLLECTION).updateOne({_id: new ObjectID(req.params.id)}, updateDoc, function(err, doc) {
-    if (err) {
-      handleError(res, err.message, "Failed to update contact");
-    } else {
+    if (!err) {
       updateDoc._id = req.params.id;
       res.status(200).json(updateDoc);
+    } else {
+      handleError(res, err.message, "Failed to update contact");
     }
   });
 });
 
 app.delete("/api/contacts/:id", function(req, res) {
   db.collection(CONTACTS_COLLECTION).deleteOne({_id: new ObjectID(req.params.id)}, function(err, result) {
-    if (err) {
-      handleError(res, err.message, "Failed to delete contact");
-    } else {
+    if (!err) {
       res.status(200).json(req.params.id);
+    } else {
+      handleError(res, err.message, "Failed to delete contact");
     }
   });
 });
