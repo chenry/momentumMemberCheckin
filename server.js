@@ -1,9 +1,28 @@
+// ***************************************************************************
+// * Required environment variables
+// * -------------------------------------------------------------------------
+// * MONGODB_URI - This should contain the full uri to the MongoDB
+// * BLOOMERANG_KEY - This should contain the private key of the bloomerang api.
+// ***************************************************************************
+
 var express = require("express");
+const fetch = require('node-fetch');
 var bodyParser = require("body-parser");
 var mongodb = require("mongodb");
+
+// ====================
+// Services
+var timelineService = require("./timeline/timelineService")
+var configurationService = require("./configuration/configurationService")
+var lookupService = require('./member/lookupService.js')
+var verificationService = require('./member/verificationService')
+// ====================
+
 var ObjectID = mongodb.ObjectID;
 
+
 var CONTACTS_COLLECTION = "contacts";
+var IMAGES_COLLECTION = "images";
 
 var app = express();
 app.use(bodyParser.json());
@@ -16,23 +35,24 @@ app.use(express.static(distDir));
 var db;
 
 // Connect to the database before starting the application server.
-// mongodb.MongoClient.connect(process.env.MONGODB_URI || "mongodb://localhost:27017/test", function (err, client) {
-//   if (err) {
-//     console.log(err);
-//     process.exit(1);
-//   }
+mongodb.MongoClient.connect(process.env.MONGODB_URI || "mongodb://localhost:27017/test", function (err, client) {
+  if (err) {
+    console.log(err);
+    process.exit(1);
+  }
 
-//   // Save database object from the callback for reuse.
-//   db = client.db();
-//   console.log("Database connection ready");
+  // Save database object from the callback for reuse.
+  db = client.db();
+  console.log("Database connection ready");
 
-//   // Initialize the app.
-// });
+  // Initialize the app.
+  var server = app.listen(process.env.PORT || 8080, function () {
+    var port = server.address().port;
+    console.log("App now running on port", port);
+  });
 
-var server = app.listen(process.env.PORT || 8080, function () {
-  var port = server.address().port;
-  console.log("App now running on port", port);
 });
+
 // CONTACTS API ROUTES BELOW
 
 // Generic error handler used by all endpoints.
@@ -41,19 +61,79 @@ function handleError(res, reason, message, code) {
   res.status(code || 500).json({"error": message});
 }
 
-/*  "/api/contacts"
+
+/*  "/api/timeline"
  *    GET: finds all contacts
  *    POST: creates a new contact
  */
+app.get("/api/timeline/:accountNumber", function(req, res) {
+  timelineService.findTimeline(req.params.accountNumber, db)
+    .then(jsonPayload => {
+      res.status(200).json(jsonPayload)
+    })
+    .catch(error => {
+      console.error("Problems occurred: " + error);
+    });
+});
+
+/*  "/api/member/lookup"
+    GET: Use to retrieve member data
+    Result: The constituent json object model from Bloomerang
+ */
+
+app.get('/api/member/lookup/:accountNumber', function(req, res) {
+  lookupService.findAccount(req.params.accountNumber, db)
+    .then(payload => {
+      res.status(200).json(payload)
+    })
+    .catch(error => {
+      console.error("Problems occurred: " + error)
+    })
+});
+
+/*  "/api/member/verify"
+    GET: Use to retrieve member data
+    Result: true if the account is valid within Bloomerang, otherwise false
+ */
+app.get("/api/member/verify/:accountNumber", function(req, res) {
+  verificationService.verifyAccount(req.params.accountNumber, db)
+    .then(payload => {
+      res.status(200).json(payload);
+    })
+    .catch(error => {
+      console.error("Problems occurred: " + error)
+    })
+});
 
 app.get("/api/contacts", function(req, res) {
-  db.collection(CONTACTS_COLLECTION).find({}).toArray(function(err, docs) {
+  fetch('https://api.bloomerang.co/v1/Constituent/?q=3407&ApiKey=' + process.env.BLOOMERANG_KEY)
+    .then(response => response.json())
+    .then(data => {
+      res.status(200).json(data);
+    })
+
+  // db.collection(CONTACTS_COLLECTION).find({}).toArray(function(err, docs) {
+  //   if (err) {
+  //     handleError(res, err.message, "Failed to get contacts.");
+  //   } else {
+  //     res.status(200).json(docs);
+  //   }
+  // });
+});
+
+app.get("/api/images", function(req, res) {
+  db.collection(IMAGES_COLLECTION).find({}).toArray(function(err, docs) {
     if (err) {
-      handleError(res, err.message, "Failed to get contacts.");
+      handleError(res, err.message, "Failed to get images.");
     } else {
       res.status(200).json(docs);
     }
   });
+});
+
+app.get("/api/config", async function(req, res) {
+  let docs = await configurationService.findBloomerangBaseApiUrl(db);
+  res.status(200).json(docs);
 });
 
 app.post("/api/contacts", function(req, res) {

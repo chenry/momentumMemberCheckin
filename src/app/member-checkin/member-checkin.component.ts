@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-
+import { MemberService } from '@services/member.service';
+import { Observable } from 'rxjs';
+import { Member } from '@models/member';
 
 @Component({
   selector: 'app-member-checkin',
@@ -9,8 +11,11 @@ import { Component, OnInit } from '@angular/core';
 })
 
 export class MemberCheckinComponent implements OnInit {
+  public member$: Observable<Member> = this.memberService.getMembers('3399').pipe(member => member);
 
-  constructor() { }
+  constructor(public memberService: MemberService) {
+    console.log('run this get', this.memberService.getMembers('3399'));
+  }
 
   ngOnInit() {
   }

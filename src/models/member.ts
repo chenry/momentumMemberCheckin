@@ -4,7 +4,7 @@ import { Phone } from '@models/phone';
 import { AuditTrail } from '@models/auditTrail';
 import { CustomField } from '@models/customField';
 
-export class Constituent  {
+export class Member {
   public Id: number;
   public Type: string;
   public Status: string;
