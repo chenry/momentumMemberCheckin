@@ -99,16 +99,18 @@ app.get("/api/member/:accountNumber/timeline/tasks/open", function(req, res) {
     });
 });
 
-app.post("/api/member/:constituentId/timeline/6MonthSurveyTask", function(req, res) {
-  var task = req.body;
-  console.log(`Task: ${task}`)
+app.get("/api/member/:accountNumber/timeline/6MonthSurveyTask", function(req, res) {
+
+  var task = {
+    accountNumber: req.params.accountNumber
+  }
 
   timelineService.createSixMonthSurveyTimelineTask(task, db)
     .then(jsonPayload => {
       res.status(200).json(jsonPayload)
     })
     .catch(error => {
-      console.error("Problems occurred: " + error);
+      handleError(res, err.message, "Failed to create 6month task");
     });
 });
 

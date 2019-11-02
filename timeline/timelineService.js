@@ -27,16 +27,16 @@ exports.findTimelineOpenTasks = async function(accountNumber, db) {
   return timelineParser.createOpenTasksResponse(openTasks);
 }
 
-
-
 exports.createSixMonthSurveyTimelineTask = async function(task, db) {
+  let constituent = await lookupService.findConstituentIdByAccountNumber(task.accountNumber, db);
+
   let now = new Date()
   let nextDueDate = new Date(now.setMonth(now.getMonth() + 6))
-  let newTask = create6MonthTask(task.AccountId, nextDueDate);
+  let newTask = create6MonthTask(constituent.constituentId, nextDueDate);
+  let bloomerangBaseApiUrl = await configurationService.findBloomerangBaseApiUrl(db);
+  let jsonResponse = timelineRepository.createTimelineTask(newTask, bloomerangBaseApiUrl);
 
-
-  return await configurationService.findBloomerangBaseApiUrl(db)
-    .then(bloomerangBaseApiUrl => timelineRepository.createTimelineTask(newTask, bloomerangBaseApiUrl));
+  return jsonResponse;
 }
 
 function create6MonthTask(accountId, dueDate) {
