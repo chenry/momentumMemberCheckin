@@ -27,8 +27,8 @@ exports.findTimelineOpenTasks = async function(accountNumber, db) {
   return timelineParser.createOpenTasksResponse(openTasks);
 }
 
-exports.createSixMonthSurveyTimelineTask = async function(task, db) {
-  let constituent = await lookupService.findConstituentIdByAccountNumber(task.accountNumber, db);
+exports.createSixMonthSurveyTimelineTask = async function(accountNumber, db) {
+  let constituent = await lookupService.findConstituentIdByAccountNumber(accountNumber, db);
 
   let now = new Date()
   let nextDueDate = new Date(now.setMonth(now.getMonth() + 6))
