@@ -5,3 +5,13 @@
 <a [routerLink]="['pictures']">
   Pictures
 </a>
+
+{{ (member$ | async )?.FirstName }}
+
+<div *ngIf="(isVerified$ | async)">
+  This should show if member is verified
+</div>
+
+<div *ngIf="!(isVerified$ | async)">
+  This should show if member is not verified
+</div>

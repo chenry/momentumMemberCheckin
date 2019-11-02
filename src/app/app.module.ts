@@ -6,20 +6,18 @@ import { MaterialModule } from './material.module';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { ContactDetailsComponent } from './contacts/contact-details/contact-details.component';
-import { ContactListComponent } from './contacts/contact-list/contact-list.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HomeComponent } from './home/home.component';
 import { MemberCheckinComponent } from './member-checkin/member-checkin.component';
-import { SurveySelectionComponent } from './survey-selection/survey-selection.component';
+import { SurveySelectionComponent } from '@surveySelection/survey-selection.component';
 import { MemberCheckinPicturesComponent } from '@memberCheckin/pictures/member-checkin-pictures.component';
 import { MemberCheckinCalculatorComponent } from '@memberCheckin/calculator/member-checkin-calculator.component';
+
+import { MemberService } from '@services/member.service';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ContactDetailsComponent,
-    ContactListComponent,
     HomeComponent,
     MemberCheckinComponent,
     SurveySelectionComponent,
@@ -35,7 +33,7 @@ import { MemberCheckinCalculatorComponent } from '@memberCheckin/calculator/memb
     BrowserAnimationsModule,
     MaterialModule
   ],
-  providers: [],
+  providers: [MemberService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,0 +1,40 @@
+import { Address } from '@models/address';
+import { Email } from '@models/email';
+import { Phone } from '@models/phone';
+import { AuditTrail } from '@models/auditTrail';
+import { CustomField } from '@models/customField';
+
+export class Member {
+  public Id: number;
+  public Type: string;
+  public Status: string;
+  public FirstName: string;
+  public LastName: string;
+  public Middle: string;
+  public Prefix: string;
+  public Suffix: string;
+  public FullName: string;
+  public InformalName: string;
+  public FormalName: string;
+  public EnvelopeName: string;
+  public RecognitionName: string;
+  public JobTitle: string;
+  public Employer: string;
+  public AccountNumber: string;
+  public Website: string;
+  public FacebookId: string;
+  public TwitterId: string;
+  public LinkedInId: string;
+  public Gender: string;
+  public Address: Address;
+  public Addresses: Address[];
+  public PrimaryEmail: Email;
+  public Emails: Email[];
+  public PrimaryPhone: Phone;
+  public Phones: Phone[];
+  public AuditTrail: AuditTrail;
+  public EmailInterestType: string;
+  public CustomFields: CustomField[];
+  public CustomFreeFormFields: CustomField[];
+  public CustomPickFields: CustomField[];
+}
