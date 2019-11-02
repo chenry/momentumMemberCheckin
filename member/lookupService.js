@@ -8,3 +8,13 @@ exports.findAccount = async function(accountNumber, db) {
         return accounts.Results[0];
       });
 }
+
+exports.findConstituentIdByAccountNumber = async function(accountNumber, db) {
+  return await configurationService.findBloomerangBaseApiUrl(db)
+    .then(bloomerangBaseApiUrl => memberRepository.findAccount(accountNumber, bloomerangBaseApiUrl))
+    .then(accounts => {
+      return {
+        constituentId: accounts.Results[0].Id
+      };
+    });
+}
