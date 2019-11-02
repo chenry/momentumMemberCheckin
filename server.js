@@ -14,6 +14,8 @@ var mongodb = require("mongodb");
 // Services
 var timelineService = require("./timeline/timelineService")
 var configurationService = require("./configuration/configurationService")
+var lookupService = require('./member/lookupService.js')
+var verificationService = require('./member/verificationService')
 // ====================
 
 var ObjectID = mongodb.ObjectID;
@@ -74,23 +76,18 @@ app.get("/api/timeline/:accountNumber", function(req, res) {
     });
 });
 
-/*  "/api/contacts"
- *    GET: finds all contacts
- *    POST: creates a new contact
+/*  "/api/member/lookup"
+    GET: Use to retrieve member data
  */
 
-app.get('/api/account/lookup', function(req, res) {
-  let id = req.query.id;
-  fetch('https://api.bloomerang.co/v1/Constituent/?q=' + id + '&ApiKey=' + process.env.BLOOMERANG_KEY)
-    .then(response => response.json())
-    .then(data => {
-      if (data.Total > 1) {
-        res.status(400);
-      }
-      else {
-        res.status(200).json(data.Results[0]);
-      }
-    });
+app.get('/api/member/lookup/:accountNumber', function(req, res) {
+  lookupService.findAccount(req.params.accountNumber, db)
+    .then(payload => {
+      res.status(200).json(payload)
+    })
+    .catch(error => {
+      console.error("Problems occurred: " + error)
+    })
 });
 
 app.get("/api/account/verify", function(req, res) {
