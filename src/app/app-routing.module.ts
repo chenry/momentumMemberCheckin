@@ -3,6 +3,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from '@home/home.component';
 import { MemberCheckinComponent } from '@memberCheckin/member-checkin.component';
 import { SurveySelectionComponent } from '@surveySelection/survey-selection.component';
+import { MemberCheckinPicturesComponent } from '@memberCheckin/pictures/member-checkin-pictures.component';
+import { MemberCheckinCalculatorComponent } from '@memberCheckin/calculator/member-checkin-calculator.component';
 
 const routes: Routes = [
   {
@@ -10,8 +12,16 @@ const routes: Routes = [
     component: HomeComponent
   },
   {
-    path: 'member-checkin',
+    path: '',
     component: MemberCheckinComponent
+  },
+  {
+    path: 'member-checkin/calculator',
+    component: MemberCheckinCalculatorComponent
+  },
+  {
+    path: 'member-checkin/pictures',
+    component: MemberCheckinPicturesComponent
   },
   {
     path: 'survey-selection',

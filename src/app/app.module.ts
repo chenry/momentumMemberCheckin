@@ -12,6 +12,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HomeComponent } from './home/home.component';
 import { MemberCheckinComponent } from './member-checkin/member-checkin.component';
 import { SurveySelectionComponent } from './survey-selection/survey-selection.component';
+import { MemberCheckinPicturesComponent } from '@memberCheckin/pictures/member-checkin-pictures.component';
+import { MemberCheckinCalculatorComponent } from '@memberCheckin/calculator/member-checkin-calculator.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +22,9 @@ import { SurveySelectionComponent } from './survey-selection/survey-selection.co
     ContactListComponent,
     HomeComponent,
     MemberCheckinComponent,
-    SurveySelectionComponent
+    SurveySelectionComponent,
+    MemberCheckinCalculatorComponent,
+    MemberCheckinPicturesComponent
   ],
   imports: [
     BrowserModule,

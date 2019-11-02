@@ -1,12 +1,15 @@
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { NgModule } from '@angular/core';
 
 @NgModule({
   imports: [
-    MatToolbarModule
+    MatToolbarModule,
+    MatSlideToggleModule
   ],
   exports: [
-    MatToolbarModule
+    MatToolbarModule,
+    MatSlideToggleModule
   ]
 })
 
