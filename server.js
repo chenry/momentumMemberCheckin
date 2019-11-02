@@ -183,22 +183,6 @@ app.get("/api/member/registration-check/:accountNumber", function(req, res) {
     });
 });
 
-app.get("/api/contacts", function(req, res) {
-  fetch('https://api.bloomerang.co/v1/Constituent/?q=3407&ApiKey=' + process.env.BLOOMERANG_KEY)
-    .then(response => response.json())
-    .then(data => {
-      res.status(200).json(data);
-    })
-
-  // db.collection(CONTACTS_COLLECTION).find({}).toArray(function(err, docs) {
-  //   if (err) {
-  //     handleError(res, err.message, "Failed to get contacts.");
-  //   } else {
-  //     res.status(200).json(docs);
-  //   }
-  // });
-});
-
 app.get("/api/images", function(req, res) {
   db.collection(IMAGES_COLLECTION).find({}).toArray(function(err, docs) {
     if (err) {
@@ -217,10 +201,13 @@ app.get("/api/config", async function(req, res) {
 app.get("/api/surveyUrls", async function(req, res) {
   const accountNumber = req.query["accountNumber"];
   if (accountNumber) {
+    function repl(stg,index,arr) {
+      return stg.replace("{accountNumber}",accountNumber);
+    }
     const urls = await configurationService.findAllUrls(db);
     const result = [
-      urls["surveyCheckinAnd6MonthUrl"].replace("{constituentId}", accountNumber),
-      urls["surveyCheckinOnlyUrl"].replace("{constituentId}", accountNumber)
+      urls["surveyCheckinAnd6MonthUrl"].replace("{constituentId}",accountNumber),
+      urls["surveyCheckinOnlyUrl"].replace("{constituentId}",accountNumber)
     ];
     res.status(200).json(result);
   } else {
