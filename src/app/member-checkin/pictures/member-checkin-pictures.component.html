@@ -1,7 +1,8 @@
 <p>member-checkin-pictures works!</p>
-<mat-grid-list cols="3" rowHeight="250px">
-  <mat-grid-tile
-        *ngFor="let tile of tiles">
-        <img class="pics" src="{{tile.img}}" alt="photo of a cat" />
-  </mat-grid-tile>
-</mat-grid-list>
+<div class="grid-list">
+  <div class="grid-tile" *ngFor="let tile of tiles" >
+
+        <img  class="grid-img" src="{{tile.img}}" alt="photo of a cat" />
+
+  </div>
+</div>
