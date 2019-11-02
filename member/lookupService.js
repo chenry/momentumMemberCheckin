@@ -13,13 +13,11 @@ exports.findConstituentIdByAccountNumber = async function(accountNumber, db) {
   return await configurationService.findBloomerangBaseApiUrl(db)
     .then(bloomerangBaseApiUrl => memberRepository.findAccount(accountNumber, bloomerangBaseApiUrl))
     .then(accounts => {
-      let id = 0;
-      if (accounts.Total > 0) {
-        id = accounts.Results[0].Id;
+      if (accounts.Total == 0) {
+        throw `No account found for: ${accountNumber}`
       }
-
       return {
-        constituentId: id
+        constituentId: accounts.Results[0].Id
       };
     });
 }

@@ -95,6 +95,7 @@ app.get("/api/member/:accountNumber/timeline/tasks/open", function(req, res) {
     })
     .catch(error => {
       console.error("Problems occurred: " + error);
+      res.status(500).json({error: error})
     });
 });
 

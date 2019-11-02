@@ -20,11 +20,11 @@ exports.findTimelineTasks = async function(constituentId, db) {
 exports.findTimelineOpenTasks = async function(accountNumber, db) {
   // find timeline
   let constituent = await lookupService.findConstituentIdByAccountNumber(accountNumber, db);
+  let bloomerangBaseApiUrl = await configurationService.findBloomerangBaseApiUrl(db);
+  let timeline = await timelineRepository.findTimeline(constituent.constituentId, bloomerangBaseApiUrl);
+  let openTasks = await timelineParser.findOpenTasks(timeline);
 
-  return await configurationService.findBloomerangBaseApiUrl(db)
-    .then(bloomerangBaseApiUrl => timelineRepository.findTimeline(constituent.constituentId, bloomerangBaseApiUrl))
-    .then(timeline => timelineParser.findOpenTasks(timeline))
-    .then(openTasks => timelineParser.createOpenTasksResponse(openTasks));
+  return timelineParser.createOpenTasksResponse(openTasks);
 }
 
 
