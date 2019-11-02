@@ -18,6 +18,10 @@ $item-padding: 5px 0;
   padding: $item-padding;
 } 
 
+.checkin__calculator__display {
+  font-size: 2rem;
+}
+
 .checkin__calculator__item {
   margin: 0 auto;
   padding: 10px;
@@ -37,3 +41,4 @@ $item-padding: 5px 0;
 .mat-fab.mat-primary {
   padding: 50px;
 }
+
