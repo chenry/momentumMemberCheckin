@@ -17,6 +17,7 @@ var configurationService = require("./configuration/configurationService")
 var lookupService = require('./member/lookupService')
 var loginService = require('./member/loginService')
 var verificationService = require('./member/verificationService')
+var registrationVerificationService = require('./member/registrationVerificationService')
 // ====================
 
 var ObjectID = mongodb.ObjectID;
@@ -154,6 +155,23 @@ app.post("/api/member/login", function(req, res) {
     .catch(error => {
       console.error("Problems occurred: " + error)
     })
+});
+
+
+/*  "/api/member/registration-check"
+    GET: Determines whether the user already has a chosen image registered.
+    Result: true if the user does have a registration already existing, otherwise false.
+*/
+
+app.get("/api/member/registration-check/:accountNumber", function(req, res) {
+  res.status(200).json(true);
+  // registrationVerificationService.hasUserAlreadyRegistered(req.params.accountNumber, db)
+  //   .then(success => {
+  //     res.status(200).json(success);
+  //   })
+  //   .catch(error => {
+  //     console.error("Problems occurred: " + error)
+  //   });
 });
 
 app.get("/api/contacts", function(req, res) {
