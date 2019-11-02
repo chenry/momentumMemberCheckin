@@ -88,14 +88,14 @@ app.get("/api/member/:constituentId/timeline/tasks", function(req, res) {
     });
 });
 
-app.get("/api/member/:constituentId/timeline/tasks/open", function(req, res) {
-
-  timelineService.findTimelineOpenTasks(req.params.constituentId, db)
+app.get("/api/member/:accountNumber/timeline/tasks/open", function(req, res) {
+  timelineService.findTimelineOpenTasks(parseInt(req.params.accountNumber), db)
     .then(jsonPayload => {
       res.status(200).json(jsonPayload)
     })
     .catch(error => {
       console.error("Problems occurred: " + error);
+      res.status(500).json({error: error})
     });
 });
 
@@ -116,6 +116,16 @@ app.post("/api/member/:constituentId/timeline/6MonthSurveyTask", function(req, r
 
 app.get('/api/member/lookup/:accountNumber', function(req, res) {
   lookupService.findAccount(req.params.accountNumber, db)
+    .then(payload => {
+      res.status(200).json(payload)
+    })
+    .catch(error => {
+      console.error("Problems occurred: " + error)
+    })
+});
+
+app.get('/api/member/lookup/:accountNumber/constituentId', function(req, res) {
+  lookupService.findConstituentIdByAccountNumber(req.params.accountNumber, db)
     .then(payload => {
       res.status(200).json(payload)
     })
@@ -195,10 +205,12 @@ app.get("/api/surveyUrls", async function(req, res) {
       return stg.replace("{accountNumber}",accountNumber);
     }
     const urls = await configurationService.findAllUrls(db);
-    const result = Object.values(urls).slice(2).map(repl);
+    const result = [
+      urls["surveyCheckinAnd6MonthUrl"].replace("{accountNumber}",accountNumber),
+      urls["surveyCheckinOnlyUrl"].replace("{accountNumber}",accountNumber)
+    ];
     res.status(200).json(result);
-  }
-  else {
+  } else {
     res.status(400);
   }
 });
