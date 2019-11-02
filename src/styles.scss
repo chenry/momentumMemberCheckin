@@ -10,10 +10,12 @@ body {
   font-size: 20px;
   height: 100vh;
   width: 100vw;
+}
 
-  .mat-grid-list{
-    margin-top: 50px;
-    margin-left: 100px;
-    margin-right: 100px;
-  }
+.mat-fab .mat-button-wrapper {
+  padding: 0;
+}
+.mat-form-field-appearance-outline .mat-form-field-infix {
+  padding: 10px;
+  text-align: center;
 }

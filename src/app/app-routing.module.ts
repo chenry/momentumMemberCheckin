@@ -24,7 +24,7 @@ const routes: Routes = [
     component: MemberCheckinPicturesComponent
   },
   {
-    path: 'survey-selection',
+    path: 'member-checkin/survey-selection',
     component: SurveySelectionComponent
   }
 ];

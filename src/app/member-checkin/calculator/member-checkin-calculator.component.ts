@@ -7,9 +7,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MemberCheckinCalculatorComponent implements OnInit {
 
-  constructor() { }
+  userId = '';
 
-  ngOnInit() {
+  constructor() { 
   }
 
+  ngOnInit() {
+    
+  }
+
+  public getNumber(v: string) {
+    if (this.userId.length < 4) {
+      this.userId = this.userId + v;
+    }
+  }
 }
