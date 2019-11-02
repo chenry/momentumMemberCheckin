@@ -17,6 +17,11 @@
 // $app-dark-theme: mat-dark-theme($app-dark-primary, $app-dark-accent, $app-dark-warn);
 
 // $theme: $app-light-theme;
+$theme: mat-light-theme(
+  $primary: mat-palette($mat-light-blue),
+  $accent: mat-palette($mat-orange),
+  $warn: mat-palette($mat-red)
+);
 
 $button-typography: mat-typography-config(
   $button: mat-typography-level(4rem, 4rem, normal)
