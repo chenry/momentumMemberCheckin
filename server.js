@@ -44,7 +44,7 @@ mongodb.MongoClient.connect(process.env.MONGODB_URI || "mongodb://localhost:2701
     var port = server.address().port;
     console.log("App now running on port", port);
   });
-  
+
 });
 
 // CONTACTS API ROUTES BELOW
@@ -60,7 +60,15 @@ function handleError(res, reason, message, code) {
  *    GET: finds all contacts
  *    POST: creates a new contact
  */
-app.get("/api/timeline", timelineRepository.list)
+app.get("/api/timeline", function(req, res) {
+  let data = timelineRepository.findTimeline()
+    .then(jsonPayload => {
+      res.status(200).json(jsonPayload)
+    })
+    .catch(error => {
+      console.error("Problems occurred: " + error);
+    });
+});
 
 /*  "/api/contacts"
  *    GET: finds all contacts
