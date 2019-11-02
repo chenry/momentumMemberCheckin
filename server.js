@@ -9,14 +9,18 @@ var express = require("express");
 const fetch = require('node-fetch');
 var bodyParser = require("body-parser");
 var mongodb = require("mongodb");
-var timelineRepository = require("./timelineRepository")
+
+// ====================
+// Services
+var timelineService = require("./timeline/timelineService")
+var configurationService = require("./configuration/configurationService")
+// ====================
 
 var ObjectID = mongodb.ObjectID;
 
 
 var CONTACTS_COLLECTION = "contacts";
 var IMAGES_COLLECTION = "images";
-var CONFIG_COLLECTION = "config";
 
 var app = express();
 app.use(bodyParser.json());
@@ -44,7 +48,7 @@ mongodb.MongoClient.connect(process.env.MONGODB_URI || "mongodb://localhost:2701
     var port = server.address().port;
     console.log("App now running on port", port);
   });
-  
+
 });
 
 // CONTACTS API ROUTES BELOW
@@ -60,7 +64,15 @@ function handleError(res, reason, message, code) {
  *    GET: finds all contacts
  *    POST: creates a new contact
  */
-app.get("/api/timeline", timelineRepository.list)
+app.get("/api/timeline/:accountNumber", function(req, res) {
+  timelineService.findTimeline(req.params.accountNumber, db)
+    .then(jsonPayload => {
+      res.status(200).json(jsonPayload)
+    })
+    .catch(error => {
+      console.error("Problems occurred: " + error);
+    });
+});
 
 /*  "/api/contacts"
  *    GET: finds all contacts
@@ -117,14 +129,9 @@ app.get("/api/images", function(req, res) {
   });
 });
 
-app.get("/api/config", function(req, res) {
-  db.collection(CONFIG_COLLECTION).find({}).toArray(function(err, docs) {
-    if (err) {
-      handleError(res, err.message, "Failed to get images.");
-    } else {
-      res.status(200).json(docs);
-    }
-  });
+app.get("/api/config", async function(req, res) {
+  let docs = await configurationService.findBloomerangBaseApiUrl(db);
+  res.status(200).json(docs);
 });
 
 app.post("/api/contacts", function(req, res) {
