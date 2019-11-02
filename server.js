@@ -61,7 +61,7 @@ function handleError(res, reason, message, code) {
  *    POST: creates a new contact
  */
 app.get("/api/timeline", function(req, res) {
-  let data = timelineRepository.findTimeline()
+  timelineRepository.findTimeline()
     .then(jsonPayload => {
       res.status(200).json(jsonPayload)
     })
