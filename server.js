@@ -62,12 +62,8 @@ function handleError(res, reason, message, code) {
   res.status(code || 500).json({"error": message});
 }
 
-/*  "/api/timeline"
- *    GET: finds all contacts
- *    POST: creates a new contact
- */
-app.get("/api/timeline/:accountNumber", function(req, res) {
-  timelineService.findTimeline(req.params.accountNumber, db)
+app.get("/api/member/:constituentId/timeline", function(req, res) {
+  timelineService.findTimeline(req.params.constituentId, db)
     .then(jsonPayload => {
       res.status(200).json(jsonPayload)
     })
@@ -76,10 +72,46 @@ app.get("/api/timeline/:accountNumber", function(req, res) {
     });
 });
 
-/*  "/api/member/lookup"
-    GET: Use to retrieve member data
-    Result: The constituent json object model from Bloomerang
+/*  "/api/member/:constituentId/tasks"
+ *  GET:
+ *  POST:
  */
+app.get("/api/member/:constituentId/timeline/tasks", function(req, res) {
+
+  timelineService.findTimelineTasks(req.params.constituentId, db)
+    .then(jsonPayload => {
+      res.status(200).json(jsonPayload)
+    })
+    .catch(error => {
+      console.error("Problems occurred: " + error);
+    });
+});
+
+app.get("/api/member/:constituentId/timeline/tasks/open", function(req, res) {
+
+  timelineService.findTimelineOpenTasks(req.params.constituentId, db)
+    .then(jsonPayload => {
+      res.status(200).json(jsonPayload)
+    })
+    .catch(error => {
+      console.error("Problems occurred: " + error);
+    });
+});
+
+app.post("/api/member/:constituentId/timeline/6MonthSurveyTask", function(req, res) {
+  var task = req.body;
+  console.log(`Task: ${task}`)
+
+  timelineService.createSixMonthSurveyTimelineTask(task, db)
+    .then(jsonPayload => {
+      res.status(200).json(jsonPayload)
+    })
+    .catch(error => {
+      console.error("Problems occurred: " + error);
+    });
+});
+
+
 
 app.get('/api/member/lookup/:accountNumber', function(req, res) {
   lookupService.findAccount(req.params.accountNumber, db)
