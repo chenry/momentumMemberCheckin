@@ -7,8 +7,7 @@ exports.findBloomerangBaseApiUrl = async function(db) {
 
 async function findConfigurationValueByKey(db, key) {
   let config = await configurationRepository.findConfiguration(db);
-
-  console.log(`Something: ${config[key]}`)
+  return config[key];
 }
 
 

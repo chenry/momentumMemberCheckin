@@ -1,8 +1,10 @@
 var timelineRepository = require("./timelineRepository")
+var configurationService = require("../configuration/configurationService")
 
-exports.findTimeline = function(accountNumber) {
+exports.findTimeline = async function(accountNumber, db) {
   // find timeline
-  return timelineRepository.findTimeline(accountNumber)
+  return await configurationService.findBloomerangBaseApiUrl(db)
+    .then(bloomerangBaseApiUrl => timelineRepository.findTimeline(accountNumber, bloomerangBaseApiUrl));
 }
 
 
