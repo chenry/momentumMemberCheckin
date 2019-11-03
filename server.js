@@ -21,6 +21,7 @@ var verificationService = require('./member/verificationService')
 var registrationVerificationService = require('./member/registrationVerificationService')
 var adminLoginService = require('./admin/loginService')
 var adminResetRegistrationService = require('./admin/resetRegistrationService')
+var surveyUrlGeneratorService = require('./member/surveyUrlGeneratorService')
 // ====================
 
 var ObjectID = mongodb.ObjectID;
@@ -255,25 +256,13 @@ app.post('/api/config/change', function (req, res) {
 });
 
 app.get("/api/surveyUrls", async function(req, res) {
-  const accountNumber = req.query["accountNumber"];
-  if (accountNumber) {
-    function repl(stg,index,arr) {
-      return stg.replace("{accountNumber}",accountNumber);
-    }
-    const urls = await configurationService.findAllUrls(db);
-    const intermediate = Object.values(urls).slice(2).map(repl);
-    const result = {
-      "sixMonthEnabled" : intermediate[0],
-      "checkInOnly" : intermediate[1]
-    };
-    res.status(200).json(result);
-  }
-  else {
-    handleError(res,
-      "Invalid account number",
-      "Must provide valid account number.",
-      400);
-  }
+  surveyUrlGeneratorService.generateUrlsForAccountNumber(req.query.accountNumber, db)
+    .then(result => {
+      res.status(200).json(result);      
+    })
+    .catch(error => {
+      handleError(res, error, "Failed to generate survey urls.", 500);
+    });
 });
 
 app.post("/api/contacts", function(req, res) {
