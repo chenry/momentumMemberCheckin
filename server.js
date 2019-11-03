@@ -237,7 +237,17 @@ app.get("/api/config", async function(req, res) {
   }
 });
 
-app.post('/api/config', function (req, res) {  
+app.post('/api/config', function (req, res) {
+  configurationService.replaceConfiguration(req.body, db)
+    .then(_ => {
+      res.status(200).end();
+    })
+    .catch(error => {
+      handleError(res, error, "Failed to update configuration.", 500);
+    });
+});
+
+app.post('/api/config/change', function (req, res) {  
   configurationService.changeConfigurationValueByKey(req.body.key, req.body.value, db)
     .then(_ => {
       res.status(200).end();

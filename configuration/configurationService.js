@@ -1,5 +1,9 @@
 var configurationRepository = require("./configurationRepository")
 
+exports.replaceConfiguration = async function(configuration, db) {
+  await configurationRepository.replaceConfiguration(configuration, db);
+}
+
 exports.changeConfigurationValueByKey = async function(key, value, db) {
   let config = await configurationRepository.findConfiguration(db);
   if (config == null || config[key] == null) {
