@@ -21,12 +21,12 @@ exports.findOpenTasks = function(timeline) {
   return openTasks;
 }
 
-exports.findAllSixMonthTasks = function(timeline) {
-  let allTasks = timeline["Tasks"]
+exports.findActiveSixMonthTasks = function(allTasks) {
   let sixMonthTasks = []
   for (let currTask of allTasks) {
 
-    if (constants.SIX_MONTH_TASK_SUBJECT != currTask.Subject) {
+    if ((constants.SIX_MONTH_TASK_SUBJECT != currTask.Subject)
+      && (constants.TASK_STATUS_ACTIVE != currTask.Status)) {
       continue;
     }
     sixMonthTasks.push(currTask);
@@ -35,7 +35,31 @@ exports.findAllSixMonthTasks = function(timeline) {
   return sixMonthTasks;
 }
 
+exports.findPastActiveSixMonthTasks = function(timeline, now) {
+  let allTasks = this.findActiveSixMonthTasks(timeline);
+  let pastTasks = []
+  for (let currTask of allTasks) {
+    if (currTask.DueDate > now) {
+      continue;
+    }
+    pastTasks.push(currTask);
+  }
 
+  return pastTasks;
+}
+
+exports.findFutureActiveSixMonthTasks = function(timeline, now) {
+  let allTasks = this.findActiveSixMonthTasks(timeline);
+  let futureTasks = []
+  for (let currTask of allTasks) {
+    if (currTask.DueDate <= now) {
+      continue;
+    }
+    futureTasks.push(currTask);
+  }
+
+  return futureTasks;
+}
 
 exports.findInteractions = function(timeline) {
   return timeline["Interactions"]

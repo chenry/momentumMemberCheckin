@@ -30,23 +30,30 @@ exports.findTimelineOpenTasks = async function(accountNumber, db) {
 }
 
 exports.sixMonthSurveyTimelineTaskCompleted = async function(accountNumber, db) {
-  let constituent = await lookupService.findConstituentIdByAccountNumber(accountNumber, db);
+  const account = await lookupService.findAccount(accountNumber,db);
+  const constituent = await lookupService.findConstituentIdByAccountNumber(accountNumber, db);
+  const timeline = await this.findTimelineTasks(constituent.constituentId, db);
 
   // ====================================================================
   // Steps
-  // * delete all future 6month tasks
+  // * Archive all future 6month tasks
   // * Complete all past 6month tasks
   //    - give the a completed date
   // * Create new 6month task if none exist in the future
   //    - dueDate = (registrationDate + 6month) until it is in the future
   // ====================================================================
 
-  let now = new Date()
-  let nextDueDate = new Date(now.setMonth(now.getMonth() + 6))
-  let newTask = create6MonthTask(constituent.constituentId, nextDueDate);
+  const now = new Date()
+  const nextDueDate = taskUtil.findNext6MonthDueDateByAccount(account);
   let bloomerangBaseApiUrl = await configurationService.findBloomerangBaseApiUrl(db);
-  let jsonResponse = timelineRepository.createTimelineTask(newTask, bloomerangBaseApiUrl);
+  const pastTasks = timelineParser.findPastActiveSixMonthTasks(timeline,now);
+  timelineRepository.archiveTaskList(pastTasks, bloomerangBaseApiUrl);
 
+  const futureTasks = timelineParser.findFutureActiveSixMonthTasks(timeline,now);
+  timelineRepository.completeTaskList(futureTasks, bloomerangBaseApiUrl);
+
+  let newTask = create6MonthTask(constituent.constituentId, nextDueDate);
+  let jsonResponse = timelineRepository.createTimelineTask(newTask, bloomerangBaseApiUrl);
   return jsonResponse;
 }
 
