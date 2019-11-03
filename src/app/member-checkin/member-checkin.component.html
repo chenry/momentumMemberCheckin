@@ -24,14 +24,14 @@
   Image is valid
 </div>
 
-<div *ngIf=" !(findImages | async)" >
+<div *ngIf=" !(findImages$ | async)" >
   Image was found
 </div>
 
-<div *ngIf="!(memberHaveImage | async)">
+<div *ngIf="!(memberHaveImage$ | async)">
   member have image
 <div>
 
-<div *ngIf="(findSurveyURLs | async)">
+<div *ngIf="(findSurveyURLs$ | async)">
   URL:
 </div>

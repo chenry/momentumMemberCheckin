@@ -1,1 +1,29 @@
-<p>admin works!</p>
+<h2 class="admin__heading">Admin</h2>
+
+<form class="admin__form">
+  <p>
+  <mat-form-field>
+    <input placeholder="Bloomerang API URL" matInput type="text" [formControl]="bloomerangBaseApiUrl"/>
+  </mat-form-field>
+  </p>
+
+  <p>
+  <mat-form-field>
+    <input placeholder="Survey Checkin Only URL" matInput type="text" [formControl]="surveyCheckinOnlyUrl"/>
+  </mat-form-field>
+  </p>
+
+  <p>
+  <mat-form-field>
+    <input placeholder="Survey Checkin and 6Month Survey URL" matInput type="text" [formControl]="surveyCheckinAnd6MonthUrl"/>
+  </mat-form-field>
+  </p>
+</form>
+
+<div class="admin__controls">
+  <button
+    (click)="submitChanges()"
+    mat-raised-button
+    color="accent">Submit</button>
+</div>
+
