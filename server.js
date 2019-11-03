@@ -228,9 +228,9 @@ app.get("/api/images", function(req, res) {
 });
 
 app.get("/api/config", async function(req, res) {
-  let docs = await configurationService.findBloomerangBaseApiUrl(db);
-  if (docs) {
-    res.status(200).json(docs);
+  let config = await configurationService.getConfiguration(db);
+  if (config) {
+    res.status(200).json(config);
   }
   else {
     handleError(res, "could not find bloomerang base api url", "Failed to get config", 400);
