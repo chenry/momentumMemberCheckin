@@ -1,7 +1,13 @@
-<div [formGroup]="options">
+<div>
   <mat-form-field>
-    <input matInput type="password" placeholder="Password" formControlName="secretCode">
-    <mat-error *ngIf="options.get('password')?.invalid">Incorrect password!</mat-error>
+    <input [formControl]="password" matInput type="text" placeholder="Password" />
   </mat-form-field>
-  <button mat-raised-button color="primary" class="button--small">Login</button>
+
+  <button
+    (click)="submitAdminPassword()"
+    type="button"
+    mat-raised-button
+    color="primary"
+    class="button--small">Login</button>
+
 </div>
