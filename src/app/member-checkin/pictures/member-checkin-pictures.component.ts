@@ -36,7 +36,6 @@ export class MemberCheckinPicturesComponent implements OnInit {
             this.router.navigateByUrl('/');
           }
           return;
-          // console.log({isValidated});
         })
       )
       .subscribe(x => console.log(x));

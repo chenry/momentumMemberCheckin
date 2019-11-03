@@ -1,4 +1,3 @@
-import * as Server from 'server.js';
 import { Injectable } from '@angular/core';
 import { Image } from '@models/image';
 import { Observable, of as observableOf } from 'rxjs';
@@ -18,10 +17,7 @@ export class ImageService {
       imageId
     })
     .pipe(
-      map(result => {
-        console.log({result});
-        return result;
-      }),
+      map(result => result),
       catchError((err) => observableOf(false))
     );
   }

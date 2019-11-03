@@ -30,12 +30,12 @@ const routes: Routes = [
   {
     path: 'member-checkin/survey-selection',
     component: SurveySelectionComponent,
-    canActivate: [ MustBeMemberGuardService ]
+    // canActivate: [ MustBeMemberGuardService ]
   },
   {
     path: 'admin',
     component: AdminComponent,
-    canActivate: [ MustBeAdminGuardService ]
+    // canActivate: [ MustBeAdminGuardService ]
   },
   {
     path: 'admin/login',
