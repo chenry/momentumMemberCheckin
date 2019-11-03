@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MemberService } from '@services/member.service';
 import { Observable } from 'rxjs';
-import { Member } from '@models/member';
+import { AppstateService} from '../../appstate.service';
 import { Router } from '@angular/router';
 import { map } from 'rxjs/operators';
 
@@ -19,7 +19,7 @@ export class MemberCheckinCalculatorComponent implements OnInit, OnDestroy {
   );
   subscriptions = [];
 
-  constructor(public memberService: MemberService, public router: Router) {
+  constructor(public memberService: MemberService, public router: Router, public appStateService: AppstateService) {
   }
 
   ngOnInit() {
@@ -44,7 +44,8 @@ export class MemberCheckinCalculatorComponent implements OnInit, OnDestroy {
   public submitNumber() {
     /**
      * failing isn't working
-     * we need to set it up to return to home if member doesn't exist */
+     * we need to set it up to return to home if member doesn't exist
+     * */
 
     if (this.userId.length === 4) {
       console.log('why')
@@ -53,6 +54,7 @@ export class MemberCheckinCalculatorComponent implements OnInit, OnDestroy {
           map(isVerified => {
             console.log({isVerified})
             if (isVerified) {
+              this.appStateService.updateAccountNumber(this.userId);
               this.router.navigateByUrl('member-checkin/pictures');
             } else {
               this.router.navigateByUrl('/');
