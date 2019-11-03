@@ -24,7 +24,8 @@
       "@memberCheckin/*": ["src/app/member-checkin/*"],
       "@surveySelection/*": ["src/app/survey-selection/*"],
       "@models/*": ["src/models/*"],
-      "@services/*": ["src/services/*"]
+      "@services/*": ["src/services/*"],
+      "@guards/*": ["src/app/guards/*"]
     }
   },
   "angularCompilerOptions": {

@@ -16,6 +16,8 @@ import { AdminLoginComponent } from '@admin/login/login.component';
 
 import { MemberService } from '@services/member.service';
 import { AdminComponent } from '@admin/admin.component';
+import { MustBeAdminGuardService } from '@guards/mustBeAdminGuard.service';
+import { MustBeMemberGuardService } from '@guards/mustBeMemberGuard.service';
 
 @NgModule({
   declarations: [
@@ -38,7 +40,7 @@ import { AdminComponent } from '@admin/admin.component';
     BrowserAnimationsModule,
     MaterialModule
   ],
-  providers: [MemberService],
+  providers: [MemberService, MustBeAdminGuardService, MustBeMemberGuardService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
