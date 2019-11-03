@@ -11,7 +11,8 @@ import {AppState} from '@models/appstate';
   styleUrls: ['./survey-selection.component.scss']
 })
 export class SurveySelectionComponent implements OnInit, OnDestroy {
-  appState: AppState;
+  appState: AppState
+  isSixMonthDue: boolean;
   surveySixMonthEnabledUrl = new FormControl('');
   surveyCheckInOnlyUrl = new FormControl('');
 
@@ -25,17 +26,13 @@ export class SurveySelectionComponent implements OnInit, OnDestroy {
       this.surveyCheckInOnlyUrl.setValue(x.checkInOnly);
     });
 
+    this.surveyService.findWhatIsDue(this.appState.accountNumber).pipe().subscribe(x => {
+      this.isSixMonthDue = x.sixMonthTask;
+    });
+
   }
 
   ngOnDestroy(): void {
     this.appStateService.updateAccountNumber(-1);
-  }
-
-  redirectToShortSurvey() {
-
-  }
-
-  redirectToSixMonthSurvey() {
-
   }
 }

@@ -5,10 +5,7 @@
      [href]="surveyCheckInOnlyUrl.value">Checkin Only</a>
 </div>
 
-<br />
-<br />
-<div>
-
+<div *ngIf="(isSixMonthDue)">
   <a mat-raised-button
      color="primary"
      class="button__survey"
