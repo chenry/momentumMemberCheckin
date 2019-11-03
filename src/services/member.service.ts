@@ -39,14 +39,4 @@ export class MemberService {
     );
   }
 
-  public findSurveyURLs(accountNumber: string): Observable<string> {
-    return this.http.get<boolean>(`${environment.restUrl}/api/surveyURLs?accountNumber=${accountNumber}`)
-    .pipe(
-      map(result => result),
-      catchError((err) => {
-        console.error(err);
-        return observableOf(null);
-      })
-    );
-  }
 }

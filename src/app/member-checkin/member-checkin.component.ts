@@ -31,10 +31,6 @@ export class MemberCheckinComponent implements OnInit {
   public isVerified$: Observable<boolean> = this.memberService.verifyMember('3399')
     .pipe(isVerified => isVerified);
 
-  public findSurveyURLs$: Observable<string> = this.memberService.findSurveyURLs('3399')
-    .pipe(findSurveyURLs => findSurveyURLs);
-
-
 
   constructor(public memberService: MemberService, public imageService: ImageService) {
     console.log('run this get', this.memberService.getMember('3399'));

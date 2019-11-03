@@ -2,6 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import { AdminService } from '../../admin.service';
 import {Router} from '@angular/router';
+import { AuthService } from '@services/auth.service';
 
 @Component({
   selector: 'app-admin-login',
@@ -14,7 +15,7 @@ export class AdminLoginComponent implements OnInit, OnDestroy {
 
   subscriptions = [];
 
-  constructor(public adminService: AdminService, public router: Router) {}
+  constructor(public adminService: AdminService, public router: Router, private auth: AuthService) {}
 
   ngOnInit() {
 
@@ -33,6 +34,7 @@ export class AdminLoginComponent implements OnInit, OnDestroy {
         .subscribe(isValid => {
 
           if (isValid) {
+            this.auth.setAdminAuthenticated();
             this.router.navigateByUrl('admin');
           } else {
             this.router.navigateByUrl('/');

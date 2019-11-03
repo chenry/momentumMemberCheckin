@@ -26,6 +26,7 @@ export class MemberCheckinPicturesComponent implements OnInit {
 
   onImageClick(image: Image) {
     console.log({image});
+    // TODO
     // this.imageService.validateMemberImage(this.authService.getMemberId(), image._id)
     this.imageService.validateMemberImage(3399, image._id)
       .pipe(
