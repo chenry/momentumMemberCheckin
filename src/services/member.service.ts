@@ -1,7 +1,6 @@
 import * as Server from 'server.js';
 import { Injectable } from '@angular/core';
 import { Member } from '@models/member';
-import { Image } from '@models/image';
 import { Observable, of as observableOf } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { map, catchError } from 'rxjs/operators';
@@ -32,28 +31,6 @@ export class MemberService {
       catchError((err) => observableOf(false))
     );
   }
-  public validateMemberImage(accountNumber: string): Observable<boolean> {
-   return this.http.get<boolean>(`${this.restUrl}/api/member/login/${accountNumber}`)
-   .pipe(
-     map(result => result),
-     catchError((err) => observableOf(false))
-   );
- }
- public memberHaveImage(accountNumber: string): Observable<boolean>{
-  return this.http.get<boolean>(`${this.restUrl}/api/member/registration-check/${accountNumber}`)
-  .pipe(
-    map(result => result),
-    catchError((err) => observableOf(false))
-  );
- }
-
- public findImages(accountNumber: string): Observable<boolean> {
-   return this.http.get<boolean>(`${this.restUrl}/api/images`)
-   .pipe(
-     map(result => result),
-     catchError((err) => observableOf(false))
-   );
- }
 
   public verifyMember(accountNumber: string): Observable<boolean> {
     return this.http.get<boolean>(`${this.restUrl}/api/member/verify/${accountNumber}`)
