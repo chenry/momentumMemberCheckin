@@ -74,20 +74,12 @@
 <div class="admin__box">
   <h2 class="admin__box__subheading">Image URL Updates</h2>
 
-  <div *ngFor="let formControl of formControls">
+  <div *ngFor="let formControl of formControls; index as i">
   <mat-form-field>
     <input [formControl]="formControl" matInput />
   </mat-form-field>
-
+    <button mat-raised-button color="accent" (click)="updateImage(i)" class="button--small">Submit</button>
   </div>
-
-  <button
-    (click)="updateImageUrls()"
-    type="button"
-    color="primary"
-    mat-raised-button
-    class="button--small"
-    color="accent">Update</button>
 
 </div>
 

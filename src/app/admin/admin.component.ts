@@ -4,6 +4,8 @@ import { ImageService } from '@services/image.service';
 import {Observable} from 'rxjs';
 import {Config} from '@models/config';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
+import { Image } from '@models/image';
+
 import { map } from 'rxjs/operators';
 
 @Component({
@@ -26,24 +28,14 @@ export class AdminComponent implements OnInit {
     new FormControl(),
     new FormControl(),
     new FormControl()
-  ]
+  ];
+
+  imageList = [];
   imageUrl = new FormControl('');
   config: Config;
   public resetUserImageAccountNumber = new FormControl('');
 
-
-  public images$: Observable<Image[]> = this.imageService.findImages()
-  .pipe(
-    map(images => {
-        for (let i = 0; i < images.length; i++) {
-          this.formControls[i].setValue(images[i].url);
-        }
-        return;
-      })
-  ).subscribe(x => x);
-
-
-  constructor(public adminService: AdminService, 
+  constructor(public adminService: AdminService,
               formBuilder: FormBuilder,
               public imageService: ImageService) { }
 
@@ -99,6 +91,31 @@ export class AdminComponent implements OnInit {
      this.surveyCheckinAnd6MonthUrl.setValue(x.surveyCheckinAnd6MonthUrl);
      this.announcementMessage.setValue(x.announcementMessage);
    });
+
+
+   this.imageService.findImages()
+      .pipe(
+        map(images => {
+          for (let i = 0; i < images.length; i++) {
+            this.formControls[i].setValue(images[i].url);
+          }
+          this.imageList = images;
+        })
+      ).subscribe(x => x);
+ }
+
+ updateImage(index: number) {
+
+    const selectedImage = this.imageList[index];
+    const selectedControl = this.formControls[index];
+
+    const updateImageReq = {
+      imageId: selectedImage._id,
+      imageUrl: selectedControl.value
+    }
+
+    console.log({updateImageReq})
+    this.imageService.updateImage(updateImageReq).subscribe(x => x);
  }
 
 }
