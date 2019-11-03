@@ -31,7 +31,7 @@ export class MemberCheckinPicturesComponent implements OnInit {
       .pipe(
         map(isValidated => {
           if (isValidated) {
-            this.router.navigateByUrl('/survey-selection');
+            this.router.navigateByUrl('member-checkin/survey-selection');
           } else {
             this.router.navigateByUrl('/');
           }
