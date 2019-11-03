@@ -6,6 +6,7 @@ import {AppstateService} from '../appstate.service';
 import {AppState} from '@models/appstate';
 import { AuthService } from '@services/auth.service';
 import { AdminService } from '../admin.service';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-survey-selection',
@@ -20,6 +21,7 @@ export class SurveySelectionComponent implements OnInit, OnDestroy {
   surveyCheckInOnlyUrl = new FormControl('');
 
   constructor(
+    public snackBar: MatSnackBar,
     public surveyService: SurveyService,
     public appStateService: AppstateService,
     public adminService: AdminService,
@@ -38,13 +40,17 @@ export class SurveySelectionComponent implements OnInit, OnDestroy {
     });
 
     this.adminService.getConfig().pipe().subscribe(config => {
-      this.announcementMessage = config.announcementMessage;
+      if (config) {
+        this.announcementMessage = config.announcementMessage;
+        this.snackBar.open(this.announcementMessage);
+      }
     });
 
   }
 
   ngOnDestroy(): void {
     this.appStateService.updateAccountNumber(-1);
+    this.snackBar.dismiss();
     this.auth.deauthenticate();
   }
 }
