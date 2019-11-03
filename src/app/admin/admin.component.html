@@ -13,38 +13,38 @@
     <mat-form-field>
       <input [formControl]="surveyCheckinAnd6MonthUrl" matInput type="text" placeholder="Survey Checkin and 6Month Survey URL" />
     </mat-form-field>
-    <button type="button" mat-raised-button color="primary" class="button--small">Update</button>
+
+  <button
+    (click)="submitUrlChanges()"
+    type="button"
+    mat-raised-button
+    color="primary"
+    class="button--small">Submit</button>
 </div>
 
 <div class="admin__box">
   <h2 class="admin__box__subheading">Reset User Image</h2>
     <mat-form-field>
-      <input [formControl]="resetUserImage" matInput type="text" placeholder="Account Number" />
+      <input [formControl]="resetUserImageAccountNumber" matInput type="text" placeholder="Account Number" />
     </mat-form-field>
-    <button type="button" mat-raised-button color="primary" class="button--small">Reset</button>
+    <button
+      (click)="submitUserResetImage()"
+      type="button"
+      mat-raised-button
+      color="primary"
+      class="button--small">Reset</button>
 </div>
 
 <div class="admin__box">
     <h2 class="admin__box__subheading">Announcement</h2>
-    <mat-form-field>
-      <input matInput [matDatepicker]="startDate" placeholder="Start Date" disabled>
-      <mat-datepicker-toggle matSuffix [for]="startDate"></mat-datepicker-toggle>
-      <mat-datepicker #startDate disabled="false"></mat-datepicker>
-    </mat-form-field>
-    <br />
-    <mat-form-field>
-      <input matInput [matDatepicker]="dp3" placeholder="End Date" disabled>
-      <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
-      <mat-datepicker #dp3 disabled="false"></mat-datepicker>
-    </mat-form-field>
 
     <br />
 
     <mat-form-field>
-      <textarea matInput placeholder="Announcement" rows="5" cols="100"></textarea>
+      <textarea [formControl]="announcements" matInput placeholder="Announcement" rows="5" cols="100"></textarea>
     </mat-form-field>
   <button
-    (click)="submitChanges()"
+    (click)="submitAnnouncementChanges()"
     type="button"
     color="primary"
     mat-raised-button

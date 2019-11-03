@@ -34,4 +34,14 @@ export class AdminService {
       );
   }
 
+  public submitUserResetImage(requestBody: any): Observable<void> {
+    return this.http.post(`${this.restUrl}/api/admin/resetUserRegistration`, requestBody)
+      .pipe(
+        catchError((err) => {
+          console.error(err);
+          return observableOf(null);
+        })
+      );
+  }
+
 }

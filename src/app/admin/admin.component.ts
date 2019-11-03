@@ -13,16 +13,16 @@ export class AdminComponent implements OnInit {
   bloomerangBaseApiUrl = new FormControl('');
   surveyCheckinOnlyUrl = new FormControl('');
   surveyCheckinAnd6MonthUrl = new FormControl('');
+  announcements =  new FormControl('');
   config: Config;
-  public resetUserImage = new FormControl('');
-  announcements: FormGroup;
+  public resetUserImageAccountNumber = new FormControl('');
 
   constructor(public adminService: AdminService, formBuilder: FormBuilder) { }
 
   public config$: Observable<Config> = this.adminService.getConfig()
     .pipe(config => config);
 
-  public submitChanges() {
+  public submitUrlChanges() {
 
     let newConfig;
     newConfig = new Config();
@@ -32,10 +32,28 @@ export class AdminComponent implements OnInit {
     newConfig.surveyCheckinAnd6MonthUrl = this.surveyCheckinAnd6MonthUrl.value;
 
     this.adminService.updateConfig(newConfig).subscribe(
-      x => console.log({x}));
+      x => x);
   }
 
- ngOnInit() {
+  submitUserResetImage() {
+    // submit the reset images (resetUserImageAccountNumber)
+
+    const userResetImageRequest = {
+      // tslint:disable-next-line:radix
+      accountNumber: parseInt(this.resetUserImageAccountNumber.value)
+    };
+
+
+    this.adminService.submitUserResetImage(userResetImageRequest).subscribe(
+      x => x);
+  }
+
+  submitAnnouncementChanges() {
+    // submit the announcement changes (announcements)
+  }
+
+
+  ngOnInit() {
    this.adminService.getConfig().pipe().subscribe(x => {
      this.bloomerangBaseApiUrl.setValue(x.bloomerangBaseApiUrl);
      this.surveyCheckinOnlyUrl.setValue(x.surveyCheckinOnlyUrl);
