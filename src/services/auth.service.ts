@@ -4,14 +4,24 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class AuthService {
+  memberAuthenticated = false;
+  adminAuthenticated = false;
 
   constructor() { }
 
   isAdminAuthenticated(): boolean { 
-    return false;
+    return this.adminAuthenticated;
+  }
+
+  setAdminAuthenticated(): void {
+    this.adminAuthenticated = true;
   }
 
   isMemberAuthenticated(): boolean {
-    return false;
+    return this.memberAuthenticated;
+  }
+
+  setMemberAuthenticated(): void {
+    this.memberAuthenticated = true;
   }
 }
