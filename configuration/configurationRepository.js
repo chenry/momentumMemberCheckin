@@ -12,5 +12,7 @@ exports.findConfiguration = async function(db) {
 exports.replaceConfiguration = async function(entity, db) {
   let id = entity._id;
 
+  delete entity._id;
+
   await db.collection(CONFIG_COLLECTION).replaceOne({ _id: id }, entity);
 }

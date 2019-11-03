@@ -22,7 +22,7 @@ exports.changeConfigurationValueByKey = async function(key, value, db) {
 
   config[key] = value;
 
-  await configurationRepository.replaceConfiguration(config._id, config, db);
+  await configurationRepository.replaceConfiguration(config, db);
 }
 
 exports.findBloomerangBaseApiUrl = async function(db) {

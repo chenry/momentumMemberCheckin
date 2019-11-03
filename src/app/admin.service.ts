@@ -44,4 +44,14 @@ export class AdminService {
       );
   }
 
+  public submitConfigChangeByKeyAndValue(requestBody: any): Observable<void> {
+    return this.http.post(`${this.restUrl}/api/config/change`, requestBody)
+      .pipe(
+        catchError((err) => {
+          console.error(err);
+          return observableOf(null);
+        })
+      );
+  }
+
 }

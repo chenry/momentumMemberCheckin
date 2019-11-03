@@ -13,7 +13,7 @@ export class AdminComponent implements OnInit {
   bloomerangBaseApiUrl = new FormControl('');
   surveyCheckinOnlyUrl = new FormControl('');
   surveyCheckinAnd6MonthUrl = new FormControl('');
-  announcements =  new FormControl('');
+  announcementMessage =  new FormControl('');
   config: Config;
   public resetUserImageAccountNumber = new FormControl('');
 
@@ -50,6 +50,14 @@ export class AdminComponent implements OnInit {
 
   submitAnnouncementChanges() {
     // submit the announcement changes (announcements)
+    const configChangeByKeyAndValueReq = {
+      // tslint:disable-next-line:radix
+      key: 'announcementMessage',
+      value: this.announcementMessage.value
+    };
+
+    this.adminService.submitConfigChangeByKeyAndValue(configChangeByKeyAndValueReq).subscribe(
+      x => x);
   }
 
 
@@ -58,6 +66,7 @@ export class AdminComponent implements OnInit {
      this.bloomerangBaseApiUrl.setValue(x.bloomerangBaseApiUrl);
      this.surveyCheckinOnlyUrl.setValue(x.surveyCheckinOnlyUrl);
      this.surveyCheckinAnd6MonthUrl.setValue(x.surveyCheckinAnd6MonthUrl);
+     this.announcementMessage.setValue(x.announcementMessage);
    });
  }
 
