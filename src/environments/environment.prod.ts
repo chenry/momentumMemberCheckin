@@ -1,4 +1,6 @@
 export const environment = {
   production: true,
-  restUrl: ''
+  restUrl: '',
+  defaultMemberAuthenticated: false,
+  defaultAdminAuthenticated: false
 };
