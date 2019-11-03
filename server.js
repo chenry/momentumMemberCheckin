@@ -133,23 +133,15 @@ app.get("/api/member/:accountNumber/timeline/tasks/open", function(req, res) {
     });
 });
 
-app.post("/api/member/:accountNumber/timeline/6MonthSurveyTask/completed", async function(req, res) {
-
-  try {
-    if (req.body && req.body.accountNumber) {
-      console.log(`Account Number Received: ${req.body.accountNumber}`);
-    } else {
-      throw new Error("Account Number missing")
-    }
-
-    let jsonPayload = await timelineService.sixMonthSurveyTimelineTaskCompleted(req.body.accountNumber, db);
-    res.status(200).json(jsonPayload)
-  } catch (err) {
-    handleError(res, err.message, "Account Number is required.");
-  }
+app.post("/api/member/:accountNumber/timeline/6MonthSurveyTask/completed", function(req, res) {
+  timelineService.sixMonthSurveyTimelineTaskCompleted(req.body.accountNumber, db)
+    .then(payload => {
+      res.status(200).json(payload);
+    })
+    .catch(error => {
+      handleError(res, error, "Failed to open constituent timeline tasks.", 500);
+    });
 });
-
-
 
 app.get('/api/member/lookup/:accountNumber', function(req, res) {
   lookupService.findAccount(req.params.accountNumber, db)
