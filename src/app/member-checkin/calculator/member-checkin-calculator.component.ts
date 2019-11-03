@@ -29,7 +29,6 @@ export class MemberCheckinCalculatorComponent implements OnInit, OnDestroy {
   }
 
   public getNumber(v: string) {
-    console.log(v);
     if (this.userId.length < 4) {
       this.userId = this.userId + v;
     }

@@ -1,4 +1,4 @@
-$item-padding: 5px 0;
+$item-padding: 25px 0;
 
 .calculator__heading {
   margin: 0 auto;
@@ -31,6 +31,7 @@ $item-padding: 5px 0;
   grid-column: 2;
   grid-row: 4;
   margin: 0 auto;
+  padding: 10px;
 }
 
 .mat-fab {
@@ -52,6 +53,6 @@ $item-padding: 5px 0;
   align-items: center;
   display: flex;
   justify-content: space-between;
-  padding: $item-padding;
+  margin: $item-padding;
 }
 
