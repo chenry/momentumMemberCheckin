@@ -33,6 +33,6 @@ export class SurveySelectionComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.appStateService.updateAccountNumber('-1');
+    this.appStateService.updateAccountNumber(-1);
   }
 }

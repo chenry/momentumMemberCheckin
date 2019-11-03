@@ -13,7 +13,7 @@ export class SurveyService {
 
   constructor(private http: HttpClient) { }
 
-  public findSurveyURLs(accountNumber: string): Observable<SurveyUrls> {
+  public findSurveyURLs(accountNumber: number): Observable<SurveyUrls> {
     return this.http.get<SurveyUrls>(`${environment.restUrl}/api/surveyUrls?accountNumber=${accountNumber}`)
       .pipe(
         map(result => result),
@@ -24,7 +24,7 @@ export class SurveyService {
       );
   }
 
-  public findWhatIsDue(accountNumber: string): Observable<WhatIsDueResponse> {
+  public findWhatIsDue(accountNumber: number): Observable<WhatIsDueResponse> {
     return this.http.get<SurveyUrls>(`${environment.restUrl}/api/member/${accountNumber}/timeline/tasks/open`)
       .pipe(
         map(result => result),

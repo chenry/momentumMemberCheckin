@@ -31,29 +31,6 @@ export class MemberService {
     );
   }
 
-  public validateMemberImage(accountNumber: string): Observable<boolean> {
-   return this.http.get<boolean>(`${environment.restUrl}/api/member/login/${accountNumber}`)
-   .pipe(
-     map(result => result),
-     catchError((err) => observableOf(false))
-   );
- }
- public memberHaveImage(accountNumber: string): Observable<boolean>{
-  return this.http.get<boolean>(`${environment.restUrl}/api/member/registration-check/${accountNumber}`)
-  .pipe(
-    map(result => result),
-    catchError((err) => observableOf(false))
-  );
- }
-
- public findImages(accountNumber: string): Observable<boolean> {
-   return this.http.get<boolean>(`${environment.restUrl}/api/images`)
-   .pipe(
-     map(result => result),
-     catchError((err) => observableOf(false))
-   );
- }
-
   public verifyMember(accountNumber: string): Observable<boolean> {
     return this.http.get<boolean>(`${environment.restUrl}/api/member/verify/${accountNumber}`)
     .pipe(

@@ -1,4 +1,5 @@
 export class Image {
-  public id: string;
-  public href: string;
+  // tslint:disable-next-line: variable-name
+  public _id: string;
+  public url: string;
 }

@@ -1,31 +1,50 @@
-import { Component, OnInit } from '@angular/core';
-import {AppstateService} from '../../appstate.service';
-import {AppState} from '@models/appstate';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { ImageService } from '@services/image.service';
+import { Observable } from 'rxjs';
+import { Image } from '@models/image';
+import { map } from 'rxjs/operators';
+import { Router } from '@angular/router';
+import { AppstateService } from 'src/app/appstate.service';
+import { AppState } from '@models/appstate';
 
 @Component({
   selector: 'app-member-checkin-pictures',
   templateUrl: './member-checkin-pictures.component.html',
   styleUrls: ['./member-checkin-pictures.component.scss']
 })
-export class MemberCheckinPicturesComponent implements OnInit {
-  appState: AppState;
+export class MemberCheckinPicturesComponent implements OnInit, OnDestroy {
 
-  public tiles = [
-    {img: "http://placekitten.com/200/300"},
-    {img: "http://placekitten.com/200/300"},
-    {img: "http://placekitten.com/200/300"},
-    {img: "http://placekitten.com/200/500"},
-    {img: "http://placekitten.com/500/300"},
-    {img: "http://placekitten.com/200/300"},
-    {img: "http://placekitten.com/200/300"},
-    {img: "http://placekitten.com/300/200"},
-    {img: "http://placekitten.com/200/300"}
-    ];
-  constructor(public appStateService: AppstateService) { }
+  public images$: Observable<Image[]> = this.imageService.findImages();
+  public subscriptions: any[] = [];
+  public appState: AppState;
+  constructor(
+    public appStateService: AppstateService,
+    public imageService: ImageService,
+    public router: Router
+  ) { }
 
   ngOnInit() {
     this.appStateService.appStateSubject.subscribe(x => this.appState = x);
     console.log(`AccountNumber: ${this.appState.accountNumber}`);
   }
 
+  onImageClick(image: Image) {
+    console.log({image});
+    this.subscriptions.push(this.imageService.validateMemberImage(this.appState.accountNumber, image._id)
+      .pipe(
+        map(isValidated => {
+          if (isValidated) {
+            this.router.navigateByUrl('member-checkin/survey-selection');
+          } else {
+            this.router.navigateByUrl('/');
+          }
+          return;
+        })
+      )
+      .subscribe(x => console.log(x)));
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
+  }
 }

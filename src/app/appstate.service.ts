@@ -16,12 +16,12 @@ export class AppstateService {
   constructor() {
     this.appState = new AppState();
     this.appState = {
-      accountNumber: '-1'
+      accountNumber: -1
     };
     this.appStateSubject = new BehaviorSubject<AppState>(this.appState);
   }
 
-  public updateAccountNumber(accountNumber: string) {
+  public updateAccountNumber(accountNumber: number) {
     this.appState.accountNumber = accountNumber;
     this.appStateSubject.next(this.appState);
   }

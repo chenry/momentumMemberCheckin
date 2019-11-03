@@ -10,7 +10,7 @@ export class AuthService {
 
   constructor() { }
 
-  isAdminAuthenticated(): boolean { 
+  isAdminAuthenticated(): boolean {
     return this.adminAuthenticated;
   }
 

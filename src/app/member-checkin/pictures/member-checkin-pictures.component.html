@@ -1,17 +1,12 @@
 <p>member-checkin-pictures works!</p>
 <p>Account Number: {{ appState.accountNumber}}</p>
-
-<button
-  (click)="goToSurvey()"
-  type="button"
-  mat-raised-button
-  color="primary"
-  class="button--small">Go To Survey</button>
-
 <div class="grid-list">
-  <div class="grid-tile" *ngFor="let tile of tiles" >
+  <button mat-raised-button
+          class="grid-tile"
+          *ngFor="let image of (images$ | async)"
+          (click)="onImageClick(image)">
+    <img class="grid-img"
+         [src]="image.url" />
 
-        <img  class="grid-img" src="{{tile.img}}" alt="photo of a cat" />
-
-  </div>
+  </button>
 </div>

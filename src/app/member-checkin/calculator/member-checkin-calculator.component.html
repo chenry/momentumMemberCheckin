@@ -13,12 +13,19 @@
               color="primary"
               value="number">{{ number }}</button>
   </div>
+  <div class="checkin__calculator__item--last">
+    <button type="button"
+              (click)="getNumber(0)"
+              mat-fab
+              color="primary"
+              value="0">0</button>
+  </div>
 </div>
 
 <div class="calculator__controls">
-  <button (click)="deleteNumber()" mat-raised-button color="warn">Backspace</button>
+  <button (click)="deleteNumber()" mat-raised-button color="warn">&#8592; Backspace</button>
   <button
           (click)="submitNumber()"
           mat-raised-button
-          color="accent">Submit</button>
+          color="accent">&#10004; Submit</button>
 </div>
