@@ -2,38 +2,45 @@
 
 <div class="admin__box">
   <h2 class="admin__box__subheading">Survey URLs</h2>
-  <mat-form-field>
-    <input [formControl]="bloomerangBaseApiUrl" matInput type="text" placeholder="Bloomerang API URL" />
-  </mat-form-field>
+    <div class="admin__form-field">
+      <mat-form-field>
+          <input [formControl]="bloomerangBaseApiUrl" matInput type="text" placeholder="Bloomerang API URL" />
+        </mat-form-field>
+    </div>
+      <br />
+      <div class="admin__form-field">
+          <mat-form-field>
+              <input [formControl]="surveyCheckinOnlyUrl" matInput type="text" placeholder="Survey Checkin Only URL" />
+            </mat-form-field>
+      </div>
+      <br />
+      <div class="admin__form-field">
+          <mat-form-field>
+              <input [formControl]="surveyCheckinAnd6MonthUrl" matInput type="text" placeholder="Survey Checkin and 6Month Survey URL" />
+            </mat-form-field>
+            <button
+            (click)="submitUrlChanges()"
+            type="button"
+            mat-raised-button
+            color="primary"
+            class="button--small">Submit</button>
+      </div>
 
-  <br />
-  <mat-form-field>
-    <input [formControl]="surveyCheckinOnlyUrl" matInput type="text" placeholder="Survey Checkin Only URL" />
-  </mat-form-field>
-  <br />
-  <mat-form-field>
-    <input [formControl]="surveyCheckinAnd6MonthUrl" matInput type="text" placeholder="Survey Checkin and 6Month Survey URL" />
-  </mat-form-field>
-
-  <button
-    (click)="submitUrlChanges()"
-    type="button"
-    mat-raised-button
-    color="primary"
-    class="button--small">Submit</button>
 </div>
 
 <div class="admin__box">
   <h2 class="admin__box__subheading">Reset User Image</h2>
-  <mat-form-field>
-    <input [formControl]="resetUserImageAccountNumber" matInput type="text" placeholder="Account Number" />
-  </mat-form-field>
-  <button
-    (click)="submitUserResetImage()"
-    type="button"
-    mat-raised-button
-    color="primary"
-    class="button--small">Reset</button>
+    <div class="admin__form-field">
+      <mat-form-field>
+        <input [formControl]="resetUserImageAccountNumber" matInput type="text" placeholder="Account Number" />
+      </mat-form-field>
+      <button
+        (click)="submitUserResetImage()"
+        type="button"
+        mat-raised-button
+        color="primary"
+        class="button--small">Reset</button>
+    </div>
 </div>
 
 <div class="admin__box">
@@ -41,16 +48,19 @@
 
   <br />
 
-  <mat-form-field>
-    <textarea [formControl]="announcementMessage" matInput placeholder="Announcement" rows="5" cols="100"></textarea>
-  </mat-form-field>
-  <button
-    (click)="submitAnnouncementChanges()"
-    type="button"
-    color="primary"
-    mat-raised-button
-    class="button--small"
-    color="accent">Submit</button>
+    <div class="admin__form-field">
+      <mat-form-field>
+        <textarea [formControl]="announcementMessage" matInput placeholder="Announcement" rows="5" cols="100"></textarea>
+      </mat-form-field>
+      <button
+      (click)="submitAnnouncementChanges()"
+      type="button"
+      color="primary"
+      mat-raised-button
+      class="button--small"
+      color="accent">Submit</button>
+    </div>
+
 
 </div>
 
@@ -58,11 +68,11 @@
 <div class="admin__box">
   <h2 class="admin__box__subheading">Image URL Updates</h2>
 
-  <div *ngFor="let formControl of formControls; index as i">
+  <div *ngFor="let formControl of formControls; index as i" class="admin__form-field">
     <mat-form-field>
       <input [formControl]="formControl" matInput />
     </mat-form-field>
-    <button mat-raised-button color="accent" (click)="updateImage(i)" class="button--small">Submit</button>
+      <button mat-raised-button color="accent" (click)="updateImage(i)" class="button--small">Submit</button>
   </div>
 
 </div>
