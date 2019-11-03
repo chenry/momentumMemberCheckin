@@ -33,6 +33,7 @@ export class MemberCheckinPicturesComponent implements OnInit, OnDestroy {
     this.subscriptions.push(this.imageService.validateMemberImage(this.appState.accountNumber, image._id)
       .pipe(
         map(isValidated => {
+          console.log(`Is VAlidated: ${isValidated}`);
           if (isValidated) {
             this.router.navigateByUrl('member-checkin/survey-selection');
           } else {
