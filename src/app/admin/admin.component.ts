@@ -60,7 +60,6 @@ export class AdminComponent implements OnInit {
       x => x);
   }
 
-
   ngOnInit() {
    this.adminService.getConfig().pipe().subscribe(x => {
      this.bloomerangBaseApiUrl.setValue(x.bloomerangBaseApiUrl);

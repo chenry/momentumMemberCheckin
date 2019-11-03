@@ -88,7 +88,7 @@ app.post('/api/admin/login', function(req, res) {
     }
     else {
       res.status(401).end();
-    }  
+    }
   }
   catch (err) {
     handleError(null, err, 'Failed to login.', 401);
@@ -247,7 +247,7 @@ app.post('/api/config', function (req, res) {
     });
 });
 
-app.post('/api/config/change', function (req, res) {  
+app.post('/api/config/change', function (req, res) {
   configurationService.changeConfigurationValueByKey(req.body.key, req.body.value, db)
     .then(_ => {
       res.status(200).end();
@@ -335,3 +335,7 @@ app.delete("/api/contacts/:id", function(req, res) {
     }
   });
 });
+
+app.get('*', function(req, res) {
+  res.sendFile(`${distDir}/index.html`)
+})
