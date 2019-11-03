@@ -25,11 +25,52 @@ export class MemberService {
     );
   }
 
+  public isSomethingDue(accountNumber: string): Observable<boolean> {
+    return this.http.get<boolean>(`${this.restUrl}/api/member/${accountNumber}/timeline/taks/open`)
+    .pipe(
+      map(result => result),
+      catchError((err) => observableOf(false))
+    );
+  }
+  public validateMemberImage(accountNumber: string): Observable<boolean> {
+   return this.http.get<boolean>(`${this.restUrl}/api/member/login/${accountNumber}`)
+   .pipe(
+     map(result => result),
+     catchError((err) => observableOf(false))
+   );
+ }
+ public memberHaveImage(accountNumber: string): Observable<boolean>{
+  return this.http.get<boolean>(`${this.restUrl}/api/member/registration-check/${accountNumber}`)
+  .pipe(
+    map(result => result),
+    catchError((err) => observableOf(false))
+  );
+ }
+
+ public findImages(accountNumber: string): Observable<boolean> {
+   return this.http.get<boolean>(`${this.restUrl}/api/images`)
+   .pipe(
+     map(result => result),
+     catchError((err) => observableOf(false))
+   );
+ }
+
   public verifyMember(accountNumber: string): Observable<boolean> {
     return this.http.get<boolean>(`${this.restUrl}/api/member/verify/${accountNumber}`)
     .pipe(
       map(result => result),
       catchError((err) => observableOf(false))
+    );
+  }
+
+  public findSurveyURLs(accountNumber: string): Observable<string> {
+    return this.http.get<boolean>(`${this.restUrl}/api/surveyURLs?accountNumber=${accountNumber}`)
+    .pipe(
+      map(result => result),
+      catchError((err) => {
+        console.error(err);
+        return observableOf(null);
+      })
     );
   }
 }

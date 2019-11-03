@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { MaterialModule } from './material.module';
 
@@ -12,8 +12,10 @@ import { MemberCheckinComponent } from './member-checkin/member-checkin.componen
 import { SurveySelectionComponent } from '@surveySelection/survey-selection.component';
 import { MemberCheckinPicturesComponent } from '@memberCheckin/pictures/member-checkin-pictures.component';
 import { MemberCheckinCalculatorComponent } from '@memberCheckin/calculator/member-checkin-calculator.component';
+import { AdminLoginComponent } from '@admin/login/login.component';
 
 import { MemberService } from '@services/member.service';
+import { AdminComponent } from '@admin/admin.component';
 
 @NgModule({
   declarations: [
@@ -22,13 +24,16 @@ import { MemberService } from '@services/member.service';
     MemberCheckinComponent,
     SurveySelectionComponent,
     MemberCheckinCalculatorComponent,
-    MemberCheckinPicturesComponent
+    MemberCheckinPicturesComponent,
+    AdminLoginComponent,
+    AdminComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
     MaterialModule

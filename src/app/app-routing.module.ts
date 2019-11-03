@@ -5,6 +5,8 @@ import { MemberCheckinComponent } from '@memberCheckin/member-checkin.component'
 import { SurveySelectionComponent } from '@surveySelection/survey-selection.component';
 import { MemberCheckinPicturesComponent } from '@memberCheckin/pictures/member-checkin-pictures.component';
 import { MemberCheckinCalculatorComponent } from '@memberCheckin/calculator/member-checkin-calculator.component';
+import { AdminLoginComponent } from '@admin/login/login.component';
+import { AdminComponent } from '@admin/admin.component';
 
 const routes: Routes = [
   {
@@ -26,7 +28,16 @@ const routes: Routes = [
   {
     path: 'member-checkin/survey-selection',
     component: SurveySelectionComponent
+  },
+  {
+    path: 'admin',
+    component: AdminComponent
+  },
+  {
+    path: 'admin/login',
+    component: AdminLoginComponent
   }
+
 ];
 
 @NgModule({
