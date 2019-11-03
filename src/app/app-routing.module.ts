@@ -7,6 +7,8 @@ import { MemberCheckinPicturesComponent } from '@memberCheckin/pictures/member-c
 import { MemberCheckinCalculatorComponent } from '@memberCheckin/calculator/member-checkin-calculator.component';
 import { AdminLoginComponent } from '@admin/login/login.component';
 import { AdminComponent } from '@admin/admin.component';
+import { MustBeAdminGuardService } from '@guards/mustBeAdminGuard.service';
+import { MustBeMemberGuardService } from '@guards/mustBeMemberGuard.service';
 
 const routes: Routes = [
   {
@@ -27,17 +29,18 @@ const routes: Routes = [
   },
   {
     path: 'member-checkin/survey-selection',
-    component: SurveySelectionComponent
+    component: SurveySelectionComponent,
+    canActivate: [ MustBeMemberGuardService ]
   },
   {
     path: 'admin',
-    component: AdminComponent
+    component: AdminComponent,
+    canActivate: [ MustBeAdminGuardService ]
   },
   {
     path: 'admin/login',
     component: AdminLoginComponent
   }
-
 ];
 
 @NgModule({
