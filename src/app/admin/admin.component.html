@@ -1,30 +1,54 @@
-<h2 class="admin__heading">Admin</h2>
+<h1>Admin</h1>
 
-<form class="admin__form">
-  <p>
-  <mat-form-field>
-    <input placeholder="Bloomerang API URL" matInput type="text" [formControl]="bloomerangBaseApiUrl" class="admin_form_entry"/>
-  </mat-form-field>
-  </p>
-
-  <p>
-  <mat-form-field>
-    <input placeholder="Survey Checkin Only URL" matInput type="text" [formControl]="surveyCheckinOnlyUrl" class="admin_form_entry"/>
-  </mat-form-field>
-  </p>
-
-  <p>
-  <mat-form-field>
-    <input placeholder="Survey Checkin and 6Month Survey URL" matInput type="text" [formControl]="surveyCheckinAnd6MonthUrl" class="admin_form_entry"/>
-  </mat-form-field>
-  </p>
-
-</form>
-
-<div class="admin__controls">
-  <button
-    (click)="submitChanges()"
-    mat-raised-button
-    color="accent">Submit</button>
+<div class="admin__box">
+  <h2 class="admin__box__subheading">Survey URLs</h2>
+    <mat-form-field>
+      <input [formControl]="bloomerangBaseApiUrl" matInput type="text" placeholder="Bloomerang API URL" />
+    </mat-form-field>
+    <mat-form-field>
+      <input [formControl]="surveyCheckinOnlyUrl" matInput type="text" placeholder="Survey Checkin Only URL" />
+    </mat-form-field>
+    <button type="button" mat-raised-button color="primary" class="button--small">Update</button>
+    <br />
+    <mat-form-field>
+      <input [formControl]="surveyCheckinAnd6MonthUrl" matInput type="text" placeholder="Survey Checkin and 6Month Survey URL" />
+    </mat-form-field>
+    <button type="button" mat-raised-button color="primary" class="button--small">Update</button>
 </div>
 
+<div class="admin__box">
+  <h2 class="admin__box__subheading">Reset User Image</h2>
+    <mat-form-field>
+      <input [formControl]="resetUserImage" matInput type="text" placeholder="Account Number" />
+    </mat-form-field>
+    <button type="button" mat-raised-button color="primary" class="button--small">Reset</button>
+</div>
+
+<div class="admin__box">
+    <h2 class="admin__box__subheading">Announcement</h2>
+    <mat-form-field>
+      <input matInput [matDatepicker]="startDate" placeholder="Start Date" disabled>
+      <mat-datepicker-toggle matSuffix [for]="startDate"></mat-datepicker-toggle>
+      <mat-datepicker #startDate disabled="false"></mat-datepicker>
+    </mat-form-field>
+    <br />
+    <mat-form-field>
+      <input matInput [matDatepicker]="dp3" placeholder="End Date" disabled>
+      <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
+      <mat-datepicker #dp3 disabled="false"></mat-datepicker>
+    </mat-form-field>
+
+    <br />
+
+    <mat-form-field>
+      <textarea matInput placeholder="Announcement" rows="5" cols="100"></textarea>
+    </mat-form-field>
+  <button
+    (click)="submitChanges()"
+    type="button"
+    color="primary"
+    mat-raised-button
+    class="button--small"
+    color="accent">Submit</button>
+
+  </div>

@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {AdminService} from '../admin.service';
 import {Observable} from 'rxjs';
 import {Config} from '@models/config';
-import {MatFormFieldControl} from '@angular/material';
-import {FormControl} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-admin',
@@ -15,8 +14,10 @@ export class AdminComponent implements OnInit {
   surveyCheckinOnlyUrl = new FormControl('');
   surveyCheckinAnd6MonthUrl = new FormControl('');
   config: Config;
+  public resetUserImage = new FormControl('');
+  announcements: FormGroup;
 
-  constructor(public adminService: AdminService) { }
+  constructor(public adminService: AdminService, formBuilder: FormBuilder) { }
 
   public config$: Observable<Config> = this.adminService.getConfig()
     .pipe(config => config);
@@ -32,7 +33,6 @@ export class AdminComponent implements OnInit {
 
     this.adminService.updateConfig(newConfig).subscribe(
       x => console.log({x}));
-
   }
 
  ngOnInit() {

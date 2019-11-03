@@ -1,3 +1,16 @@
-.admin_form_entry {
-  max-width: fit-content;
+.button--small {
+  font-size: 100%;
+  margin: 0 25px;
 }
+
+.admin__box {
+  border: 1px solid #eee;
+  padding: 15px 25px;
+  margin: 25px 0;
+  min-width: 500px;
+}
+
+.admin__box__subheading {
+  margin: 25px 0;
+}
+
