@@ -15,7 +15,7 @@ import { MemberCheckinCalculatorComponent } from '@memberCheckin/calculator/memb
 import { AdminLoginComponent } from '@admin/login/login.component';
 
 import { MemberService } from '@services/member.service';
-import { AdminComponent } from './admin/admin/admin.component';
+import { AdminComponent } from '@admin/admin.component';
 
 @NgModule({
   declarations: [
