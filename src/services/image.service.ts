@@ -5,7 +5,6 @@ import { HttpClient } from '@angular/common/http';
 import { map, catchError } from 'rxjs/operators';
 import {environment} from '../environments/environment';
 
-
 @Injectable({
   providedIn: 'root'
 })
@@ -40,4 +39,15 @@ export class ImageService {
       })
     );
   }
+
+  public updateImage(updateImageReq: any): Observable<void> {
+    return this.http.post(`${environment.restUrl}/api/images`, updateImageReq)
+      .pipe(
+        catchError((err) => {
+          console.error(err);
+          return observableOf(null);
+        })
+      );
+  }
+
 }

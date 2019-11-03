@@ -1,8 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import {AdminService} from '../admin.service';
+import { ImageService } from '@services/image.service';
 import {Observable} from 'rxjs';
 import {Config} from '@models/config';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
+import { Image } from '@models/image';
+
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-admin',
@@ -14,10 +18,26 @@ export class AdminComponent implements OnInit {
   surveyCheckinOnlyUrl = new FormControl('');
   surveyCheckinAnd6MonthUrl = new FormControl('');
   announcementMessage =  new FormControl('');
+  formControls: FormControl[] = [
+    new FormControl(),
+    new FormControl(),
+    new FormControl(),
+    new FormControl(),
+    new FormControl(),
+    new FormControl(),
+    new FormControl(),
+    new FormControl(),
+    new FormControl()
+  ];
+
+  imageList = [];
+  imageUrl = new FormControl('');
   config: Config;
   public resetUserImageAccountNumber = new FormControl('');
 
-  constructor(public adminService: AdminService, formBuilder: FormBuilder) { }
+  constructor(public adminService: AdminService,
+              formBuilder: FormBuilder,
+              public imageService: ImageService) { }
 
   public config$: Observable<Config> = this.adminService.getConfig()
     .pipe(config => config);
@@ -48,6 +68,10 @@ export class AdminComponent implements OnInit {
       x => x);
   }
 
+  updateImageUrls() {
+    console.log(`update image urls`);
+  }
+
   submitAnnouncementChanges() {
     // submit the announcement changes (announcements)
     const configChangeByKeyAndValueReq = {
@@ -67,6 +91,31 @@ export class AdminComponent implements OnInit {
      this.surveyCheckinAnd6MonthUrl.setValue(x.surveyCheckinAnd6MonthUrl);
      this.announcementMessage.setValue(x.announcementMessage);
    });
+
+
+   this.imageService.findImages()
+      .pipe(
+        map(images => {
+          for (let i = 0; i < images.length; i++) {
+            this.formControls[i].setValue(images[i].url);
+          }
+          this.imageList = images;
+        })
+      ).subscribe(x => x);
+ }
+
+ updateImage(index: number) {
+
+    const selectedImage = this.imageList[index];
+    const selectedControl = this.formControls[index];
+
+    const updateImageReq = {
+      imageId: selectedImage._id,
+      imageUrl: selectedControl.value
+    }
+
+    console.log({updateImageReq})
+    this.imageService.updateImage(updateImageReq).subscribe(x => x);
  }
 
 }

@@ -4,3 +4,4 @@ exports.TASK_STATUS_ARCHIVED = "Archived"
 exports.TASK_STATUS_ACTIVE = "Active"
 exports.TASK_STATUS_COMPLETE = "Complete"
 exports.TASK_PURPOSE = "Acknowledgement";
+exports.IMAGES_COLLECTION = "images";
