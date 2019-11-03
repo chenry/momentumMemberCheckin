@@ -18,6 +18,11 @@ export class AuthService {
     this.adminAuthenticated = true;
   }
 
+  deauthenticate(): void { 
+    this.adminAuthenticated = false;
+    this.memberAuthenticated = false;
+  }
+
   isMemberAuthenticated(): boolean {
     return this.memberAuthenticated;
   }

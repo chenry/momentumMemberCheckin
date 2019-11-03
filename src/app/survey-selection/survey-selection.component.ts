@@ -4,6 +4,7 @@ import { SurveyUrls} from '@models/surveyurls';
 import {FormControl} from '@angular/forms';
 import {AppstateService} from '../appstate.service';
 import {AppState} from '@models/appstate';
+import { AuthService } from '@services/auth.service';
 
 @Component({
   selector: 'app-survey-selection',
@@ -16,7 +17,7 @@ export class SurveySelectionComponent implements OnInit, OnDestroy {
   surveySixMonthEnabledUrl = new FormControl('');
   surveyCheckInOnlyUrl = new FormControl('');
 
-  constructor(public surveyService: SurveyService, public appStateService: AppstateService) { }
+  constructor(public surveyService: SurveyService, public appStateService: AppstateService, public auth: AuthService) { }
 
   ngOnInit() {
     this.appStateService.appStateSubject.subscribe(x => this.appState = x);
@@ -34,5 +35,6 @@ export class SurveySelectionComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.appStateService.updateAccountNumber(-1);
+    this.auth.deauthenticate();
   }
 }
