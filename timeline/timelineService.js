@@ -3,6 +3,8 @@ var configurationService = require("../configuration/configurationService")
 let lookupService = require('../member/lookupService')
 var timelineParser = require("./timelineParser")
 var constants = require("../constants")
+var taskUtil = require("./taskUtil")
+
 
 exports.findTimeline = async function(constituentId, db) {
   // find timeline
@@ -15,10 +17,6 @@ exports.findTimelineTasks = async function(constituentId, db) {
   return await configurationService.findBloomerangBaseApiUrl(db)
     .then(bloomerangBaseApiUrl => timelineRepository.findTimeline(constituentId, bloomerangBaseApiUrl))
     .then(timeline => timelineParser.findTasks(timeline));
-}
-
-exports.findAllTimelineTasks = async function(accountNumber, db) {
-
 }
 
 exports.findTimelineOpenTasks = async function(accountNumber, db) {
@@ -51,6 +49,18 @@ exports.sixMonthSurveyTimelineTaskCompleted = async function(accountNumber, db) 
 
   return jsonResponse;
 }
+
+exports.getNextDate = async function(account) {
+  try {
+    var nextSixMonthDate = taskUtil.findNext6MonthDueDateByAccount(account);
+    console.log(`Final Next Six Month Date: ${nextSixMonthDate}`);
+    return true;
+  } catch (err) {
+    return false;
+  }
+}
+
+
 
 function create6MonthTask(accountId, dueDate) {
   return {
