@@ -14,21 +14,33 @@ export class AdminComponent implements OnInit {
   bloomerangBaseApiUrl = new FormControl('');
   surveyCheckinOnlyUrl = new FormControl('');
   surveyCheckinAnd6MonthUrl = new FormControl('');
+  config: Config;
 
-  constructor(public adminService: AdminService) {
-    console.log('run this get', this.adminService.getConfig());
-  }
+  constructor(public adminService: AdminService) { }
 
   public config$: Observable<Config> = this.adminService.getConfig()
     .pipe(config => config);
 
   public submitChanges() {
-    console.log({bloomerangBaseApiUrl: this.bloomerangBaseApiUrl});
-    console.log({surveyCheckinOnlyUrl: this.surveyCheckinOnlyUrl});
-    console.log({surveyCheckinAnd6MonthUrl: this.surveyCheckinAnd6MonthUrl});
+
+    let newConfig;
+    newConfig = new Config();
+
+    newConfig.bloomerangBaseApiUrl = this.bloomerangBaseApiUrl.value;
+    newConfig.surveyCheckinOnlyUrl = this.surveyCheckinOnlyUrl.value;
+    newConfig.surveyCheckinAnd6MonthUrl = this.surveyCheckinAnd6MonthUrl.value;
+
+    this.adminService.updateConfig(newConfig).subscribe(
+      x => console.log({x}));
+
   }
 
  ngOnInit() {
-  }
+   this.adminService.getConfig().pipe().subscribe(x => {
+     this.bloomerangBaseApiUrl.setValue(x.bloomerangBaseApiUrl);
+     this.surveyCheckinOnlyUrl.setValue(x.surveyCheckinOnlyUrl);
+     this.surveyCheckinAnd6MonthUrl.setValue(x.surveyCheckinAnd6MonthUrl);
+   });
+ }
 
 }

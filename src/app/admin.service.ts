@@ -24,4 +24,14 @@ export class AdminService {
       );
   }
 
+  public updateConfig(config: Config): Observable<void> {
+    return this.http.post(`${this.restUrl}/api/config`, config)
+      .pipe(
+        catchError((err) => {
+          console.error(err);
+          return observableOf(null);
+        })
+      );
+  }
+
 }

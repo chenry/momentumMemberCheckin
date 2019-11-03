@@ -3,21 +3,22 @@
 <form class="admin__form">
   <p>
   <mat-form-field>
-    <input placeholder="Bloomerang API URL" matInput type="text" [formControl]="bloomerangBaseApiUrl"/>
+    <input placeholder="Bloomerang API URL" matInput type="text" [formControl]="bloomerangBaseApiUrl" class="admin_form_entry"/>
   </mat-form-field>
   </p>
 
   <p>
   <mat-form-field>
-    <input placeholder="Survey Checkin Only URL" matInput type="text" [formControl]="surveyCheckinOnlyUrl"/>
+    <input placeholder="Survey Checkin Only URL" matInput type="text" [formControl]="surveyCheckinOnlyUrl" class="admin_form_entry"/>
   </mat-form-field>
   </p>
 
   <p>
   <mat-form-field>
-    <input placeholder="Survey Checkin and 6Month Survey URL" matInput type="text" [formControl]="surveyCheckinAnd6MonthUrl"/>
+    <input placeholder="Survey Checkin and 6Month Survey URL" matInput type="text" [formControl]="surveyCheckinAnd6MonthUrl" class="admin_form_entry"/>
   </mat-form-field>
   </p>
+
 </form>
 
 <div class="admin__controls">

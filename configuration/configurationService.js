@@ -5,7 +5,13 @@ exports.getConfiguration = async function(db) {
 }
 
 exports.replaceConfiguration = async function(configuration, db) {
-  await configurationRepository.replaceConfiguration(configuration, db);
+  let persistedConfig = await this.getConfiguration(db);
+
+  persistedConfig.bloomerangBaseApiUrl = configuration.bloomerangBaseApiUrl;
+  persistedConfig.surveyCheckinOnlyUrl = configuration.surveyCheckinOnlyUrl;
+  persistedConfig.surveyCheckinAnd6MonthUrl = configuration.surveyCheckinAnd6MonthUrl;
+
+  await configurationRepository.replaceConfiguration(persistedConfig, db);
 }
 
 exports.changeConfigurationValueByKey = async function(key, value, db) {
@@ -15,7 +21,7 @@ exports.changeConfigurationValueByKey = async function(key, value, db) {
   }
 
   config[key] = value;
-  
+
   await configurationRepository.replaceConfiguration(config._id, config, db);
 }
 
