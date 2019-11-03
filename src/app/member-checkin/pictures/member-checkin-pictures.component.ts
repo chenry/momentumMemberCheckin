@@ -3,6 +3,7 @@ import { ImageService } from '@services/image.service';
 import { Observable } from 'rxjs';
 import { Image } from '@models/image';
 import { map } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-member-checkin-pictures',
@@ -13,17 +14,29 @@ export class MemberCheckinPicturesComponent implements OnInit {
 
   public images$: Observable<Image[]> = this.imageService.findImages();
   public subscriptions: any[] = [];
-  constructor(public imageService: ImageService) { }
+
+  constructor(
+    // public authService: AuthService,
+    public imageService: ImageService,
+    public router: Router
+  ) { }
 
   ngOnInit() {
   }
 
   onImageClick(image: Image) {
     console.log({image});
+    // this.imageService.validateMemberImage(this.authService.getMemberId(), image._id)
     this.imageService.validateMemberImage(3399, image._id)
       .pipe(
         map(isValidated => {
-          console.log({isValidated});
+          if (isValidated) {
+            this.router.navigateByUrl('/survey-selection');
+          } else {
+            this.router.navigateByUrl('/');
+          }
+          return;
+          // console.log({isValidated});
         })
       )
       .subscribe(x => console.log(x));

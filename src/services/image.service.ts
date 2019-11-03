@@ -13,17 +13,15 @@ export class ImageService {
   constructor(private http: HttpClient) { }
 
   public validateMemberImage(accountNumber: number, imageId: string): Observable<boolean> {
-    const body = {
-      accountNumber,
-      imageId
-    };
-    console.log({body});
     return this.http.post<boolean>(`${this.restUrl}/api/member/login`, {
       accountNumber,
       imageId
     })
     .pipe(
-      map(result => result),
+      map(result => {
+        console.log({result});
+        return result;
+      }),
       catchError((err) => observableOf(false))
     );
   }
