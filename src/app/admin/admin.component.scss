@@ -14,3 +14,16 @@
   margin: 25px 0;
 }
 
+.admin__form-field {
+  display: flex;
+  align-items: center;
+  mat-form-field {
+    flex-basis: 80%;
+  }
+}
+
+.admin__button-left {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
