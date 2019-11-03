@@ -25,8 +25,4 @@ export class AppstateService {
     this.appState.accountNumber = accountNumber;
     this.appStateSubject.next(this.appState);
   }
-
-  public getState(): BehaviorSubject<AppState> {
-    return this.appStateSubject;
-  }
 }
