@@ -5,6 +5,8 @@ import {FormControl} from '@angular/forms';
 import {AppstateService} from '../appstate.service';
 import {AppState} from '@models/appstate';
 import { AuthService } from '@services/auth.service';
+import { AdminService } from '../admin.service';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-survey-selection',
@@ -12,12 +14,18 @@ import { AuthService } from '@services/auth.service';
   styleUrls: ['./survey-selection.component.scss']
 })
 export class SurveySelectionComponent implements OnInit, OnDestroy {
-  appState: AppState
+  appState: AppState;
+  announcementMessage = '';
   isSixMonthDue: boolean;
   surveySixMonthEnabledUrl = new FormControl('');
   surveyCheckInOnlyUrl = new FormControl('');
 
-  constructor(public surveyService: SurveyService, public appStateService: AppstateService, public auth: AuthService) { }
+  constructor(
+    public snackBar: MatSnackBar,
+    public surveyService: SurveyService,
+    public appStateService: AppstateService,
+    public adminService: AdminService,
+    public auth: AuthService) { }
 
   ngOnInit() {
     this.appStateService.appStateSubject.subscribe(x => this.appState = x);
@@ -31,10 +39,18 @@ export class SurveySelectionComponent implements OnInit, OnDestroy {
       this.isSixMonthDue = x.sixMonthTask;
     });
 
+    this.adminService.getConfig().pipe().subscribe(config => {
+      if (config) {
+        this.announcementMessage = config.announcementMessage;
+        this.snackBar.open(this.announcementMessage);
+      }
+    });
+
   }
 
   ngOnDestroy(): void {
     this.appStateService.updateAccountNumber(-1);
+    this.snackBar.dismiss();
     this.auth.deauthenticate();
   }
 }
