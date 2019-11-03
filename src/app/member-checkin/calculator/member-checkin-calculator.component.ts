@@ -51,7 +51,7 @@ export class MemberCheckinCalculatorComponent implements OnInit, OnDestroy {
       this.subscriptions.push(this.memberService.verifyMember(this.userId)
         .pipe(
           map(isVerified => {
-            console.log({isVerified})
+            console.log({isVerified});
             if (isVerified) {
               this.router.navigateByUrl('member-checkin/pictures');
             } else {

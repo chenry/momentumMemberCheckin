@@ -1,8 +1,11 @@
 <p>member-checkin-pictures works!</p>
 <div class="grid-list">
-  <div class="grid-tile" *ngFor="let tile of tiles" >
-
-        <img  class="grid-img" src="{{tile.img}}" alt="photo of a cat" />
+  <div class="grid-tile"
+       *ngFor="let image of (images$ | async)"
+       >
+    <img class="grid-img"
+         [src]="image.url"
+         (click)="onImageClick(image)" />
 
   </div>
 </div>

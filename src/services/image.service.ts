@@ -12,8 +12,16 @@ export class ImageService {
   public restUrl = 'http://localhost:8080'; // For testing
   constructor(private http: HttpClient) { }
 
-  public validateMemberImage(accountNumber: string): Observable<boolean> {
-    return this.http.get<boolean>(`${this.restUrl}/api/member/login/${accountNumber}`)
+  public validateMemberImage(accountNumber: number, imageId: string): Observable<boolean> {
+    const body = {
+      accountNumber,
+      imageId
+    };
+    console.log({body});
+    return this.http.post<boolean>(`${this.restUrl}/api/member/login`, {
+      accountNumber,
+      imageId
+    })
     .pipe(
       map(result => result),
       catchError((err) => observableOf(false))

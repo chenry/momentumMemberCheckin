@@ -5,22 +5,13 @@ exports.getConfiguration = async function(db) {
 }
 
 exports.replaceConfiguration = async function(configuration, db) {
-  let current = await configurationRepository.findConfiguration(db);
-  if (!current) {
-    throw `The configuration could not be found.`
-  }
+  let persistedConfig = await this.getConfiguration(db);
 
-  for (var key in configuration) {
-    if (configuration.hasOwnProperty(key)) {
-      current[key] = configuration[key];
-    }
-  }
+  persistedConfig.bloomerangBaseApiUrl = configuration.bloomerangBaseApiUrl;
+  persistedConfig.surveyCheckinOnlyUrl = configuration.surveyCheckinOnlyUrl;
+  persistedConfig.surveyCheckinAnd6MonthUrl = configuration.surveyCheckinAnd6MonthUrl;
 
-  await configurationRepository.replaceConfiguration(current, db);
-}
-
-function replaceItem(item) {
-  current[item] = configuration[item];
+  await configurationRepository.replaceConfiguration(persistedConfig, db);
 }
 
 exports.changeConfigurationValueByKey = async function(key, value, db) {
@@ -30,8 +21,8 @@ exports.changeConfigurationValueByKey = async function(key, value, db) {
   }
 
   config[key] = value;
-  
-  await configurationRepository.replaceConfiguration(config._id, config, db);
+
+  await configurationRepository.replaceConfiguration(config, db);
 }
 
 exports.findBloomerangBaseApiUrl = async function(db) {

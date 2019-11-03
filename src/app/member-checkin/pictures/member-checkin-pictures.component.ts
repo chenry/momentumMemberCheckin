@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ImageService } from '@services/image.service';
 import { Observable } from 'rxjs';
 import { Image } from '@models/image';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-member-checkin-pictures',
@@ -9,22 +10,22 @@ import { Image } from '@models/image';
   styleUrls: ['./member-checkin-pictures.component.scss']
 })
 export class MemberCheckinPicturesComponent implements OnInit {
-  public tiles = [
-    {img: "http://placekitten.com/200/300"},
-    {img: "http://placekitten.com/200/300"},
-    {img: "http://placekitten.com/200/300"},
-    {img: "http://placekitten.com/200/500"},
-    {img: "http://placekitten.com/500/300"},
-    {img: "http://placekitten.com/200/300"},
-    {img: "http://placekitten.com/200/300"},
-    {img: "http://placekitten.com/300/200"},
-    {img: "http://placekitten.com/200/300"}
-    ];
 
-    public images$: Observable<Image[]> = this.imageService.findImages();
+  public images$: Observable<Image[]> = this.imageService.findImages();
+  public subscriptions: any[] = [];
   constructor(public imageService: ImageService) { }
 
   ngOnInit() {
   }
 
+  onImageClick(image: Image) {
+    console.log({image});
+    this.imageService.validateMemberImage(3399, image._id)
+      .pipe(
+        map(isValidated => {
+          console.log({isValidated});
+        })
+      )
+      .subscribe(x => console.log(x));
+  }
 }
