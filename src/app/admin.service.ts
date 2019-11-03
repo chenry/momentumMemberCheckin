@@ -10,12 +10,11 @@ import {environment} from '../environments/environment';
   providedIn: 'root'
 })
 export class AdminService {
-  public restUrl = 'http://localhost:8080'; // For testing
 
   constructor(private http: HttpClient) { }
 
   public getConfig(): Observable<Config> {
-    return this.http.get<Config>(`${this.restUrl}/api/config`)
+    return this.http.get<Config>(`${environment.restUrl}/api/config`)
       .pipe(
         map(result => result),
         catchError((err) => {
@@ -26,7 +25,7 @@ export class AdminService {
   }
 
   public updateConfig(config: Config): Observable<void> {
-    return this.http.post(`${this.restUrl}/api/config`, config)
+    return this.http.post(`${environment.restUrl}/api/config`, config)
       .pipe(
         catchError((err) => {
           console.error(err);
@@ -36,7 +35,7 @@ export class AdminService {
   }
 
   public submitUserResetImage(requestBody: any): Observable<void> {
-    return this.http.post(`${this.restUrl}/api/admin/resetUserRegistration`, requestBody)
+    return this.http.post(`${environment.restUrl}/api/admin/resetUserRegistration`, requestBody)
       .pipe(
         catchError((err) => {
           console.error(err);
@@ -46,7 +45,7 @@ export class AdminService {
   }
 
   public submitConfigChangeByKeyAndValue(requestBody: any): Observable<void> {
-    return this.http.post(`${this.restUrl}/api/config/change`, requestBody)
+    return this.http.post(`${environment.restUrl}/api/config/change`, requestBody)
       .pipe(
         catchError((err) => {
           console.error(err);
@@ -56,8 +55,8 @@ export class AdminService {
   }
 
   public authenticateAdmin(requestBody: any): Observable<boolean> {
-    console.log("Will call API")
-    return this.http.post<boolean>(`${this.restUrl}/api/admin/login`, requestBody)
+    console.log('Will call API');
+    return this.http.post<boolean>(`${environment.restUrl}/api/admin/login`, requestBody)
       .pipe(
         map(result => result),
         catchError((err) => observableOf(false))
