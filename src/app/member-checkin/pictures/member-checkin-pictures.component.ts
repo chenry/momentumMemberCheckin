@@ -4,6 +4,8 @@ import { Observable } from 'rxjs';
 import { Image } from '@models/image';
 import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { AppstateService } from 'src/app/appstate.service';
+import { AppState } from '@models/appstate';
 
 @Component({
   selector: 'app-member-checkin-pictures',
@@ -14,21 +16,21 @@ export class MemberCheckinPicturesComponent implements OnInit, OnDestroy {
 
   public images$: Observable<Image[]> = this.imageService.findImages();
   public subscriptions: any[] = [];
-
+  public appState: AppState;
   constructor(
-    // public authService: AuthService,
+    public appStateService: AppstateService,
     public imageService: ImageService,
     public router: Router
   ) { }
 
   ngOnInit() {
+    this.appStateService.appStateSubject.subscribe(x => this.appState = x);
+    console.log(`AccountNumber: ${this.appState.accountNumber}`);
   }
 
   onImageClick(image: Image) {
     console.log({image});
-    // TODO
-    // this.imageService.validateMemberImage(this.authService.getMemberId(), image._id)
-    this.subscriptions.push(this.imageService.validateMemberImage(3399, image._id)
+    this.subscriptions.push(this.imageService.validateMemberImage(this.appState.accountNumber, image._id)
       .pipe(
         map(isValidated => {
           if (isValidated) {

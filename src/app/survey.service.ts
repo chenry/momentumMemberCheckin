@@ -12,7 +12,7 @@ export class SurveyService {
 
   constructor(private http: HttpClient) { }
 
-  public findSurveyURLs(accountNumber: string): Observable<SurveyUrls> {
+  public findSurveyURLs(accountNumber: number): Observable<SurveyUrls> {
     return this.http.get<SurveyUrls>(`${environment.restUrl}/api/surveyUrls?accountNumber=${accountNumber}`)
       .pipe(
         map(result => result),
