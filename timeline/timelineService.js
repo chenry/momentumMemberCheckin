@@ -24,7 +24,7 @@ exports.findTimelineOpenTasks = async function(accountNumber, db) {
   let constituent = await lookupService.findConstituentIdByAccountNumber(accountNumber, db);
   let bloomerangBaseApiUrl = await configurationService.findBloomerangBaseApiUrl(db);
 
-  let openTasks = this.actuallyFindTimelineOpenTasks(constituent, bloomerangBaseApiUrl);
+  let openTasks = await this.actuallyFindTimelineOpenTasks(constituent, bloomerangBaseApiUrl);
   return timelineParser.createOpenTasksResponse(openTasks);
 }
 
