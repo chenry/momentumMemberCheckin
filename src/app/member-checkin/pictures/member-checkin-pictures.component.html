@@ -1,3 +1,11 @@
+<div *ngIf="(memberHasRegistered)">
+  Please choose your previously selected image
+</div>
+<div *ngIf="(!memberHasRegistered)">
+  Please select and remember the image you selected
+</div>
+
+
 <div class="grid-list">
   <button mat-raised-button
           class="grid-tile"

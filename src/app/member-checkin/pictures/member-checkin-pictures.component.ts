@@ -18,6 +18,7 @@ export class MemberCheckinPicturesComponent implements OnInit, OnDestroy {
   public images$: Observable<Image[]> = this.imageService.findImages();
   public subscriptions: any[] = [];
   public appState: AppState;
+  memberHasRegistered: boolean;
   constructor(
     public appStateService: AppstateService,
     public imageService: ImageService,
@@ -28,6 +29,8 @@ export class MemberCheckinPicturesComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.appStateService.appStateSubject.subscribe(x => this.appState = x);
     console.log(`AccountNumber: ${this.appState.accountNumber}`);
+
+    this.imageService.memberHaveImage(this.appState.accountNumber).subscribe(x => this.memberHasRegistered = x);
   }
 
   onImageClick(image: Image) {
