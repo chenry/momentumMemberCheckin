@@ -6,6 +6,7 @@ import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { AppstateService } from 'src/app/appstate.service';
 import { AppState } from '@models/appstate';
+import { AuthService } from '@services/auth.service';
 
 @Component({
   selector: 'app-member-checkin-pictures',
@@ -20,7 +21,8 @@ export class MemberCheckinPicturesComponent implements OnInit, OnDestroy {
   constructor(
     public appStateService: AppstateService,
     public imageService: ImageService,
-    public router: Router
+    public router: Router,
+    public auth: AuthService
   ) { }
 
   ngOnInit() {
@@ -35,6 +37,7 @@ export class MemberCheckinPicturesComponent implements OnInit, OnDestroy {
         map(isValidated => {
           console.log(`Is VAlidated: ${isValidated}`);
           if (isValidated) {
+            this.auth.setMemberAuthenticated();
             this.router.navigateByUrl('member-checkin/survey-selection');
           } else {
             this.router.navigateByUrl('/');
