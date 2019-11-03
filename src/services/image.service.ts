@@ -21,7 +21,7 @@ export class ImageService {
       catchError((err) => observableOf(false))
     );
   }
-  public memberHaveImage(accountNumber: string): Observable<boolean> {
+  public memberHaveImage(accountNumber: number): Observable<boolean> {
    return this.http.get<boolean>(`${environment.restUrl}/api/member/registration-check/${accountNumber}`)
    .pipe(
      map(result => result),
