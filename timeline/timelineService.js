@@ -23,38 +23,79 @@ exports.findTimelineOpenTasks = async function(accountNumber, db) {
   // find timeline
   let constituent = await lookupService.findConstituentIdByAccountNumber(accountNumber, db);
   let bloomerangBaseApiUrl = await configurationService.findBloomerangBaseApiUrl(db);
-  let timeline = await timelineRepository.findTimeline(constituent.constituentId, bloomerangBaseApiUrl);
-  let openTasks = await timelineParser.findOpenTasks(timeline);
 
+  let openTasks = this.actuallyFindTimelineOpenTasks(constituent, bloomerangBaseApiUrl);
   return timelineParser.createOpenTasksResponse(openTasks);
 }
 
+exports.actuallyFindTimelineOpenTasks = async function(constituent, bloomerangBaseApiUrl) {
+  const timeline = await timelineRepository.findTimeline(constituent.constituentId, bloomerangBaseApiUrl);
+  return await timelineParser.findOpenTasks(timeline);
+}
+
 exports.sixMonthSurveyTimelineTaskCompleted = async function(accountNumber, db) {
-  const account = await lookupService.findAccount(accountNumber,db);
   const constituent = await lookupService.findConstituentIdByAccountNumber(accountNumber, db);
-  const timeline = await this.findTimelineTasks(constituent.constituentId, db);
+  const bloomerangBaseApiUrl = await configurationService.findBloomerangBaseApiUrl(db);
+  
+  // Find all tasks
+  const now = new Date();
+  const tasks = await this.actuallyFindTimelineOpenTasks(constituent, bloomerangBaseApiUrl);
 
-  // ====================================================================
-  // Steps
-  // * Archive all future 6month tasks
-  // * Complete all past 6month tasks
-  //    - give the a completed date
-  // * Create new 6month task if none exist in the future
-  //    - dueDate = (registrationDate + 6month) until it is in the future
-  // ====================================================================
+  // Find all future tasks
+  await archiveAllFutureTasks(tasks, bloomerangBaseApiUrl, now);
+  await completeAllPastOpenTasks(tasks, bloomerangBaseApiUrl, now);
 
-  const now = new Date()
-  const nextDueDate = taskUtil.findNext6MonthDueDateByAccount(account);
-  let bloomerangBaseApiUrl = await configurationService.findBloomerangBaseApiUrl(db);
-  const pastTasks = timelineParser.findPastActiveSixMonthTasks(timeline,now);
-  timelineRepository.archiveTaskList(pastTasks, bloomerangBaseApiUrl);
+  return await createNewTask(accountNumber, constituent, bloomerangBaseApiUrl, db);
+}
 
-  const futureTasks = timelineParser.findFutureActiveSixMonthTasks(timeline,now);
-  timelineRepository.completeTaskList(futureTasks, bloomerangBaseApiUrl);
+async function createNewTask(accountNumber, constituent, bloomerangBaseApiUrl, db) {
+  const account = await lookupService.findAccount(accountNumber, db);
+  const dueDate = taskUtil.findNext6MonthDueDateByAccount(account);
 
-  let newTask = create6MonthTask(constituent.constituentId, nextDueDate);
-  let jsonResponse = timelineRepository.createTimelineTask(newTask, bloomerangBaseApiUrl);
-  return jsonResponse;
+  let newTask = create6MonthTask(constituent.constituentId, dueDate);
+  return await timelineRepository.createTimelineTask(newTask, bloomerangBaseApiUrl);
+}
+
+async function archiveAllFutureTasks(tasks, bloomerangBaseApiUrl, now) {
+  let futureTasks = findAllFutureTasks(tasks, now);
+
+  for (let futureTask of futureTasks) {
+    await timelineRepository.setTaskStatus(futureTask.Id, constants.TASK_STATUS_ARCHIVED, bloomerangBaseApiUrl);
+  }
+}
+
+function findAllFutureTasks(tasks, now) {
+  let futureTasks = []
+
+  for (let task of tasks) {
+    let dueDate = new Date(task.DueDate);
+    if (dueDate > now) {
+      futureTasks.push(task);
+    }
+  }
+
+  return futureTasks;
+}
+
+async function completeAllPastOpenTasks(tasks, bloomerangBaseApiUrl, now) {
+  let pastTasks = findAllPastTasks(tasks, now);
+
+  for (let pastTask of pastTasks) {
+    await timelineRepository.completeTask(pastTask.Id, constants.TASK_STATUS_COMPLETE, now, bloomerangBaseApiUrl);
+  }
+}
+
+function findAllPastTasks(tasks, now) {
+  let pastTasks = []
+
+  for (let task of tasks) {
+    let dueDate = new Date(task.DueDate);
+    if (dueDate <= now) {
+      pastTasks.push(task);
+    }
+  }
+
+  return pastTasks;
 }
 
 exports.getNextDate = async function(account) {
@@ -67,8 +108,6 @@ exports.getNextDate = async function(account) {
   }
 }
 
-
-
 function create6MonthTask(accountId, dueDate) {
   return {
     "UserId": constants.CREATE_TASK_USER_ID,
@@ -77,8 +116,7 @@ function create6MonthTask(accountId, dueDate) {
     "Channel": "InPerson",
     "Purpose": constants.TASK_PURPOSE,
     "Status": "Active",
-    "Subject": constants.SIX_MONTH_TASK_SUBJECT,
-    "Note": "Time to do checkin"
+    "Subject": constants.SIX_MONTH_TASK_SUBJECT
   };
 }
 
