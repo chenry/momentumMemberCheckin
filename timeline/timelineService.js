@@ -3,6 +3,8 @@ var configurationService = require("../configuration/configurationService")
 let lookupService = require('../member/lookupService')
 var timelineParser = require("./timelineParser")
 var constants = require("../constants")
+var taskUtil = require("./taskUtil")
+
 
 exports.findTimeline = async function(constituentId, db) {
   // find timeline
@@ -27,17 +29,45 @@ exports.findTimelineOpenTasks = async function(accountNumber, db) {
   return timelineParser.createOpenTasksResponse(openTasks);
 }
 
-exports.createSixMonthSurveyTimelineTask = async function(accountNumber, db) {
-  let constituent = await lookupService.findConstituentIdByAccountNumber(accountNumber, db);
+exports.sixMonthSurveyTimelineTaskCompleted = async function(accountNumber, db) {
+  const account = await lookupService.findAccount(accountNumber,db);
+  const constituent = await lookupService.findConstituentIdByAccountNumber(accountNumber, db);
+  const timeline = await this.findTimelineTasks(constituent.constituentId, db);
 
-  let now = new Date()
-  let nextDueDate = new Date(now.setMonth(now.getMonth() + 6))
-  let newTask = create6MonthTask(constituent.constituentId, nextDueDate);
+  // ====================================================================
+  // Steps
+  // * Archive all future 6month tasks
+  // * Complete all past 6month tasks
+  //    - give the a completed date
+  // * Create new 6month task if none exist in the future
+  //    - dueDate = (registrationDate + 6month) until it is in the future
+  // ====================================================================
+
+  const now = new Date()
+  const nextDueDate = taskUtil.findNext6MonthDueDateByAccount(account);
   let bloomerangBaseApiUrl = await configurationService.findBloomerangBaseApiUrl(db);
-  let jsonResponse = timelineRepository.createTimelineTask(newTask, bloomerangBaseApiUrl);
+  const pastTasks = timelineParser.findPastActiveSixMonthTasks(timeline,now);
+  timelineRepository.archiveTaskList(pastTasks, bloomerangBaseApiUrl);
 
+  const futureTasks = timelineParser.findFutureActiveSixMonthTasks(timeline,now);
+  timelineRepository.completeTaskList(futureTasks, bloomerangBaseApiUrl);
+
+  let newTask = create6MonthTask(constituent.constituentId, nextDueDate);
+  let jsonResponse = timelineRepository.createTimelineTask(newTask, bloomerangBaseApiUrl);
   return jsonResponse;
 }
+
+exports.getNextDate = async function(account) {
+  try {
+    var nextSixMonthDate = taskUtil.findNext6MonthDueDateByAccount(account);
+    console.log(`Final Next Six Month Date: ${nextSixMonthDate}`);
+    return true;
+  } catch (err) {
+    return false;
+  }
+}
+
+
 
 function create6MonthTask(accountId, dueDate) {
   return {

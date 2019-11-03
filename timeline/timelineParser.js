@@ -13,12 +13,52 @@ exports.findOpenTasks = function(timeline) {
       continue;
     }
 
-    if (!currTask.CompletedDate) {
+    if (!currTask.CompletedDate && currTask.Status != constants.TASK_STATUS_ARCHIVED) {
       openTasks.push(currTask);
     }
   }
 
   return openTasks;
+}
+
+exports.findActiveSixMonthTasks = function(allTasks) {
+  let sixMonthTasks = []
+  for (let currTask of allTasks) {
+
+    if ((constants.SIX_MONTH_TASK_SUBJECT != currTask.Subject)
+      && (constants.TASK_STATUS_ACTIVE != currTask.Status)) {
+      continue;
+    }
+    sixMonthTasks.push(currTask);
+  }
+
+  return sixMonthTasks;
+}
+
+exports.findPastActiveSixMonthTasks = function(timeline, now) {
+  let allTasks = this.findActiveSixMonthTasks(timeline);
+  let pastTasks = []
+  for (let currTask of allTasks) {
+    if (currTask.DueDate > now) {
+      continue;
+    }
+    pastTasks.push(currTask);
+  }
+
+  return pastTasks;
+}
+
+exports.findFutureActiveSixMonthTasks = function(timeline, now) {
+  let allTasks = this.findActiveSixMonthTasks(timeline);
+  let futureTasks = []
+  for (let currTask of allTasks) {
+    if (currTask.DueDate <= now) {
+      continue;
+    }
+    futureTasks.push(currTask);
+  }
+
+  return futureTasks;
 }
 
 exports.findInteractions = function(timeline) {
