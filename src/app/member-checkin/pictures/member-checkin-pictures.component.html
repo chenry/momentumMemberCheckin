@@ -1,11 +1,10 @@
-<p>member-checkin-pictures works!</p>
 <div class="grid-list">
-  <div class="grid-tile"
-       *ngFor="let image of (images$ | async)"
-       >
+  <button mat-raised-button
+          class="grid-tile"
+          *ngFor="let image of (images$ | async)"
+          (click)="onImageClick(image)">
     <img class="grid-img"
-         [src]="image.url"
-         (click)="onImageClick(image)" />
+         [src]="image.url" />
 
-  </div>
+  </button>
 </div>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ImageService } from '@services/image.service';
 import { Observable } from 'rxjs';
 import { Image } from '@models/image';
@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
   templateUrl: './member-checkin-pictures.component.html',
   styleUrls: ['./member-checkin-pictures.component.scss']
 })
-export class MemberCheckinPicturesComponent implements OnInit {
+export class MemberCheckinPicturesComponent implements OnInit, OnDestroy {
 
   public images$: Observable<Image[]> = this.imageService.findImages();
   public subscriptions: any[] = [];
@@ -28,7 +28,7 @@ export class MemberCheckinPicturesComponent implements OnInit {
     console.log({image});
     // TODO
     // this.imageService.validateMemberImage(this.authService.getMemberId(), image._id)
-    this.imageService.validateMemberImage(3399, image._id)
+    this.subscriptions.push(this.imageService.validateMemberImage(3399, image._id)
       .pipe(
         map(isValidated => {
           if (isValidated) {
@@ -39,6 +39,10 @@ export class MemberCheckinPicturesComponent implements OnInit {
           return;
         })
       )
-      .subscribe(x => console.log(x));
+      .subscribe(x => console.log(x)));
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 }
