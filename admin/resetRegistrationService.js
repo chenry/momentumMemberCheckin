@@ -9,3 +9,15 @@ exports.resetRegistration = async function (accountNumber, db) {
     await registrationsRepository.deleteRegistration(registration._id, db);
     return true;
 }
+
+exports.updateImage = async function (imageId, imageUrl, db) {
+  let persistedImage = await registrationsRepository.findImageById(imageId, db);
+  if (persistedImage == null) {
+    return false;
+  }
+
+  persistedImage.url = imageUrl;
+
+  await registrationsRepository.saveImage(persistedImage, db);
+  return true;
+}

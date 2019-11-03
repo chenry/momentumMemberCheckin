@@ -242,6 +242,18 @@ app.get("/api/images", function(req, res) {
   });
 });
 
+app.post("/api/images", function(req, res) {
+  adminResetRegistrationService.updateImage(req.body.imageId, req.body.imageUrl, db)
+    .then(success => {
+      res.status(200).json(success);
+    })
+    .catch(error => {
+      handleError(res, error, "Failed to check registration.",400);
+    });
+});
+
+
+
 app.get("/api/config", async function(req, res) {
   let config = await configurationService.getConfiguration(db);
   if (config) {
