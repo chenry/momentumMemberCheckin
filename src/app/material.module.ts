@@ -5,6 +5,8 @@ import { MatInputModule } from '@angular/material/input';
 import { NgModule } from '@angular/core';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material';
 
 @NgModule({
   imports: [
@@ -14,7 +16,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     MatGridListModule,
     MatButtonModule,
     MatInputModule,
-    MatFormFieldModule
+    MatFormFieldModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
   exports: [
     MatToolbarModule,
@@ -23,7 +27,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     MatGridListModule,
     MatButtonModule,
     MatInputModule,
-    MatFormFieldModule
+    MatFormFieldModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ]
 })
 
