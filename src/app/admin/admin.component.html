@@ -53,3 +53,41 @@
     color="accent">Submit</button>
 
   </div>
+
+<div class="admin__box">
+  <h2 class="admin__box__subheading">Image URL Updates</h2>
+
+    <br />
+
+    <mat-form-field>
+      <input [formControl]="imageUrl" matInput placeholder="imageUrl">
+    </mat-form-field>
+  <button
+    type="button"
+    color="primary"
+    mat-raised-button
+    class="button--small"
+    color="accent">Submit</button>
+
+</div>
+
+<div class="admin__box">
+  <h2 class="admin__box__subheading">Image URL Updates</h2>
+
+  <div *ngFor="let formControl of formControls">
+  <mat-form-field>
+    <input [formControl]="formControl" matInput />
+  </mat-form-field>
+
+  </div>
+
+  <button
+    (click)="updateImageUrls()"
+    type="button"
+    color="primary"
+    mat-raised-button
+    class="button--small"
+    color="accent">Update</button>
+
+</div>
+

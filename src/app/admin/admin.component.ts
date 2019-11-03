@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import {AdminService} from '../admin.service';
+import { ImageService } from '@services/image.service';
 import {Observable} from 'rxjs';
 import {Config} from '@models/config';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-admin',
@@ -14,10 +16,36 @@ export class AdminComponent implements OnInit {
   surveyCheckinOnlyUrl = new FormControl('');
   surveyCheckinAnd6MonthUrl = new FormControl('');
   announcementMessage =  new FormControl('');
+  formControls: FormControl[] = [
+    new FormControl(),
+    new FormControl(),
+    new FormControl(),
+    new FormControl(),
+    new FormControl(),
+    new FormControl(),
+    new FormControl(),
+    new FormControl(),
+    new FormControl()
+  ]
+  imageUrl = new FormControl('');
   config: Config;
   public resetUserImageAccountNumber = new FormControl('');
 
-  constructor(public adminService: AdminService, formBuilder: FormBuilder) { }
+
+  public images$: Observable<Image[]> = this.imageService.findImages()
+  .pipe(
+    map(images => {
+        for (let i = 0; i < images.length; i++) {
+          this.formControls[i].setValue(images[i].url);
+        }
+        return;
+      })
+  ).subscribe(x => x);
+
+
+  constructor(public adminService: AdminService, 
+              formBuilder: FormBuilder,
+              public imageService: ImageService) { }
 
   public config$: Observable<Config> = this.adminService.getConfig()
     .pipe(config => config);
@@ -46,6 +74,10 @@ export class AdminComponent implements OnInit {
 
     this.adminService.submitUserResetImage(userResetImageRequest).subscribe(
       x => x);
+  }
+
+  updateImageUrls() {
+    console.log(`update image urls`);
   }
 
   submitAnnouncementChanges() {
