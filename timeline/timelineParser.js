@@ -76,7 +76,10 @@ function is6MonthTaskDue(openTasks) {
   for (let currTask of openTasks) {
     const dueDate = new Date(currTask.DueDate);
 
-    if (constants.SIX_MONTH_TASK_SUBJECT == currTask.Subject && now > dueDate) {
+    if (constants.SIX_MONTH_TASK_SUBJECT == currTask.Subject 
+        && now > dueDate 
+        && constants.TASK_STATUS_ACTIVE == currTask.Status
+        && constants.TASK_PURPOSE == currTask.Purpose) {
       return true;
     }
   }

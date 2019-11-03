@@ -75,7 +75,7 @@ function create6MonthTask(accountId, dueDate) {
     "AccountId": accountId,
     "DueDate": dueDate,
     "Channel": "InPerson",
-    "Purpose": "Solicitation",
+    "Purpose": constants.TASK_PURPOSE,
     "Status": "Active",
     "Subject": constants.SIX_MONTH_TASK_SUBJECT,
     "Note": "Time to do checkin"
