@@ -3,6 +3,7 @@ import { Observable, of as observableOf } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { map, catchError } from 'rxjs/operators';
 import {Config} from '@models/config';
+import {environment} from '../environments/environment';
 
 
 @Injectable({
@@ -54,4 +55,12 @@ export class AdminService {
       );
   }
 
+  public authenticateAdmin(requestBody: any): Observable<boolean> {
+    console.log("Will call API")
+    return this.http.post<boolean>(`${this.restUrl}/api/admin/login`, requestBody)
+      .pipe(
+        map(result => result),
+        catchError((err) => observableOf(false))
+      );
+  }
 }

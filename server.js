@@ -83,8 +83,10 @@ app.post('/api/admin/resetUserRegistration', function(req, res) {
 
 app.post('/api/admin/login', function(req, res) {
   try {
-    if (adminLoginService.login(req.body.password)) {
-      res.status(200).end();
+
+    let isValidPassword = adminLoginService.login(req.body.password);
+    if (isValidPassword) {
+      res.status(200).json(isValidPassword);
     }
     else {
       res.status(401).end();
