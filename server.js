@@ -20,6 +20,7 @@ var loginService = require('./member/loginService')
 var verificationService = require('./member/verificationService')
 var registrationVerificationService = require('./member/registrationVerificationService')
 var adminLoginService = require('./admin/loginService')
+var adminResetRegistrationService = require('./admin/resetRegistrationService')
 // ====================
 
 var ObjectID = mongodb.ObjectID;
@@ -65,6 +66,21 @@ function handleError(res, reason, message, code) {
   res.status(code || 500).json({"error": message});
 }
 
+app.post('/api/admin/resetUserRegistration', function(req, res) {
+  adminResetRegistrationService.resetRegistration(req.body.accountNumber, db)
+  .then(result => {
+    if (result) {
+      res.status(200).end();
+    }
+    else {
+      res.status(404).end();
+    }
+  })
+  .catch(error => {
+    handleError(res, error, "Failed to reset the user registration.");
+  });
+});
+
 app.post('/api/admin/login', function(req, res) {
   try {
     if (adminLoginService.login(req.body.password)) {
@@ -72,7 +88,7 @@ app.post('/api/admin/login', function(req, res) {
     }
     else {
       res.status(401).end();
-    }  
+    }
   }
   catch (err) {
     handleError(null, err, 'Failed to login.', 401);
@@ -212,16 +228,26 @@ app.get("/api/images", function(req, res) {
 });
 
 app.get("/api/config", async function(req, res) {
-  let docs = await configurationService.findBloomerangBaseApiUrl(db);
-  if (docs) {
-    res.status(200).json(docs);
+  let config = await configurationService.getConfiguration(db);
+  if (config) {
+    res.status(200).json(config);
   }
   else {
     handleError(res, "could not find bloomerang base api url", "Failed to get config", 400);
   }
 });
 
-app.post('/api/config', function (req, res) {  
+app.post('/api/config', function (req, res) {
+  configurationService.replaceConfiguration(req.body, db)
+    .then(_ => {
+      res.status(200).end();
+    })
+    .catch(error => {
+      handleError(res, error, "Failed to update configuration.", 500);
+    });
+});
+
+app.post('/api/config/change', function (req, res) {
   configurationService.changeConfigurationValueByKey(req.body.key, req.body.value, db)
     .then(_ => {
       res.status(200).end();
@@ -309,3 +335,7 @@ app.delete("/api/contacts/:id", function(req, res) {
     }
   });
 });
+
+app.get('*', function(req, res) {
+  res.sendFile(`${distDir}/index.html`)
+})

@@ -6,32 +6,4 @@
   Pictures
 </a>
 
-<p>{{ (member$ | async )?.FirstName }}</p>
-
-<div *ngIf="(isVerified$ | async)">
-  This should show if member is verified
-</div>
-
-<div *ngIf="!(isVerified$ | async)">
-  This should show if member is not verified
-</div>
-
-<div *ngIf=" !(isSomethingDue$ | async) ">
-  is something due:
-</div>
-
-<div *ngIf=" (validateMemberImage$ | async) ">
-  Image is valid
-</div>
-
-<div *ngIf=" !(findImages$ | async)" >
-  Image was found
-</div>
-
-<div *ngIf="!(memberHaveImage$ | async)">
-  member have image
-<div>
-
-<div *ngIf="(findSurveyURLs$ | async)">
-  URL:
-</div>
+{{ (member$ | async )?.FirstName }}

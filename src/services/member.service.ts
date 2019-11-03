@@ -1,20 +1,19 @@
-import * as Server from 'server.js';
 import { Injectable } from '@angular/core';
 import { Member } from '@models/member';
 import { Observable, of as observableOf } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { map, catchError } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MemberService {
-  public restUrl = 'http://localhost:8080'; // For testing
 
   constructor(private http: HttpClient) { }
 
   public getMember(accountNumber: string): Observable<Member> {
-    return this.http.get<Member>(`${this.restUrl}/api/member/lookup/${accountNumber}`)
+    return this.http.get<Member>(`${environment.restUrl}/api/member/lookup/${accountNumber}`)
     .pipe(
       map(result => result),
       catchError((err) => {
@@ -25,7 +24,7 @@ export class MemberService {
   }
 
   public isSomethingDue(accountNumber: string): Observable<boolean> {
-    return this.http.get<boolean>(`${this.restUrl}/api/member/${accountNumber}/timeline/taks/open`)
+    return this.http.get<boolean>(`${environment.restUrl}/api/member/${accountNumber}/timeline/taks/open`)
     .pipe(
       map(result => result),
       catchError((err) => observableOf(false))
@@ -33,7 +32,7 @@ export class MemberService {
   }
 
   public verifyMember(accountNumber: string): Observable<boolean> {
-    return this.http.get<boolean>(`${this.restUrl}/api/member/verify/${accountNumber}`)
+    return this.http.get<boolean>(`${environment.restUrl}/api/member/verify/${accountNumber}`)
     .pipe(
       map(result => result),
       catchError((err) => observableOf(false))
@@ -41,7 +40,7 @@ export class MemberService {
   }
 
   public findSurveyURLs(accountNumber: string): Observable<string> {
-    return this.http.get<boolean>(`${this.restUrl}/api/surveyURLs?accountNumber=${accountNumber}`)
+    return this.http.get<boolean>(`${environment.restUrl}/api/surveyURLs?accountNumber=${accountNumber}`)
     .pipe(
       map(result => result),
       catchError((err) => {
