@@ -169,6 +169,23 @@ app.post("/api/member/login", function(req, res) {
     })
 });
 
+app.post("/api/getNextDate", function(req, res) {
+  timelineService.getNextDate(req.body)
+    .then(success => {
+      if (!success) {
+        handleError(res, error, "Failed to login.", 401);
+      }
+      else {
+        res.status(200).end();
+      }
+    })
+    .catch(error => {
+      handleError(res, error, "Failed to login.", 401);
+    })
+});
+
+
+
 
 /*  "/api/member/registration-check"
     GET: Determines whether the user already has a chosen image registered.

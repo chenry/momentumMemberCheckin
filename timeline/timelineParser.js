@@ -13,7 +13,7 @@ exports.findOpenTasks = function(timeline) {
       continue;
     }
 
-    if (!currTask.CompletedDate) {
+    if (!currTask.CompletedDate && currTask.Status != constants.TASK_STATUS_ARCHIVED) {
       openTasks.push(currTask);
     }
   }
