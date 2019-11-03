@@ -133,7 +133,7 @@ app.get("/api/member/:accountNumber/timeline/tasks/open", function(req, res) {
     });
 });
 
-app.post("/api/member/:accountNumber/timeline/6MonthSurveyTask", async function(req, res) {
+app.post("/api/member/:accountNumber/timeline/6MonthSurveyTask/completed", async function(req, res) {
 
   try {
     if (req.body && req.body.accountNumber) {
@@ -142,7 +142,7 @@ app.post("/api/member/:accountNumber/timeline/6MonthSurveyTask", async function(
       throw new Error("Account Number missing")
     }
 
-    let jsonPayload = await timelineService.createSixMonthSurveyTimelineTask(req.body.accountNumber, db);
+    let jsonPayload = await timelineService.sixMonthSurveyTimelineTaskCompleted(req.body.accountNumber, db);
     res.status(200).json(jsonPayload)
   } catch (err) {
     handleError(res, err.message, "Account Number is required.");
@@ -198,6 +198,23 @@ app.post("/api/member/login", function(req, res) {
       handleError(res, error, "Failed to login.", 401);
     })
 });
+
+app.post("/api/getNextDate", function(req, res) {
+  timelineService.getNextDate(req.body)
+    .then(success => {
+      if (!success) {
+        handleError(res, error, "Failed to login.", 401);
+      }
+      else {
+        res.status(200).end();
+      }
+    })
+    .catch(error => {
+      handleError(res, error, "Failed to login.", 401);
+    })
+});
+
+
 
 
 /*  "/api/member/registration-check"
