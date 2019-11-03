@@ -5,7 +5,22 @@ exports.getConfiguration = async function(db) {
 }
 
 exports.replaceConfiguration = async function(configuration, db) {
-  await configurationRepository.replaceConfiguration(configuration, db);
+  let current = await configurationRepository.findConfiguration(db);
+  if (!current) {
+    throw `The configuration could not be found.`
+  }
+
+  for (var key in configuration) {
+    if (configuration.hasOwnProperty(key)) {
+      current[key] = configuration[key];
+    }
+  }
+
+  await configurationRepository.replaceConfiguration(current, db);
+}
+
+function replaceItem(item) {
+  current[item] = configuration[item];
 }
 
 exports.changeConfigurationValueByKey = async function(key, value, db) {
