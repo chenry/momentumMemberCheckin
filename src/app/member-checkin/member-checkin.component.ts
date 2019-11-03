@@ -22,7 +22,7 @@ export class MemberCheckinComponent implements OnInit {
   public validateMemberImage$: Observable<boolean> = this.memberService.verifyMember('3399')
     .pipe(validateMemberImage => validateMemberImage);
 
-  public memberHaveImage$: Observable<boolean> = this.imageService.memberHaveImage('3399')
+  public memberHaveImage$: Observable<boolean> = this.imageService.memberHaveImage(3399)
     .pipe(memberHaveImage => memberHaveImage);
 
   public findImages$: Observable<Image[]> = this.imageService.findImages()
