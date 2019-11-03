@@ -1,5 +1,13 @@
 <p>member-checkin-pictures works!</p>
 <p>Account Number: {{ appState.accountNumber}}</p>
+
+<button
+  (click)="goToSurvey()"
+  type="button"
+  mat-raised-button
+  color="primary"
+  class="button--small">Go To Survey</button>
+
 <div class="grid-list">
   <div class="grid-tile" *ngFor="let tile of tiles" >
 

@@ -2,9 +2,12 @@
   <a href="{{ surveyCheckInOnlyUrl.value }}" mat-button>Checkin Only</a>
 </div>
 
-  <br/>
-  <br/>
-<div>
 
-  <a href="{{ surveySixMonthEnabledUrl.value }}" mat-button>Six Month Survey</a>
+<div *ngIf="(isSixMonthDue)">
+  <div>
+
+    <a href="{{ surveySixMonthEnabledUrl.value }}" mat-button>Six Month Survey</a>
+  </div>
 </div>
+
+
