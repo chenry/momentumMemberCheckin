@@ -18,7 +18,7 @@ export class AuthService {
     this.adminAuthenticated = true;
   }
 
-  deauthenticate(): void { 
+  deauthenticate(): void {
     this.adminAuthenticated = false;
     this.memberAuthenticated = false;
   }
