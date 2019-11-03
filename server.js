@@ -190,13 +190,8 @@ app.get("/api/member/verify/:accountNumber", function(req, res) {
 */
 app.post("/api/member/login", function(req, res) {
   loginService.login(req.body.accountNumber, req.body.imageId, db)
-    .then(success => {
-      if (!success) {
-        handleError(res, error, "Failed to login.", 401);
-      }
-      else {
-        res.status(200).end();
-      }
+    .then(isSuccess => {
+      res.status(200).json(isSuccess);
     })
     .catch(error => {
       handleError(res, error, "Failed to login.", 401);
