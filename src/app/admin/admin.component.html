@@ -1,1 +1,44 @@
-<p>admin works!</p>
+<h1>Admin</h1>
+
+<div class="admin__box">
+  <h2 class="admin__box__subheading">Survey URLs</h2>
+    <mat-form-field>
+      <input [formControl]="surveyUrl1" matInput type="text" placeholder="Survey URL #1" />
+    </mat-form-field>
+    <button type="button" mat-raised-button color="primary" class="button--small">Update</button>
+    <br />
+    <mat-form-field>
+      <input [formControl]="surveyUrl2" matInput type="text" placeholder="Survey URL #2" />
+    </mat-form-field>
+    <button type="button" mat-raised-button color="primary" class="button--small">Update</button>
+</div>
+
+<div class="admin__box">
+  <h2 class="admin__box__subheading">Reset User Image</h2>
+    <mat-form-field>
+      <input [formControl]="resetUserImage" matInput type="text" placeholder="User Id" />
+    </mat-form-field>
+    <button type="button" mat-raised-button color="primary" class="button--small">Reset</button>
+</div>
+
+<div class="admin__box">
+    <h2 class="admin__box__subheading">Announcement</h2>
+    <mat-form-field>
+      <input matInput [matDatepicker]="startDate" placeholder="Start Date" disabled>
+      <mat-datepicker-toggle matSuffix [for]="startDate"></mat-datepicker-toggle>
+      <mat-datepicker #startDate disabled="false"></mat-datepicker>
+    </mat-form-field>
+    <br />
+    <mat-form-field>
+      <input matInput [matDatepicker]="dp3" placeholder="End Date" disabled>
+      <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
+      <mat-datepicker #dp3 disabled="false"></mat-datepicker>
+    </mat-form-field>
+
+    <br />
+
+    <mat-form-field>
+      <textarea matInput placeholder="Announcement" rows="5" cols="100"></textarea>
+    </mat-form-field>
+    <button type="button" mat-raised-button color="primary" class="button--small">Submit</button>
+  </div>
