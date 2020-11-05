@@ -1,7 +1,7 @@
 // ********************************************************************************************
 // * Required environment variables
 // * ------------------------------------------------------------------------------------------
-// * MONGODB_URI - Contains the full uri to the MongoDB
+// * DB_URI - Contains the full uri to the MongoDB (used to be MONGODB_URI)
 // * BLOOMERANG_KEY - Contains the private key of the bloomerang api.
 // * MOMENTUM_ADMIN_PASSWORD - Contains the password used to access the administrative areas.
 // ********************************************************************************************
@@ -41,7 +41,7 @@ app.use(express.static(distDir));
 var db;
 
 // Connect to the database before starting the application server.
-mongodb.MongoClient.connect(process.env.MONGODB_URI || "mongodb://localhost:27017/test", function (err, client) {
+mongodb.MongoClient.connect(process.env.DB_URI || "mongodb://localhost:27017/test", function (err, client) {
   if (err) {
     console.log(err);
     process.exit(1);
