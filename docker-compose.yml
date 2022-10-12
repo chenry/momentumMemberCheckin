@@ -1,0 +1,19 @@
+# mongodb+srv://heroku_8k42f583:a5h691t6iiumako7umrh4v7pve@cluster-8k42f583.k8w8r.mongodb.net/heroku_8k42f583?retryWrites=true&w=majority
+# mongodb://heroku_8k42f583:a5h691t6iiumako7umrh4v7pve@ds241268.mlab.com:41268/heroku_8k42f583
+
+version: '3.7'
+services:
+  mongodb_container:
+    image: mongo:6.0.2
+    container_name: 'membercheckin-mongo'
+    environment:
+      MONGO_INITDB_DATABASE: 'membercheckin'
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: rootpassword
+    ports:
+      - 27017:27017
+    volumes:
+      - mongodb_data_container:/data/db
+
+volumes:
+  mongodb_data_container:
