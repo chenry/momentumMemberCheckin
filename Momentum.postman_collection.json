@@ -1,0 +1,563 @@
+{
+	"info": {
+		"_postman_id": "60c35a16-26de-4822-938a-8ef912ad3935",
+		"name": "Momentum",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "2542413"
+	},
+	"item": [
+		{
+			"name": "Bloomerang API - Key Handshake",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\tUsername: \"lisaweekendforgood\",\n    Password: \"#C0de4G00d\"\n}"
+				},
+				"url": {
+					"raw": "https://api.bloomerang.co/v1/Keys",
+					"protocol": "https",
+					"host": [
+						"api",
+						"bloomerang",
+						"co"
+					],
+					"path": [
+						"v1",
+						"Keys"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Bloomerang API - Search for Constituent",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.bloomerang.co/v1/Constituent/?q=2007&ApiKey={{PRIVATE_API_KEY}}",
+					"protocol": "https",
+					"host": [
+						"api",
+						"bloomerang",
+						"co"
+					],
+					"path": [
+						"v1",
+						"Constituent",
+						""
+					],
+					"query": [
+						{
+							"key": "q",
+							"value": "2007"
+						},
+						{
+							"key": "ApiKey",
+							"value": "{{PRIVATE_API_KEY}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Bloomerang API - Timeline",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic {{PRIVATE_API_KEY}}"
+					}
+				],
+				"url": {
+					"raw": "https://api.bloomerang.co/v1/Timeline/8188929",
+					"protocol": "https",
+					"host": [
+						"api",
+						"bloomerang",
+						"co"
+					],
+					"path": [
+						"v1",
+						"Timeline",
+						"8188929"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Bloomerang API - Task :: Add",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Basic {{PRIVATE_API_KEY}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  UserId: 8186880,\n  AccountId: 8188929,\n  DueDate: \"9/9/2015\",\n  Channel: \"MassEmail\",\n  Purpose: \"Solicitation\",\n  Status: \"Active\",\n  Subject: \"Draft the Adopt a Puppy email\",\n  Note: \"This email is to support our feeding program for all our puppies. Emphasize giving levels: Feed a puppy for a week, month, or 3 months.\"\n}"
+				},
+				"url": {
+					"raw": "https://api.bloomerang.co/v1/Task",
+					"protocol": "https",
+					"host": [
+						"api",
+						"bloomerang",
+						"co"
+					],
+					"path": [
+						"v1",
+						"Task"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Bloomerang API : User :: Find",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic {{PRIVATE_API_KEY}}"
+					}
+				],
+				"url": {
+					"raw": "https://api.bloomerang.co/v1/User",
+					"protocol": "https",
+					"host": [
+						"api",
+						"bloomerang",
+						"co"
+					],
+					"path": [
+						"v1",
+						"User"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Bloomerang API - Find Constituent by Id",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic {{PRIVATE_API_KEY}}"
+					}
+				],
+				"url": {
+					"raw": "https://api.bloomerang.co/v1/Constituent/8188929",
+					"protocol": "https",
+					"host": [
+						"api",
+						"bloomerang",
+						"co"
+					],
+					"path": [
+						"v1",
+						"Constituent",
+						"8188929"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Extended Grace API :- Find Tasks",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/member/{{CONSTITUENT_ID}}/timeline/tasks",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"member",
+						"{{CONSTITUENT_ID}}",
+						"timeline",
+						"tasks"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Extended Grace API :- Create Task",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic {{PRIVATE_API_KEY}}"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"UserId\": 8186880,\n  \"AccountId\": 8188929,\n  \"DueDate\": \"11/02/2019\",\n  \"Channel\": \"InPerson\",\n  \"Purpose\": \"Solicitation\",\n  \"Status\": \"Active\",\n  \"Subject\": \"6 Month Survey\",\n  \"Note\": \"Time to do checkin\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/member/{{CONSTITUENT_ID}}/timeline/tasks",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"member",
+						"{{CONSTITUENT_ID}}",
+						"timeline",
+						"tasks"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Extended Grace API :- Find Open Tasks",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic {{PRIVATE_API_KEY}}"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/api/member/{{CONSTITUENT_ID}}/timeline/tasks/open",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"member",
+						"{{CONSTITUENT_ID}}",
+						"timeline",
+						"tasks",
+						"open"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Extended Grace API :- Find Constituent Id by AccountNbr",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/member/lookup/340723432423/constituentId",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"member",
+						"lookup",
+						"340723432423",
+						"constituentId"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Extended Grace API :- Is Valid Member",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/member/verify/23423",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"member",
+						"verify",
+						"23423"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Extended Grace API :- Member Lookup by Account Number",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/member/verify/23423",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"member",
+						"verify",
+						"23423"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Extended Grace API :- Find All Images",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/images",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"images"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Extended Grace API :- Does Member Have Image",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/member/registration-check/123123",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"member",
+						"registration-check",
+						"123123"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Extended Grace API :- Get Config",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/config",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"config"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Extended Grace API :- Find Survey URLs",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/surveyUrls?accountNumber=1111",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"surveyUrls"
+					],
+					"query": [
+						{
+							"key": "accountNumber",
+							"value": "1111"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Extended Grace API :- Create 6Month Task",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"accountNumberXXX\": 3407\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/member/3407/timeline/6MonthSurveyTask",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"member",
+						"3407",
+						"timeline",
+						"6MonthSurveyTask"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Extended Grace API :- Validate Member Image",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"accountNumber\": \"\",\n\t\"imageId\": \"\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/member/registration-check/123123",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"member",
+						"registration-check",
+						"123123"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Extended Grace API :- Next Six Month Date",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"CustomFields\": {\n\t\t\"Membership Application Date\": [\n\t\t\t\"01/01/2019\"\n\t\t]\n\t}\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/getNextDate",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"getNextDate"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
