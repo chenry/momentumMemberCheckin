@@ -1,6 +1,9 @@
 {
   "name": "mean-contactlist-angular2",
   "version": "0.0.0",
+  "engines": {
+    "node": "12.19.x"
+  },
   "scripts": {
     "ng": "ng",
     "start": "node server.js",
