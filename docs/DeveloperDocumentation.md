@@ -5,7 +5,7 @@ Please be sure to have the following tools installed
 - [NodeEnv](https://github.com/nodenv/nodenv) - used to manage the appropriate version of Node
 - [Studio 3T](https://studio3t.com/) - GUI for Mongo
 - [Docker](https://www.docker.com/?utm_source=google&utm_medium=cpc&utm_campaign=search_emea_brand&utm_term=docker_exact&gclid=CjwKCAjw7p6aBhBiEiwA83fGuk1VSRc6_jWLioHUUCZUmmc-CmuoHBi9_Cxt9S8d6d-IUOz_O0765xoCqmsQAvD_BwE)
-
+- [Postman](https://www.postman.com/)
 ## Overall Architecture
 This application was developed by a team of engineers during Weekend for Good 2019.  It is written using the [MEAN Stack](https://www.mongodb.com/mean-stack).
 ## Local Development Environment Setup
@@ -22,6 +22,15 @@ Please be sure to install all of the required software from above.  From there, 
 1. Click the button titled `Select folder` next to the `Source Folder` text box
 1. Choose the `DatabaseBackup` folder and select `Open`
 1. Click on the `Run` button that is near the top of the tab that is titled `BSON Folder Import`
+
+### Setup Postman Collection
+We are using postman to test the various endpoints in the application and supporting services.  You will find the PostMan collection for this project at the root titled `Momentum.postman_collection.json`.
+
+Please setup an environment in Postman, with the following variables (I will share the values later):
+- PUBLIC_API_KEY
+- PRIVATE_API_KEY
+- CONSTITUENT_ID
+
 
 
 
