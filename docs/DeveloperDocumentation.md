@@ -8,6 +8,7 @@ Please be sure to have the following tools installed
 - [Docker](https://www.docker.com/?utm_source=google&utm_medium=cpc&utm_campaign=search_emea_brand&utm_term=docker_exact&gclid=CjwKCAjw7p6aBhBiEiwA83fGuk1VSRc6_jWLioHUUCZUmmc-CmuoHBi9_Cxt9S8d6d-IUOz_O0765xoCqmsQAvD_BwE) - used to run containers for supporting software (Mongo, PostgreSQL)
 - [Postman](https://www.postman.com/) - used to test API call
 - [Knex](https://knexjs.org/) - this is our tool for interacting with the postgres database
+  - [Knex Cheat Sheet](https://devhints.io/knex#insert-1)
 ## Overall Architecture
 This application was developed by a team of engineers during Weekend for Good 2019.  It is written using the [MEAN Stack](https://www.mongodb.com/mean-stack).
 

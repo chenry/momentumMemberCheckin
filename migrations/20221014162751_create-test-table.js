@@ -4,9 +4,10 @@
  */
 exports.up = function(knex) {
   return knex.schema.createTable('test_table', function (table) {
-      table.increments('testId');
-      table.string('testName');
-      table.string('testDescription');
+      table.increments('test_id');
+      table.string('test_name');
+      table.string('test_description');
+      table.string('testColumn1');
   })
 };
 
