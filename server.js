@@ -10,6 +10,7 @@ var express = require("express");
 const fetch = require('node-fetch');
 var bodyParser = require("body-parser");
 var mongodb = require("mongodb");
+const knex = require('./lib/db')
 
 // ====================
 // Services
@@ -23,6 +24,8 @@ var adminLoginService = require('./admin/loginService')
 var adminResetRegistrationService = require('./admin/resetRegistrationService')
 var surveyUrlGeneratorService = require('./member/surveyUrlGeneratorService')
 // ====================
+
+
 
 var ObjectID = mongodb.ObjectID;
 
@@ -66,6 +69,17 @@ function handleError(res, reason, message, code) {
   console.log("ERROR: " + reason);
   res.status(code || 500).json({"error": message});
 }
+
+app.get("/api/test", async function(req, res) {
+  try {
+    const jsonPayload = await knex
+      .from('test_table')
+      .select('test_id', 'test_name', 'test_description')
+    res.status(200).json(jsonPayload);
+  } catch (error) {
+    handleError(res, error, "Failed to open get timeline.", 401);
+  }
+});
 
 app.post('/api/admin/resetUserRegistration', function(req, res) {
   adminResetRegistrationService.resetRegistration(req.body.accountNumber, db)
