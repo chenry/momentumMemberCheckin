@@ -2,14 +2,18 @@
 
 ## Requirements
 Please be sure to have the following tools installed
-- [NodeEnv](https://github.com/nodenv/nodenv) - used to manage the appropriate version of Node
+- [NodeEnv](https://github.com/nodenv/nodenv) - used to manage the appropriate version of Node.  We are using 12.19.0
+- [Node] - 12.19.0
 - [Studio 3T](https://studio3t.com/) - GUI for Mongo
-- [Docker](https://www.docker.com/?utm_source=google&utm_medium=cpc&utm_campaign=search_emea_brand&utm_term=docker_exact&gclid=CjwKCAjw7p6aBhBiEiwA83fGuk1VSRc6_jWLioHUUCZUmmc-CmuoHBi9_Cxt9S8d6d-IUOz_O0765xoCqmsQAvD_BwE)
-- [Postman](https://www.postman.com/)
+- [Docker](https://www.docker.com/?utm_source=google&utm_medium=cpc&utm_campaign=search_emea_brand&utm_term=docker_exact&gclid=CjwKCAjw7p6aBhBiEiwA83fGuk1VSRc6_jWLioHUUCZUmmc-CmuoHBi9_Cxt9S8d6d-IUOz_O0765xoCqmsQAvD_BwE) - used to run containers for supporting software (Mongo, PostgreSQL)
+- [Postman](https://www.postman.com/) - used to test API call
+- [Knex](https://knexjs.org/) - this is our tool for interacting with the postgres database
 ## Overall Architecture
 This application was developed by a team of engineers during Weekend for Good 2019.  It is written using the [MEAN Stack](https://www.mongodb.com/mean-stack).
+
 ## Local Development Environment Setup
 Please be sure to install all of the required software from above.  From there, please follow these instructions to get setup appropriately.
+
 ### Setup Mongo DB
 1. Download the folder `DatabaseBackup` from the Shared Google Drive
 1. Unzip the zip file that was downloaded so you have a folder titled `DatabaseBackup`
@@ -31,10 +35,8 @@ Please setup an environment in Postman, with the following variables (I will sha
 - PRIVATE_API_KEY
 - CONSTITUENT_ID
 
-
-
-
-
+### Database Migrations
+For the database migrations, process to update the database schema, we are using [Knex](https://knexjs.org/guide/migrations.html).
 
 ## Working on this project, you
 - [Getting Started with Heroku](https://devcenter.heroku.com/articles/getting-started-with-nodejs)
