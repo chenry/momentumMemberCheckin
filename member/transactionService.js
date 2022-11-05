@@ -9,9 +9,16 @@ exports.annualRenewDue = async function(accountNumber, db) {
     let transactions = await transactionRepository.getTransactions(constituentId.constituentId);
     
     let latestTransaction = getLastRenewalTransaction(transactions.Results);
+    let isRenewalDue;
+    if (latestTransaction === undefined) 
+    {
+        isRenewalDue = true;
+    } else {
+        isRenewalDue = isLastRenewalMoreThanOneYear(latestTransaction.Date)
+    }
     
     return {
-        isRenewalDue: isLastRenewalMoreThanOneYear(latestTransaction.Date)
+        isRenewalDue: isRenewalDue
     };
 }
 
