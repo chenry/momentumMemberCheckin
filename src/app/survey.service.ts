@@ -5,7 +5,6 @@ import {catchError, map} from 'rxjs/operators';
 import {SurveyUrls} from '@models/surveyurls';
 import {WhatIsDueResponse} from '@models/whatIsDueResponse';
 import {AnnualRenewalResponse} from '@models/annualRenewalResponse';
-import { Transactions } from '@models/transactions';
 
 @Injectable({
   providedIn: 'root'
