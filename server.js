@@ -395,6 +395,15 @@ app.get("/api/grants/:id", async function(req, res) {
   }
 });
 
+app.get("/api/grant/findAll", function(req, res) {
+  db.collection(GRANTS_COLLECTION).find({}).toArray(function(err, docs) {
+    if (!err) {
+      res.status(200).json(docs);
+    } else {
+      handleError(res, err.message, "Failed to get grants.",400);
+    }
+  });
+});
 app.get("/api/grant/populate", function(req, res) {
   const grants = [
     {
