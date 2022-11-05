@@ -257,7 +257,7 @@ app.get("/api/member/registration-check/:accountNumber", function(req, res) {
    Result: JSON object with indicator that renewal is due.
 */
 app.get("/api/member/renewal/:accountNumber", function(req, res) {
-  transactionService.annualRenewDue(parseInt(req.params.accountNumber))
+  transactionService.annualRenewDue(parseInt(req.params.accountNumber), db)
   .then(jsonPayload => {
     res.status(200).json(jsonPayload)
   })

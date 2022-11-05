@@ -4,7 +4,7 @@ exports.getTransactions = async function(accountNumber) {
     const bloomerangBaseApiUrl = 'https://api.bloomerang.co/v2/'
     let jsonResponse;
     let headers = {
-      "X-API-KEY": `Basic ${process.env.BLOOMERANG_KEY_V2}`,
+      "X-API-KEY": `${process.env.BLOOMERANG_KEY_V2}`,
       "Content-Type": 'application/json'
     }  
   
