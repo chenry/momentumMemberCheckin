@@ -22,7 +22,9 @@ var verificationService = require('./member/verificationService')
 var registrationVerificationService = require('./member/registrationVerificationService')
 var adminLoginService = require('./admin/loginService')
 var adminResetRegistrationService = require('./admin/resetRegistrationService')
-var surveyUrlGeneratorService = require('./member/surveyUrlGeneratorService')
+var surveyUrlGeneratorService = require('./member/surveyUrlGeneratorService');
+var transactionService = require('./member/transactionService');
+const { APP_ID } = require("@angular/core");
 // ====================
 
 var CONTACTS_COLLECTION = "contacts";
@@ -249,6 +251,20 @@ app.get("/api/member/registration-check/:accountNumber", function(req, res) {
       handleError(res, error, "Failed to check registration.",400);
     });
 });
+
+/* "/api/member/renewal/"
+   GET: Determines if annual registration is due.
+   Result: JSON object with indicator that renewal is due.
+*/
+app.get("/api/member/renewal/:accountNumber", function(req, res) {
+  transactionService.annualRenewDue(parseInt(req.params.accountNumber), db)
+  .then(jsonPayload => {
+    res.status(200).json(jsonPayload)
+  })
+  .catch(error => {
+    handleError(res, error, "Could not get last membership transaction.", 400);
+  })
+})
 
 app.get("/api/images", function(req, res) {
   db.collection(IMAGES_COLLECTION).find({}).toArray(function(err, docs) {

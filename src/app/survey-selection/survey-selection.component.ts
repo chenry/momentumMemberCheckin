@@ -16,7 +16,9 @@ import { MatSnackBar } from '@angular/material';
 export class SurveySelectionComponent implements OnInit, OnDestroy {
   appState: AppState;
   announcementMessage = '';
+  renewalMessage = 'Time to Renew your Membership';
   isSixMonthDue: boolean;
+  isRenewalTime: boolean;
   surveySixMonthEnabledUrl = new FormControl('');
   surveyCheckInOnlyUrl = new FormControl('');
 
@@ -46,6 +48,9 @@ export class SurveySelectionComponent implements OnInit, OnDestroy {
       }
     });
 
+    this.surveyService.findIfAnnualRenewalDue(this.appState.accountNumber).pipe().subscribe(x => {
+      this.isRenewalTime = x.isRenewalDue;
+    });
   }
 
   ngOnDestroy(): void {

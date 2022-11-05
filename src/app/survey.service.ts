@@ -4,6 +4,7 @@ import {Observable, of as observableOf} from 'rxjs';
 import {catchError, map} from 'rxjs/operators';
 import {SurveyUrls} from '@models/surveyurls';
 import {WhatIsDueResponse} from '@models/whatIsDueResponse';
+import {AnnualRenewalResponse} from '@models/annualRenewalResponse';
 
 @Injectable({
   providedIn: 'root'
@@ -34,4 +35,14 @@ export class SurveyService {
       );
   }
 
+  public findIfAnnualRenewalDue(accountNumber: number): Observable<AnnualRenewalResponse> {
+    return this.http.get<AnnualRenewalResponse>(`/api/member/renewal/${accountNumber}`)
+    .pipe(
+      map(result => result),
+      catchError((err) => {
+        console.log(err);
+        return observableOf(null);
+      })
+    ) 
+  }
 }
