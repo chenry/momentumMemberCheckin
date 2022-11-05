@@ -24,7 +24,8 @@ var adminLoginService = require('./admin/loginService')
 var adminResetRegistrationService = require('./admin/resetRegistrationService')
 var surveyUrlGeneratorService = require('./member/surveyUrlGeneratorService');
 var transactionService = require('./member/transactionService');
-var grantsService = require('./grant/grantService')
+var grantsService = require('./grant/grantService');
+const { stat } = require("fs");
 // ====================
 
 var CONTACTS_COLLECTION = "contacts";
@@ -433,8 +434,12 @@ app.get("/api/grant/populate", function(req, res) {
   });
 });
 
-app.get("/api/grant/status/:status", function(req, res) {
-  let query = { "status": parseInt(req.params.status) };
+app.get("/api/grants", function(req, res) {
+  let query = {};
+  let status = req.query["status"];
+  if (status !== undefined && status !== null) {
+    query = { "status": parseInt(status) };
+  }
   db.collection(GRANTS_COLLECTION).find(query).toArray(function(err, docs) {
     if (!err) {
       res.status(200).json(docs);
