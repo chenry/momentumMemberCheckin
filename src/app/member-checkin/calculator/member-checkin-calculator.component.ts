@@ -14,6 +14,7 @@ export class MemberCheckinCalculatorComponent implements OnInit, OnDestroy {
 
   userId = '';
   numbers = [];
+  userIdLength: number = 6;
   isVerified$: Observable<boolean> =  this.memberService.verifyMember(this.userId).pipe(
     isVerified => isVerified
   );
@@ -29,7 +30,7 @@ export class MemberCheckinCalculatorComponent implements OnInit, OnDestroy {
   }
 
   public getNumber(v: string) {
-    if (this.userId.length < 4) {
+    if (this.userId.length < this.userIdLength) {
       this.userId = this.userId + v;
     }
   }
@@ -41,7 +42,7 @@ export class MemberCheckinCalculatorComponent implements OnInit, OnDestroy {
   }
 
   public submitNumber() {
-    if (this.userId.length === 4) {
+    if (this.userId.length <= this.userIdLength) {
       this.subscriptions.push(this.memberService.verifyMember(this.userId)
         .pipe(
           map(isVerified => {
