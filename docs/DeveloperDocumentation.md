@@ -7,6 +7,7 @@ Please be sure to have the following tools installed
 - [Studio 3T](https://studio3t.com/) - GUI for Mongo
 - [Docker](https://www.docker.com/?utm_source=google&utm_medium=cpc&utm_campaign=search_emea_brand&utm_term=docker_exact&gclid=CjwKCAjw7p6aBhBiEiwA83fGuk1VSRc6_jWLioHUUCZUmmc-CmuoHBi9_Cxt9S8d6d-IUOz_O0765xoCqmsQAvD_BwE) - used to run containers for supporting software (Mongo, PostgreSQL)
 - [Postman](https://www.postman.com/) - used to test API call
+- [DirEnv](https://direnv.net/) - please install this since it sets up environment variables that you will need.
 - [Knex](https://knexjs.org/) - this is our tool for interacting with the postgres database
   - [Knex Cheat Sheet](https://devhints.io/knex#insert-1)
 ## Overall Architecture
