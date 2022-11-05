@@ -44,7 +44,7 @@ app.use(express.static(distDir));
 var db;
 
 // Connect to the database before starting the application server.
-mongodb.MongoClient.connect(process.env.DB_URI || "mongodb://localhost:27017/test", { useUnifiedTopology: true }, function (err, client) {
+mongodb.MongoClient.connect(process.env.DB_URI || "mongodb://root:rootpassword@localhost:27017/?serverSelectionTimeoutMS=5000&connectTimeoutMS=10000&authSource=admin&authMechanism=SCRAM-SHA-256", { useUnifiedTopology: true }, function (err, client) {
   if (err) {
     console.log(err);
     process.exit(1);
@@ -53,6 +53,8 @@ mongodb.MongoClient.connect(process.env.DB_URI || "mongodb://localhost:27017/tes
   // Save database object from the callback for reuse.
   db = client.db();
   console.log("Database connection ready");
+
+
 
   // Initialize the app.
   var server = app.listen(process.env.PORT || 8080, function () {
@@ -73,11 +75,13 @@ function handleError(res, reason, message, code) {
 app.get("/api/info", async function(req, res) {
   try {
     const obj = {
-      dbUri: 'someDbUri',
-      bloomerangKey: 'bloomkey',
-      momentumAdminPassword: 'adminPass'
-
+      dbUri: process.env.DB_URI,
+      port: process.env.PORT,
+      bloomerangKey: process.env.BLOOMERANG_KEY,
+      momentumAdminPassword: process.env.MOMENTUM_ADMIN_PASSWORD
     }
+
+    console.log(obj)
     res.status(200).json(obj);
   } catch (error) {
     handleError(res, error, "Failed to open get timeline.", 401);
