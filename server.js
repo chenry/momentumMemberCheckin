@@ -23,10 +23,12 @@ var registrationVerificationService = require('./member/registrationVerification
 var adminLoginService = require('./admin/loginService')
 var adminResetRegistrationService = require('./admin/resetRegistrationService')
 var surveyUrlGeneratorService = require('./member/surveyUrlGeneratorService')
+var grantsService = require('./grant/grantService')
 // ====================
 
 var CONTACTS_COLLECTION = "contacts";
 var IMAGES_COLLECTION = "images";
+var GRANTS_COLLECTION = "grants";
 
 var app = express();
 app.use(bodyParser.json());
@@ -366,6 +368,57 @@ app.delete("/api/contacts/:id", function(req, res) {
     } else {
       handleError(res, err.message, "Failed to delete contact");
     }
+  });
+});
+
+app.get("/api/grants/:id", async function(req, res) {
+  try {
+    const grant = await grantsService.findGrantById(req.params.id);
+    res.status(200).json(grant)
+  } catch (err) {
+    handleError(res, err.message, "Failed to delete contact");
+  }
+});
+
+app.get("/api/grants/populate", function(req, res) {
+  const grants = [
+    {
+      note_id: 100,
+      constituent_name: 'Test 100',
+      grants_name: 'Grant 100',
+      loi_due: new Date(),
+      app_due: new Date(),
+      last_mod: new Date(),
+      status: 0
+    },
+    {
+      note_id: 200,
+      constituent_name: 'Test 200',
+      grants_name: 'Grant 200',
+      loi_due: new Date(),
+      app_due: new Date(),
+      last_mod: new Date(),
+      status: 1
+    },
+    {
+      note_id: 300,
+      constituent_name: 'Test 300',
+      grants_name: 'Grant 300',
+      loi_due: new Date(),
+      app_due: new Date(),
+      last_mod: new Date(),
+      status: 2
+    }
+  ]
+
+  grants.forEach(currGrant => {
+    db.collection(GRANTS_COLLECTION).insertOne(currGrant, function(err, doc) {
+      if (!err) {
+        res.status(201).json(doc.ops[0]);
+      } else {
+        handleError(res, err.message, "Failed to create new grant.");
+      }
+    });
   });
 });
 
