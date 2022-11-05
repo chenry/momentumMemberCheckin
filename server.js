@@ -380,7 +380,7 @@ app.get("/api/grants/:id", async function(req, res) {
   }
 });
 
-app.get("/api/grants/populate", function(req, res) {
+app.get("/api/grant/populate", function(req, res) {
   const grants = [
     {
       note_id: 100,
@@ -411,13 +411,9 @@ app.get("/api/grants/populate", function(req, res) {
     }
   ]
 
-  grants.forEach(currGrant => {
-    db.collection(GRANTS_COLLECTION).insertOne(currGrant, function(err, doc) {
-      if (!err) {
-        res.status(201).json(doc.ops[0]);
-      } else {
-        handleError(res, err.message, "Failed to create new grant.");
-      }
+  grants.forEach(async currGrant => {
+    await db.collection(GRANTS_COLLECTION).insertOne(currGrant, function(err, doc) {
+      console.log('INserted')
     });
   });
 });
