@@ -1,11 +1,114 @@
 {
 	"info": {
-		"_postman_id": "60c35a16-26de-4822-938a-8ef912ad3935",
+		"_postman_id": "90f82765-6991-4d6b-b56a-602485c3b1ea",
 		"name": "Momentum",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "2542413"
 	},
 	"item": [
+		{
+			"name": "Bloomerang API 2.0",
+			"item": [
+				{
+					"name": "Bloomerang API 2.0: Find Constituent Timeline",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://api.bloomerang.co/v2/constituent/2981889/timeline",
+							"protocol": "https",
+							"host": [
+								"api",
+								"bloomerang",
+								"co"
+							],
+							"path": [
+								"v2",
+								"constituent",
+								"2981889",
+								"timeline"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Bloomerang API 2.0: Find Constituent Tasks",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://api.bloomerang.co/v2/tasks?minDueDate=2022-01-01&constituent=2981889&status=Active",
+							"protocol": "https",
+							"host": [
+								"api",
+								"bloomerang",
+								"co"
+							],
+							"path": [
+								"v2",
+								"tasks"
+							],
+							"query": [
+								{
+									"key": "minDueDate",
+									"value": "2022-01-01"
+								},
+								{
+									"key": "constituent",
+									"value": "2981889"
+								},
+								{
+									"key": "status",
+									"value": "Active"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "apikey",
+				"apikey": [
+					{
+						"key": "key",
+						"value": "X-API-KEY",
+						"type": "string"
+					},
+					{
+						"key": "in",
+						"value": "header",
+						"type": "string"
+					},
+					{
+						"key": "value",
+						"value": "3cf8a4bb-8181-890c-5c7a-1062f1ce9659",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
 		{
 			"name": "Bloomerang API - Key Handshake",
 			"request": {
@@ -18,7 +121,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\tUsername: \"lisaweekendforgood\",\n    Password: \"#C0de4G00d\"\n}"
+					"raw": "{\n\tUsername: \"carlus\",\n    Password: \"123CarlusIsCool&&\"\n}"
 				},
 				"url": {
 					"raw": "https://api.bloomerang.co/v1/Keys",
@@ -85,7 +188,7 @@
 					}
 				],
 				"url": {
-					"raw": "https://api.bloomerang.co/v1/Timeline/8188929",
+					"raw": "https://api.bloomerang.co/v1/Timeline/{{CONSTITUENT_ID}}",
 					"protocol": "https",
 					"host": [
 						"api",
@@ -95,7 +198,7 @@
 					"path": [
 						"v1",
 						"Timeline",
-						"8188929"
+						"{{CONSTITUENT_ID}}"
 					]
 				}
 			},
@@ -321,7 +424,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/api/member/verify/23423",
+					"raw": "http://localhost:8080/api/member/verify/6158",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -331,7 +434,7 @@
 						"api",
 						"member",
 						"verify",
-						"23423"
+						"6158"
 					]
 				}
 			},
