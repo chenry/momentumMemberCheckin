@@ -44,7 +44,7 @@ app.use(express.static(distDir));
 var db;
 
 // Connect to the database before starting the application server.
-mongodb.MongoClient.connect(process.env.DB_URI || "mongodb://localhost:27017/test", function (err, client) {
+mongodb.MongoClient.connect(process.env.DB_URI || "mongodb://localhost:27017/test", { useUnifiedTopology: true }, function (err, client) {
   if (err) {
     console.log(err);
     process.exit(1);
@@ -69,6 +69,20 @@ function handleError(res, reason, message, code) {
   console.log("ERROR: " + reason);
   res.status(code || 500).json({"error": message});
 }
+
+app.get("/api/info", async function(req, res) {
+  try {
+    const obj = {
+      dbUri: 'someDbUri',
+      bloomerangKey: 'bloomkey',
+      momentumAdminPassword: 'adminPass'
+
+    }
+    res.status(200).json(obj);
+  } catch (error) {
+    handleError(res, error, "Failed to open get timeline.", 401);
+  }
+}) 
 
 app.get("/api/test", async function(req, res) {
   try {
