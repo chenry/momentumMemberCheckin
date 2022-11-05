@@ -4,7 +4,7 @@ let lookupService = require('../member/lookupService')
 var timelineParser = require("./timelineParser")
 var constants = require("../constants")
 var taskUtil = require("./taskUtil")
-
+var taskService = require("../task/taskService");
 
 exports.findTimeline = async function(constituentId, db) {
   // find timeline
@@ -20,12 +20,15 @@ exports.findTimelineTasks = async function(constituentId, db) {
 }
 
 exports.findTimelineOpenTasks = async function(accountNumber, db) {
-  // find timeline
   let constituent = await lookupService.findConstituentIdByAccountNumber(accountNumber, db);
-  let bloomerangBaseApiUrl = await configurationService.findBloomerangBaseApiUrl(db);
 
-  let openTasks = await this.actuallyFindTimelineOpenTasks(constituent, bloomerangBaseApiUrl);
-  return timelineParser.createOpenTasksResponse(openTasks);
+  let openTasks = await taskService.getOverdueTasksForConstituent(constituent.constituentId);
+
+  let surveyTasks = openTasks.ResultCount > 0 ? taskService.filterBySixMonthSurvey(openTasks.Results) : [];
+
+  return {
+    sixMonthTask: surveyTasks.length > 0
+  };
 }
 
 exports.actuallyFindTimelineOpenTasks = async function(constituent, bloomerangBaseApiUrl) {
