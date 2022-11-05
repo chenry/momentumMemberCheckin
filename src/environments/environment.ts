@@ -4,7 +4,6 @@
 
 export const environment = {
   production: false,
-  restUrl: 'http://localhost:8080',
   defaultMemberAuthenticated: true, // Controls whether the user has passed member authentication by default.
   defaultAdminAuthenticated: true // Controls whether the user is considered an admin by default.
 };

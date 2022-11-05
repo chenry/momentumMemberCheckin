@@ -12,7 +12,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "postinstall": "ng build --prod --output-path dist",
-    "ui-serve": "ng serve",
+    "ui-serve": "ng serve --proxy-config proxy.conf.js",
     "knex:latest": "npx knex migrate:latest",
     "knex:up": "npx knex migrate:up",
     "knex:down": "npx knex migrate:down"
