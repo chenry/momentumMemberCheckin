@@ -48,7 +48,9 @@ export class SurveySelectionComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.isRenewalTime = true;
+    this.surveyService.findIfAnnualRenewalDue(this.appState.accountNumber).pipe().subscribe(x => {
+      this.isRenewalTime = x.isRenewalDue;
+    });
   }
 
   ngOnDestroy(): void {
