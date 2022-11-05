@@ -433,7 +433,7 @@ app.get("/api/grant/populate", function(req, res) {
   });
 });
 
-app.get("/api/grant/:status", function(req, res) {
+app.get("/api/grant/status/:status", function(req, res) {
   let query = { "status": parseInt(req.params.status) };
   db.collection(GRANTS_COLLECTION).find(query).toArray(function(err, docs) {
     if (!err) {
