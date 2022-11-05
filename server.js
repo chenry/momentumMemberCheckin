@@ -385,6 +385,17 @@ app.delete("/api/contacts/:id", function(req, res) {
   });
 });
 
+app.get("/api/grants/:status", function(req, res) {
+  let query = { "status": req.params.status };
+  db.collection(GRANTS_COLLECTION).find(query).toArray(function(err, docs) {
+    if (!err) {
+      res.status(200).json(docs);
+    } else {
+      handleError(res, err.message, "Failed to get status docs.",400);
+    }
+  });
+});
+
 app.get('*', function(req, res) {
   res.sendFile(`${distDir}/index.html`)
 })
