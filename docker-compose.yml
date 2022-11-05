@@ -12,45 +12,5 @@ services:
     volumes:
       - mongodb_data_container:/data/db
   
-  postgres:
-    container_name: pg_container
-    image: postgres:14.0
-    restart: unless-stopped
-    environment:
-      POSTGRES_USER: root
-      POSTGRES_PASSWORD: root
-      POSTGRES_DB: membercheckin_db
-      PG_DATA: /var/lib/postgresql/data/pgdata
-    ports:
-      - "5432:5432"
-    volumes:
-      - 
-        type: bind
-        source: ./postgres_data
-        target: /var/lib/postgresql/data
-    networks:
-      - postgres
-
-  pgadmin:
-    container_name: pgadmin4_container
-    image: dpage/pgadmin4
-    restart: unless-stopped
-    environment:
-      PGADMIN_DEFAULT_EMAIL: admin@admin.com
-      PGADMIN_DEFAULT_PASSWORD: root
-      PGADMIN_CONFIG_SERVER_MODE: 'False'
-    volumes:
-      - pgadmin:/var/lib/pgadmin
-    ports:
-      - "5050:80"
-    networks:
-      - postgres
-
-networks:
-  postgres:
-    driver: bridge
-
 volumes:
   mongodb_data_container:
-  postgres:
-  pgadmin:
