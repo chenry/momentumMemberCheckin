@@ -9,7 +9,7 @@
 var express = require("express");
 const fetch = require('node-fetch');
 var bodyParser = require("body-parser");
-var mongodb = require("mongodb");
+const { MongoClient, ObjectID } = require("mongodb");
 const knex = require('./lib/db')
 
 // ====================
@@ -25,11 +25,6 @@ var adminResetRegistrationService = require('./admin/resetRegistrationService')
 var surveyUrlGeneratorService = require('./member/surveyUrlGeneratorService')
 // ====================
 
-
-
-var ObjectID = mongodb.ObjectID;
-
-
 var CONTACTS_COLLECTION = "contacts";
 var IMAGES_COLLECTION = "images";
 
@@ -41,10 +36,9 @@ var distDir = __dirname + "/dist/";
 app.use(express.static(distDir));
 
 // Create a database variable outside of the database connection callback to reuse the connection pool in your app.
-var db;
-
+const uri = process.env.DB_URI || 'mongodb://root:rootpassword@localhost:27017/momentumMongoDB?serverSelectionTimeoutMS=5000&connectTimeoutMS=10000&authSource=admin&authMechanism=SCRAM-SHA-256'
 // Connect to the database before starting the application server.
-mongodb.MongoClient.connect(process.env.DB_URI || "mongodb://localhost:27017/test", function (err, client) {
+MongoClient.connect(uri, { useUnifiedTopology: true }, function (err, client) {
   if (err) {
     console.log(err);
     process.exit(1);
@@ -53,6 +47,8 @@ mongodb.MongoClient.connect(process.env.DB_URI || "mongodb://localhost:27017/tes
   // Save database object from the callback for reuse.
   db = client.db();
   console.log("Database connection ready");
+
+
 
   // Initialize the app.
   var server = app.listen(process.env.PORT || 8080, function () {
@@ -69,6 +65,22 @@ function handleError(res, reason, message, code) {
   console.log("ERROR: " + reason);
   res.status(code || 500).json({"error": message});
 }
+
+app.get("/api/info", async function(req, res) {
+  try {
+    const obj = {
+      dbUri: process.env.DB_URI,
+      port: process.env.PORT,
+      bloomerangKey: process.env.BLOOMERANG_KEY,
+      momentumAdminPassword: process.env.MOMENTUM_ADMIN_PASSWORD
+    }
+
+    console.log(obj)
+    res.status(200).json(obj);
+  } catch (error) {
+    handleError(res, error, "Failed to open get timeline.", 401);
+  }
+}) 
 
 app.get("/api/test", async function(req, res) {
   try {

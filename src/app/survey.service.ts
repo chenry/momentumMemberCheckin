@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable, of as observableOf} from 'rxjs';
-import {environment} from '../environments/environment';
 import {catchError, map} from 'rxjs/operators';
 import {SurveyUrls} from '@models/surveyurls';
 import {WhatIsDueResponse} from '@models/whatIsDueResponse';
@@ -14,7 +13,7 @@ export class SurveyService {
   constructor(private http: HttpClient) { }
 
   public findSurveyURLs(accountNumber: number): Observable<SurveyUrls> {
-    return this.http.get<SurveyUrls>(`${environment.restUrl}/api/surveyUrls?accountNumber=${accountNumber}`)
+    return this.http.get<SurveyUrls>(`/api/surveyUrls?accountNumber=${accountNumber}`)
       .pipe(
         map(result => result),
         catchError((err) => {
@@ -25,7 +24,7 @@ export class SurveyService {
   }
 
   public findWhatIsDue(accountNumber: number): Observable<WhatIsDueResponse> {
-    return this.http.get<SurveyUrls>(`${environment.restUrl}/api/member/${accountNumber}/timeline/tasks/open`)
+    return this.http.get<SurveyUrls>(`/api/member/${accountNumber}/timeline/tasks/open`)
       .pipe(
         map(result => result),
         catchError((err) => {
